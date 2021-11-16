@@ -8,20 +8,50 @@ import configparser
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
-app.config['MYSQL_DB'] = 'users'
+app.config['MYSQL_USER'] = 'project_user'
+app.config['MYSQL_PASSWORD'] = 'password123'
+app.config['MYSQL_DB'] = 'ct_db'
 
-db = mysql.connector.connect(user='project_user', database='users', password='password123')
+db = mysql.connector.connect(user='project_user', database='ct_db', password = 'password123')
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/signin', methods = ["POST","GET"])
+@app.route('/signup.html/', methods = ["POST","GET"])
+def signup():
+    if request.method == "POST":
+        name = request.form['name']
+        username = request.form['username']
+        passwd = request.form['password']
+        cur = db.cursor(buffered=True)
+        cur.execute("select username from solver where username = '" + str(username) + "'")
+        usernames = cur.fetchall()
+        if len(usernames) > 0:
+            return redirect('/signup.html')
+        cur.execute('insert into solver(full_name,username,password) values(%s,%s,%s)',(name,username,passwd))
+        db.commit()
+        return redirect('/')
+
+    else:
+        return render_template('signup.html')
+
+
+@app.route('/signin.html/', methods = ["POST","GET"])
 def signin():
     if request.method == "POST":
-        pass
+        username = request.form['username']
+        passwd = request.form['password']
+        cur = db.cursor(buffered=True)
+        cur.execute("select username from solver where username = '" + str(username) + "' and password = '" + str(passwd) + "'")
+        usernames = cur.fetchall()
+        if len(usernames) == 0:
+            return redirect('/signin.html')
+        return redirect('/')
+        
+    
+    else:
+        return render_template('signin.html')
 
     
 

@@ -1,0 +1,11 @@
+DATABASE NAME: ct_db
+
+** CREATE TABLE **
+create table solver(
+	user_ID      int not null auto_increment,
+	full_name    varchar(40) not null,       
+	username     varchar(20) not null,
+	password     varchar(20) not null,
+	points       int not null default 0,
+	primary key(user_ID));
+
