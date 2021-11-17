@@ -34,7 +34,7 @@
             </div>
 
             <div class="w-full mt-16 md:mt-0 md:w-2/5">
-                <form action="/signin.html/" method="POST">
+                <form action="/signin.html/", method="POST">
                     <div class="relative z-10 h-auto p-8 py-10 overflow-hidden bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7">
                         <h3 class="mb-6 text-2xl font-medium text-center">Sign in to your Account</h3>
                         
@@ -65,30 +65,37 @@ function myFunction(form) {
     // alert('Bhaiiiiiii')
     // alert(form.email.value)
     const rbs = document.querySelectorAll('input[name="selection"]');
-            var selectedValue;
-            for (const rb of rbs) {
-                if (rb.checked) {
-                    selectedValue = rb.value;
-                    break;
-                }
-            }
-            // alert(selectedValue);
+    var selectedValue;
+    for (const rb of rbs) {
+        if (rb.checked) {
+            selectedValue = rb.value;
+            break;
+        }
+    }
 
-    var data = {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: form.email.value,
-                password: form.password.value,
-                type: String(selectedValue) 
-            })
+    if (selectedValue === undefined || form.email.value === undefined || form.password.value === undefined)
+    {
+        alert("O bhaiiiiii... kuch input tou karo")
+    }
+    else
+    {
+        var data = {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: form.email.value,
+            password: form.password.value,
+            type: String(selectedValue) 
+        })
+        
+        }
+        fetch('/signin.html/',data)
   }
-
+  
 }
-fetch('/signin.html/',data)
 </script>
 
 </body>

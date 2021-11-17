@@ -38,7 +38,7 @@ def signup():
         else:
             cur.execute('insert into solver(full_name,username,password) values(%s,%s,%s)',(content['full_name'],content['username'],content['password']))
             db.commit()
-            return redirect('/')
+            return redirect('/dashboard-user.html/')
 
    
     return render_template('signup.html',error = error)
@@ -47,12 +47,15 @@ def signup():
 @app.route('/signin.html/', methods = ["POST","GET"])
 def signin():
     error = None
+    
     if request.method == "POST":
         # username = request.form['username']
         # passwd = request.form['password']
         # content = jsonify(request.form)
         # content = loads(request.form, object_hook=lambda d: SimpleNamespace(**d))
         content = request.form
+        if content['username'] == '' or content['password'] == '' or len(content) == 2:
+            return render_template('signin.html', error = error)
         cur = db.cursor(buffered=True)
         # print(content)
         if str(content['selection']) == 'Admin':
@@ -61,16 +64,24 @@ def signin():
             if len(usernames) == 0:
                 error = "Bhaiii aap pehle account to bana lo ya details theek krlo"
             else:
-                return redirect('/')
+                return redirect('/dashboard-admin.html/')
         elif str(content['selection']) == 'Solver':
             cur.execute("select username from solver where username = '" + str(content['username']) + "' and password = '" + str(content['password']) + "'")
             usernames = cur.fetchall()
             if len(usernames) == 0:
                 error = "Bhaiii aap pehle account to bana lo ya details theek krlo"
             else:
-                return redirect('/')
+                return redirect('/dashboard-user.html/')
 
     return render_template('signin.html', error = error)
+
+@app.route('/dashboard-user.html/')
+def dash_user():
+    return render_template('dashboard-user.html')
+
+@app.route('/dashboard-admin.html/')
+def dash_admin():
+    return render_template('dashboard-admin.html')
 
 @app.route('/res/<name>', methods = ["GET"])
 def fetchImg(name):

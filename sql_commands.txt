@@ -9,3 +9,12 @@ create table solver(
 	points       int not null default 0,
 	primary key(user_ID));
 
+create table admin(
+	admin_id int not null auto_increment,
+	referral_id int,
+	full_name varchar(100) not null,
+	username varchar(100) not null,
+	password varchar(100) not null,
+	primary key(admin_id)
+);
+
