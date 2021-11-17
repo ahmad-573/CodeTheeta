@@ -37,23 +37,23 @@
 
             <div class="w-full bg-white lg:w-6/12 xl:w-5/12">
                 <div class="flex flex-col items-start justify-start w-full h-screen p-10 lg:p-16 xl:p-10">
-                    <h4 class="w-full text-2xl font-bold">Signup</h4>
+                    <h4 class="w-full text-2xl font-bold">Signup as Solver</h4>
                     <p class="text-md text-gray-500">or, if you have an account you can <a href="/signin.html" class="text-blue-600 underline">sign in</a></p>
                     <div class="relative w-full mt-4 space-y-8">
                         <form action="/signup.html/" method="POST">
                             <div class="relative">
                                 <label class="font-medium text-gray-900">Full Name</label>
-                                <input type="text" name="name" class="block w-full px-3 py-3 mt-2 text-md placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" placeholder="Enter Your Name">
+                                <input type="text" name="full_name" id = "full_name" class="block w-full px-3 py-3 mt-2 text-md placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" placeholder="Enter Your Name">
                             </div>
                             <div class="relative">
                                 <label class="font-medium text-gray-900">Username</label>
-                                <input type="text" name="username" class="block w-full px-3 py-3 mt-1 text-md placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" placeholder="Enter Your Email Address">
+                                <input type="text" name="username" id = "username" class="block w-full px-3 py-3 mt-1 text-md placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" placeholder="Enter Your Email Address">
                             </div>
                             <div class="relative">
                                 <label class="font-medium text-gray-900">Password</label>
-                                <input type="password" name="password" class="block w-full px-3 py-3 mt-1 text-md placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" placeholder="Password">
+                                <input type="password" name="password" id = "password" class="block w-full px-3 py-3 mt-1 text-md placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" placeholder="Password">
                             </div>
-                            <input type="submit" class="inline-block w-full px-4 py-3 text-lg font-medium text-center text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 ease">
+                            <input type="submit" class="inline-block w-full px-4 py-3 text-lg font-medium text-center text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 ease" onclick="myFunction(this.form)"> 
                             {% if error %}
                                 <p><strong>Error : {{error}}</strong></p>
                             {% endif %} 
@@ -65,6 +65,25 @@
     </div>
 
 </section>
-
+<script>
+    function myFunction(form) {
+        // document.getElementById("demo").innerHTML = "Hello World";
+        // alert('Bhaiiiiiii')
+        // alert(form.email.value)
+        var data = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    full_name: form.full_name.value,
+                    username: form.email.value,
+                    password: form.password.value
+                })
+      }
+    }
+    fetch('/signin.html/',data)
+    </script>
 </body>
 </html>

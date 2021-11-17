@@ -40,11 +40,14 @@
                         
                             <input type="text" name="username" id ='email' class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none" placeholder="Username">
                             <input type="password" name="password" id = 'password' class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none" placeholder="Password">
-                        
-
+                            <label class="flex flex-row items-center justify-center space-x-3">
+                                <input type="radio" name="selection" value="Admin" class="form-radio h-5 w-5 text-gray-600" ><label for="admin" class="ml-2 text-gray-700">Admin</label>
+                                <input type="radio" name="selection" value="Solver" class="form-radio h-5 w-5 text-gray-600" ><label for="solver" class="ml-2 text-gray-700">Solver</label>
+                            </label>
                         <p class="w-full mt-4 text-sm text-center text-gray-500">Don't have an account? <a href="/signup.html" class="text-blue-500 underline">Sign up here</a></p>
                     </div>
-                    <input type="submit" class="w-full px-3 py-4 font-medium text-white bg-blue-600 rounded-lg">
+                    <input type="submit" class="w-full px-3 py-4 font-medium text-white bg-blue-600 rounded-lg" onclick="myFunction(this.form)">
+                    
                     {% if error %}
                         <p><strong>Error : {{error}}</strong></p>
                     {% endif %} 
@@ -55,6 +58,38 @@
     </div>
 </section>
 
+  
+<script>
+function myFunction(form) {
+    // document.getElementById("demo").innerHTML = "Hello World";
+    // alert('Bhaiiiiiii')
+    // alert(form.email.value)
+    const rbs = document.querySelectorAll('input[name="selection"]');
+            var selectedValue;
+            for (const rb of rbs) {
+                if (rb.checked) {
+                    selectedValue = rb.value;
+                    break;
+                }
+            }
+            // alert(selectedValue);
+
+    var data = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: form.email.value,
+                password: form.password.value,
+                type: String(selectedValue) 
+            })
+  }
+
+}
+fetch('/signin.html/',data)
+</script>
 
 </body>
 </html>

@@ -1,8 +1,10 @@
-from flask import Flask, render_template, url_for, request, redirect, send_from_directory
+from flask import Flask, render_template, url_for, request, redirect, send_from_directory, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date
 from flaskext.mysql import MySQL
 import mysql.connector
+from json import dumps, loads
+from types import SimpleNamespace
 
 from werkzeug.utils import send_file
 
@@ -23,17 +25,18 @@ def index():
 def signup():
     error = None
     if request.method == "POST":
-        name = request.form['name']
-        username = request.form['username']
-        passwd = request.form['password']
+        # name = request.form['name']
+        # username = request.form['username']
+        # passwd = request.form['password']
+        content = request.form
         cur = db.cursor(buffered=True)
-        cur.execute("select username from solver where username = '" + str(username) + "'")
+        cur.execute("select username from solver where username = '" + str(content['username']) + "'")
         usernames = cur.fetchall()
         if len(usernames) > 0:
             error = "Bhaiiii ye username pehle se hai kuch aur rakho"
             #return redirect('/signup.html')
         else:
-            cur.execute('insert into solver(full_name,username,password) values(%s,%s,%s)',(name,username,passwd))
+            cur.execute('insert into solver(full_name,username,password) values(%s,%s,%s)',(content['full_name'],content['username'],content['password']))
             db.commit()
             return redirect('/')
 
@@ -45,23 +48,33 @@ def signup():
 def signin():
     error = None
     if request.method == "POST":
-        username = request.form['username']
-        passwd = request.form['password']
+        # username = request.form['username']
+        # passwd = request.form['password']
+        # content = jsonify(request.form)
+        # content = loads(request.form, object_hook=lambda d: SimpleNamespace(**d))
+        content = request.form
         cur = db.cursor(buffered=True)
-        cur.execute("select username from solver where username = '" + str(username) + "' and password = '" + str(passwd) + "'")
-        usernames = cur.fetchall()
-        if len(usernames) == 0:
-            error = "Bhaiii aap pehle account to bana lo ya details theek krlo"
-        else:
-            return redirect('/')
-        
-    
-    
+        # print(content)
+        if str(content['selection']) == 'Admin':
+            cur.execute("select username from admin where username = '" + str(content['username']) + "' and password = '" + str(content['password']) + "'")
+            usernames = cur.fetchall()
+            if len(usernames) == 0:
+                error = "Bhaiii aap pehle account to bana lo ya details theek krlo"
+            else:
+                return redirect('/')
+        elif str(content['selection']) == 'Solver':
+            cur.execute("select username from solver where username = '" + str(content['username']) + "' and password = '" + str(content['password']) + "'")
+            usernames = cur.fetchall()
+            if len(usernames) == 0:
+                error = "Bhaiii aap pehle account to bana lo ya details theek krlo"
+            else:
+                return redirect('/')
+
     return render_template('signin.html', error = error)
 
 @app.route('/res/<name>', methods = ["GET"])
 def fetchImg(name):
-    print('here')
+    # print('here')
     return send_from_directory('Resources', name)
 if __name__ == '__main__':
     app.run(debug=True)
