@@ -21,6 +21,7 @@ def index():
 
 @app.route('/signup.html/', methods = ["POST","GET"])
 def signup():
+    error = None
     if request.method == "POST":
         name = request.form['name']
         username = request.form['username']
@@ -29,17 +30,20 @@ def signup():
         cur.execute("select username from solver where username = '" + str(username) + "'")
         usernames = cur.fetchall()
         if len(usernames) > 0:
-            return redirect('/signup.html')
-        cur.execute('insert into solver(full_name,username,password) values(%s,%s,%s)',(name,username,passwd))
-        db.commit()
-        return redirect('/')
+            error = "Bhaiiii ye username pehle se hai kuch aur rakho"
+            #return redirect('/signup.html')
+        else:
+            cur.execute('insert into solver(full_name,username,password) values(%s,%s,%s)',(name,username,passwd))
+            db.commit()
+            return redirect('/')
 
-    else:
-        return render_template('signup.html')
+   
+    return render_template('signup.html',error = error)
 
 
 @app.route('/signin.html/', methods = ["POST","GET"])
 def signin():
+    error = None
     if request.method == "POST":
         username = request.form['username']
         passwd = request.form['password']
@@ -47,12 +51,13 @@ def signin():
         cur.execute("select username from solver where username = '" + str(username) + "' and password = '" + str(passwd) + "'")
         usernames = cur.fetchall()
         if len(usernames) == 0:
-            return redirect('/signin.html')
-        return redirect('/')
+            error = "Bhaiii aap pehle account to bana lo ya details theek krlo"
+        else:
+            return redirect('/')
         
     
-    else:
-        return render_template('signin.html')
+    
+    return render_template('signin.html', error = error)
 
 @app.route('/res/<name>', methods = ["GET"])
 def fetchImg(name):

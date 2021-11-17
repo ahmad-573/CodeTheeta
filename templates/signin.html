@@ -45,6 +45,9 @@
                         <p class="w-full mt-4 text-sm text-center text-gray-500">Don't have an account? <a href="/signup.html" class="text-blue-500 underline">Sign up here</a></p>
                     </div>
                     <input type="submit" class="w-full px-3 py-4 font-medium text-white bg-blue-600 rounded-lg">
+                    {% if error %}
+                        <p><strong>Error : {{error}}</strong></p>
+                    {% endif %} 
                 </form>
             </div>
 

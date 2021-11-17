@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    
+       
 <!-- Section 1 -->
 <section class="w-full bg-white">
     <a href="/" class="absolute z-10 w-1/4 py-4 pl-6 mt-4 md:pl-4 md:py-0">
@@ -54,6 +54,9 @@
                                 <input type="password" name="password" class="block w-full px-3 py-3 mt-1 text-md placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" placeholder="Password">
                             </div>
                             <input type="submit" class="inline-block w-full px-4 py-3 text-lg font-medium text-center text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 ease">
+                            {% if error %}
+                                <p><strong>Error : {{error}}</strong></p>
+                            {% endif %} 
                         </form>
                     </div>
                 </div>
