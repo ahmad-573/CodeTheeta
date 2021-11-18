@@ -1,5 +1,6 @@
 # CodeTheeta
 Phase 1:
+
 5 use cases have been handled:
   1) Sign up of solver
   2) Sign in of solver
