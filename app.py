@@ -18,7 +18,7 @@ app.config['MYSQL_DB'] = 'ct_db'
 db = mysql.connector.connect(
     user='project_user', database='ct_db', password='password123')
 
-
+# USE CASES 
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -27,9 +27,6 @@ def index():
 @app.route('/signup.html/', methods=["POST", "GET"])
 def signup():
     if request.method == "POST":
-        # name = request.form['name']
-        # username = request.form['username']
-        # passwd = request.form['password']
         content = request.get_json()
         cur = db.cursor(buffered=True)
         cur.execute("select username from solver where username = '" +
@@ -37,7 +34,6 @@ def signup():
         usernames = cur.fetchall()
         if len(usernames) > 0:
             return jsonify({'valid': 'No'})
-            # return redirect('/signup.html')
         else:
             cur.execute('insert into solver(full_name,username,password) values(%s,%s,%s)',
                         (content['full_name'], content['username'], content['password']))
@@ -49,20 +45,9 @@ def signup():
 
 @app.route('/signin.html/', methods=["POST", "GET"])
 def signin():
-    # error = None
-    # if request.method == "GET":
-    #     return render_template('signin.html')
     if request.method == "POST":
         content = request.get_json()
-        # username = request.form['username']
-        # passwd = request.form['password']
-        # content = jsonify(request.form)
-        # content = loads(request.form, object_hook=lambda d: SimpleNamespace(**d))
-        # content = request.form
-        # if content['username'] == '' or content['password'] == '' or len(content) == 2:
-        #     return render_template('signin.html', error = error)
         cur = db.cursor(buffered=True)
-        # print(content)
         if str(content['selection']) == 'Admin':
             cur.execute("select username from admin where username = '" + str(
                 content['username']) + "' and password = '" + str(content['password']) + "'")
@@ -82,7 +67,7 @@ def signin():
 
     return render_template('signin.html')
 
-
+# DASHBOARDS
 @app.route('/dashboard-user.html/')
 def dash_user():
     return render_template('dashboard-user.html')
@@ -92,7 +77,7 @@ def dash_user():
 def dash_admin():
     return render_template('dashboard-admin.html')
 
-
+# IMAGE RENDERING
 @app.route('/res/<name>', methods=["GET"])
 def fetchImg(name):
     return send_from_directory('Resources', name)
