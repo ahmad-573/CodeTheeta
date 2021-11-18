@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,90 +14,112 @@
 </head>
 
 <body>
-    
-<!-- Section 1 -->
-<a href="/" class="absolute z-20 w-1/4 py-4 pl-6 mt-4 md:pl-4 md:py-0">
-    <i class="fas fa-home text-gray-400 text-3xl"></i>
-</a>
-<!-- <a href="#_" class="absolute w-1/4 py-4 pl-6 pr-4 md:pl-4 md:py-0">
+
+    <!-- Section 1 -->
+    <a href="/" class="absolute z-20 w-1/4 py-4 pl-6 mt-4 md:pl-4 md:py-0">
+        <i class="fas fa-home text-gray-400 text-3xl"></i>
+    </a>
+    <!-- <a href="#_" class="absolute w-1/4 py-4 pl-6 pr-4 md:pl-4 md:py-0">
     <span class="text-xl font-black text-blue-600 select-none"><span>CodeTheeta</span><span class="text-indigo-300">.</span></span>
 </a> -->
-<section class="w-full h-screen flex justify-center items-center bg-gray-100 xl:px-8">
-    <div class="max-w-5xl mx-auto">
-        <div class="flex flex-col items-center md:flex-row">
-            <div class="w-full space-y-5 space-x-5 md:w-3/5 md:pr-16">
-                <!-- <p class="font-medium text-blue-500 uppercase">Building Businesses</p>
+    <section class="w-full h-screen flex justify-center items-center bg-gray-100 xl:px-8">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-col items-center md:flex-row">
+                <div class="w-full space-y-5 space-x-5 md:w-3/5 md:pr-16">
+                    <!-- <p class="font-medium text-blue-500 uppercase">Building Businesses</p>
                 <h2 class="text-2xl font-extrabold leading-none text-black sm:text-3xl md:text-5xl">
                     Changing The Way People Do Business.
                 </h2>
                 <p class="text-xl text-gray-600 md:pr-16">Learn how to engage with your visitors and teach them about your mission. We're revolutionizing the way customers and businesses interact.</p> -->
-                <img src="/res/signin.svg" class="w-full">
-            </div>
+                    <img src="/res/signin.svg" class="w-full">
+                </div>
 
-            <div class="w-full mt-16 md:mt-0 md:w-2/5">
-                <form action="/signin.html/", method="POST">
-                    <div class="relative z-10 h-auto p-8 py-10 overflow-hidden bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7">
-                        <h3 class="mb-6 text-2xl font-medium text-center">Sign in to your Account</h3>
-                        
-                            <input type="text" name="username" id ='email' class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none" placeholder="Username">
-                            <input type="password" name="password" id = 'password' class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none" placeholder="Password">
+                <div class="w-full mt-16 md:mt-0 md:w-2/5">
+                    <form method="POST" id="signin-form">
+                        <div
+                            class="relative z-10 h-auto p-8 py-10 overflow-hidden bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7">
+                            <h3 class="mb-6 text-2xl font-medium text-center">Sign in to your Account</h3>
+
+                            <input type="text" name="username" id='username'
+                                class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none"
+                                placeholder="Username">
+                            <input type="password" name="password" id='password'
+                                class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none"
+                                placeholder="Password">
                             <label class="flex flex-row items-center justify-center space-x-3">
-                                <input type="radio" name="selection" value="Admin" class="form-radio h-5 w-5 text-gray-600" ><label for="admin" class="ml-2 text-gray-700">Admin</label>
-                                <input type="radio" name="selection" value="Solver" class="form-radio h-5 w-5 text-gray-600" ><label for="solver" class="ml-2 text-gray-700">Solver</label>
+                                <input type="radio" name="selection" value="Admin"
+                                    class="form-radio h-5 w-5 text-gray-600"><label for="admin"
+                                    class="ml-2 text-gray-700">Admin</label>
+                                <input type="radio" name="selection" value="Solver"
+                                    class="form-radio h-5 w-5 text-gray-600"><label for="solver"
+                                    class="ml-2 text-gray-700">Solver</label>
                             </label>
-                        <p class="w-full mt-4 text-sm text-center text-gray-500">Don't have an account? <a href="/signup.html" class="text-blue-500 underline">Sign up here</a></p>
-                    </div>
-                    <input type="submit" class="w-full px-3 py-4 font-medium text-white bg-blue-600 rounded-lg" onclick="myFunction(this.form)">
-                    
-                    {% if error %}
-                        <p><strong>Error : {{error}}</strong></p>
-                    {% endif %} 
-                </form>
+                            <p class="w-full mt-4 text-sm text-center text-gray-500">Don't have an account? <a
+                                    href="/signup.html" class="text-blue-500 underline">Sign up here</a></p>
+                        </div>
+                        <input type="button" class="w-full px-3 py-4 font-medium text-white bg-blue-600 rounded-lg"
+                            onclick="myFunction()">
+
+
+                    </form>
+                </div>
+
             </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
-  
-<script>
-function myFunction(form) {
-    // document.getElementById("demo").innerHTML = "Hello World";
-    // alert('Bhaiiiiiii')
-    // alert(form.email.value)
-    const rbs = document.querySelectorAll('input[name="selection"]');
-    var selectedValue;
-    for (const rb of rbs) {
-        if (rb.checked) {
-            selectedValue = rb.value;
-            break;
-        }
-    }
 
-    if (selectedValue === undefined || form.email.value === undefined || form.password.value === undefined)
-    {
-        alert("O bhaiiiiii... kuch input tou karo")
-    }
-    else
-    {
-        var data = {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            username: form.email.value,
-            password: form.password.value,
-            type: String(selectedValue) 
-        })
-        
+    <script>
+        async function myFunction() {
+            // document.getElementById("demo").innerHTML = "Hello World";
+            // alert('Bhaiiiiiii')
+            // alert(form.email.value)
+            const rbs = document.querySelectorAll('input[name="selection"]');
+            var selectedValue;
+            for (const rb of rbs) {
+                if (rb.checked) {
+                    selectedValue = rb.value;
+                    break;
+                }
+            }
+
+            if (selectedValue === undefined || document.getElementById("username").value === '' || document.getElementById("password").value === '') {
+                alert("Oh bhaiiiii empty form")
+            }
+            else {
+                let data = {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: document.getElementById("username").value,
+                        password: document.getElementById("password").value,
+                        selection: String(selectedValue)
+                    })
+
+                }
+                const reply = await fetch('/signin.html/', data)
+                if (reply.ok) {
+                    const data = await reply.json()
+                    if (data['valid'] === 'No') {
+                        alert('Bhaiii pehle account create karo ya phir details theek enter karo')
+                    }
+                    else if (data['valid'] === 'Yes') {
+                        if (data['type'] === 'Solver') {
+                            window.location.assign('/dashboard-user.html')
+                        }
+                        else if (data['type'] === 'Admin') {
+                            window.location.assign('/dashboard-admin.html')
+                        }
+                    }
+                }
+            }
+
         }
-        fetch('/signin.html/',data)
-  }
-  
-}
-</script>
+    </script>
 
 </body>
+
 </html>
