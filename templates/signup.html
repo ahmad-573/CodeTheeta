@@ -40,7 +40,7 @@
                     <h4 class="w-full text-2xl font-bold">Signup as Solver</h4>
                     <p class="text-md text-gray-500">or, if you have an account you can <a href="/signin.html" class="text-blue-600 underline">sign in</a></p>
                     <div class="relative w-full mt-4 space-y-8">
-                        <form action="/signup.html/" method="POST">
+                        <form method="POST" id="signup-form">
                             <div class="relative">
                                 <label class="font-medium text-gray-900">Full Name</label>
                                 <input type="text" name="full_name" id = "full_name" class="block w-full px-3 py-3 mt-2 text-md placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" placeholder="Enter Your Name">
@@ -53,10 +53,7 @@
                                 <label class="font-medium text-gray-900">Password</label>
                                 <input type="password" name="password" id = "password" class="block w-full px-3 py-3 mt-1 text-md placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-600 focus:ring-opacity-50" placeholder="Password">
                             </div>
-                            <input type="submit" class="inline-block w-full px-4 py-3 text-lg font-medium text-center text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 ease" onclick="myFunction(this.form)"> 
-                            {% if error %}
-                                <p><strong>Error : {{error}}</strong></p>
-                            {% endif %} 
+                            <input type="button" value="Sign up" class="inline-block w-full px-4 py-3 text-lg font-medium text-center text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 ease" onclick="myFunction()"> 
                         </form>
                     </div>
                 </div>
@@ -66,25 +63,41 @@
 
 </section>
 <script>
-    function myFunction(form) {
+    async function myFunction() {
         // document.getElementById("demo").innerHTML = "Hello World";
         // alert('Bhaiiiiiii')
         // alert(form.email.value)
-        
-        var data = {
+
+        if (document.getElementById("full_name").value === '' || document.getElementById("username").value === '' || document.getElementById("password").value === '') {
+            alert("Oh bhaiiiii empty form")
+        }
+        else {
+            let data = {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    full_name: form.full_name.value,
-                    username: form.email.value,
-                    password: form.password.value
+                    full_name: document.getElementById("full_name").value,
+                    username: document.getElementById("username").value,
+                    password: document.getElementById("password").value
                 })
-      }
+
+            }
+            const reply = await fetch('/signup.html/', data)
+            if (reply.ok) {
+                const data = await reply.json()
+                if (data['valid'] === 'No') {
+                    alert('Bhaiii Username pehle se exist krta hai')
+                }
+                else if (data['valid'] === 'Yes') {
+                    window.location.assign('/dashboard-user.html')
+                }
+            }
+        }
+
     }
-    fetch('/signup.html/',data)
-    </script>
+</script>
 </body>
 </html>

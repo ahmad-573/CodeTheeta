@@ -26,26 +26,25 @@ def index():
 
 @app.route('/signup.html/', methods=["POST", "GET"])
 def signup():
-    error = None
     if request.method == "POST":
         # name = request.form['name']
         # username = request.form['username']
         # passwd = request.form['password']
-        content = request.form
+        content = request.get_json()
         cur = db.cursor(buffered=True)
         cur.execute("select username from solver where username = '" +
                     str(content['username']) + "'")
         usernames = cur.fetchall()
         if len(usernames) > 0:
-            error = "Bhaiiii ye username pehle se hai kuch aur rakho"
+            return jsonify({'valid': 'No'})
             # return redirect('/signup.html')
         else:
             cur.execute('insert into solver(full_name,username,password) values(%s,%s,%s)',
                         (content['full_name'], content['username'], content['password']))
             db.commit()
-            return redirect('/dashboard-user.html/')
+            return jsonify({'valid': 'Yes'})
 
-    return render_template('signup.html', error=error)
+    return render_template('signup.html')
 
 
 @app.route('/signin.html/', methods=["POST", "GET"])
