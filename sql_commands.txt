@@ -18,3 +18,28 @@ create table admin(
 	primary key(admin_id)
 );
 
+create table problem_set(
+	problem_id int not null auto_increment,
+	difficulty int not null,
+	times_solved int not null default 0,
+	statement longtext not null,
+	test_case1 longtext not null,
+	test_case2 longtext not null,
+	output1 longtext not null, 
+	output2 longtext not null,
+	primary key(problem_id)
+);
+
+create table solved(
+	user_id int not null,
+	problem_id int not null,
+	max_score int not null,
+	primary key(user_id,problem_id)
+);
+
+create table created(
+	problem_id int not null,
+	admin_id int not null,
+	primary key(problem_id)
+);
+
