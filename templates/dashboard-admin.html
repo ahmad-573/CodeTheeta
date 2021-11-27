@@ -181,9 +181,10 @@
                 </div>
               </div>
               <div class="flex justify-end pt-2">
-                <button
-                  class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2"
-                  onclick="myFunction()">Submit</button>
+                <input type="button" value="Submit"
+                  class="modal-close px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2"
+                  onclick="myFunction()">
+
                 <!-- <button class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button> -->
               </div>
             </form>
@@ -266,11 +267,26 @@
   </script>
   <script>
     async function myFunction() {
+        var x;
+        if (document.getElementById("difficulty").value === "Easy")
+        {
+            x = 1
+        }
+        else if (document.getElementById("difficulty").value === "Medium")
+        {
+            x = 2
+        }
+        else if (document.getElementById("difficulty").value === "Hard")
+        {
+            x = 3
+        }
+        alert(x)
 
-      if (document.getElementById("statement").value === '' || document.getElementById("tc1").value === '' || document.getElementById("tc2").value === '' || document.getElementById("o1").value === '' || document.getElementById("o2").value === '' || getElementById("difficulty").value === '') {
+      if (document.getElementById("statement").value === '' || document.getElementById("tc1").value === '' || document.getElementById("tc2").value === '' || document.getElementById("o1").value === '' || document.getElementById("o2").value === '') {
         alert("Oh bhaiiiii pura toh bharo")
       }
       else {
+          alert("Me here")
         let data = {
           method: 'POST',
           headers: {
@@ -283,11 +299,12 @@
             tc2: document.getElementById("tc2").value,
             o1: document.getElementById("o1").value,
             o2: document.getElementById("o2").value,
-            difficulty: getElementById("difficulty").value
+            difficulty: x
 
           })
 
         }
+        alert("yo")
         const reply = await fetch('/dashboard-admin.html/', data)
         if (reply.ok) {
           const data = await reply.json()
@@ -295,7 +312,6 @@
             alert('There was some problem in adding to database')
           }
           else if (data['success'] === 'Yes') {
-
             window.location.replace('/dashboard-admin.html')
           }
         }
