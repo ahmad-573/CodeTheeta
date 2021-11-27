@@ -105,7 +105,6 @@ def dash_admin():
     cur = db.cursor(buffered=True)
     cur.execute("select problem_id, difficulty, times_solved, statement from problem_set")
     result = cur.fetchall()
-    print(result)
     return render_template('dashboard-admin.html',result=result)
 
 # IMAGE RENDERING
