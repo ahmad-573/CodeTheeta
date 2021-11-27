@@ -74,6 +74,14 @@ def view_problem(id):
     result = cur.fetchall()
     return render_template('view_problem.html',result=result)
 
+@app.route('/delete_problem/<int:id>')
+def delete_problem(id):
+    cur = db.cursor(buffered=True)
+    cur.execute("delete from problem_set where problem_id = '" + str(id) + "'")
+    db.commit()
+    return redirect('/dashboard-admin.html')
+
+
 # DASHBOARDS
 @app.route('/dashboard-user.html/', methods=['POST','GET'])
 def dash_user():
@@ -90,7 +98,15 @@ def dash_user():
 
 @app.route('/dashboard-admin.html/')
 def dash_admin():
-    return render_template('dashboard-admin.html')
+    if request.method == "POST":
+        content = request.get_json()
+        cur = db.cursor(buffered=True)
+
+    cur = db.cursor(buffered=True)
+    cur.execute("select problem_id, difficulty, times_solved, statement from problem_set")
+    result = cur.fetchall()
+    print(result)
+    return render_template('dashboard-admin.html',result=result)
 
 # IMAGE RENDERING
 @app.route('/res/<name>', methods=["GET"])

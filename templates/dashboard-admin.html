@@ -141,6 +141,27 @@
                 </div>
             </main>
         </div>
+        <table>
+          <tr>
+              <th>Problem ID</th>
+              <th>Difficulty</th>
+              <th>Times Solved</th>
+          </tr>
+          {% for problem in result %}
+      
+              <tr>
+                  <td>{{ problem[0] }} </td>
+                  <td> {{ problem[1] }} </td>
+                  <td> {{ problem[2] }} </td>
+                  <td>
+                    <a href="/delete_problem/{{problem[0]}}">Delete</a>
+                    <br>
+                    <a href="/update/{{problem[0]}}">Update</a>
+                </td>
+              </tr>
+      
+          {% endfor %}
+       </table>
         
     </div>
 
