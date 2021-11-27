@@ -7,6 +7,24 @@ from json import dumps, loads
 from types import SimpleNamespace
 
 from werkzeug.utils import send_file
+import jwt
+
+
+def encode_token(userid):
+    try:
+        payload = {'sub': userid}
+        return jwt.encode(payload, "\xf9'\xe4p(\xa9\x12\x1a!\x94\x8d\x1c\x99l\xc7\xb7e\xc7c\x86\x02MJ\xa0", algorithm='HS256')
+    except:
+        return Exception
+
+
+def decode_token(token):
+    try:
+        payload = jwt.decode(
+            token, "\xf9'\xe4p(\xa9\x12\x1a!\x94\x8d\x1c\x99l\xc7\xb7e\xc7c\x86\x02MJ\xa0")
+        return payload['sub']
+    except jwt.InvalidTokenError:
+        return "Invalid token. Please log in again."
 
 
 app = Flask(__name__)
@@ -18,7 +36,9 @@ app.config['MYSQL_DB'] = 'ct_db'
 db = mysql.connector.connect(
     user='project_user', database='ct_db', password='password123')
 
-# USE CASES 
+# USE CASES
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -57,19 +77,22 @@ def signin():
             else:
                 return jsonify({'valid': 'Yes', 'type': 'Admin'})
         elif str(content['selection']) == 'Solver':
-            cur.execute("select username from solver where username = '" + str(
+            cur.execute("select user_ID from solver where username = '" + str(
                 content['username']) + "' and password = '" + str(content['password']) + "'")
-            usernames = cur.fetchall()
-            if len(usernames) == 0:
-                return jsonify({'valid': 'No', 'type': 'Solver'})
+            users = cur.fetchall()
+            if len(users) == 0:
+                return jsonify({'valid': 'No', 'type': 'Solver', 'token': None})
             else:
-                return jsonify({'valid': 'Yes', 'type': 'Solver'})
+                return jsonify({'valid': 'Yes', 'type': 'Solver', 'token': encode_token(users[0][0])})
 
     return render_template('signin.html')
 
 # DASHBOARDS
+
+
 @app.route('/dashboard-user.html/')
 def dash_user():
+    print(request.args.get('token'))
     return render_template('dashboard-user.html')
 
 
@@ -78,6 +101,8 @@ def dash_admin():
     return render_template('dashboard-admin.html')
 
 # IMAGE RENDERING
+
+
 @app.route('/res/<name>', methods=["GET"])
 def fetchImg(name):
     return send_from_directory('Resources', name)
