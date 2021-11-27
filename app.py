@@ -102,10 +102,10 @@ def dash_user():
     return render_template('dashboard-user.html', result=result)
 
 
-@app.route('/dashboard-admin.html/')
+@app.route('/dashboard-admin.html/',  methods=['POST', 'GET'])
 def dash_admin():
     if request.method == "POST":
-        
+
         content = request.get_json()
         print(type(content['difficulty']), content['difficulty'])
         cur = db.cursor(buffered=True)
