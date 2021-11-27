@@ -58,6 +58,22 @@
                   </div>
             </main>
         </div>
+        <table>
+            <tr>
+                <th>Problem ID</th>
+                <th>Difficulty</th>
+                <th>Times Solved</th>
+            </tr>
+            {% for problem in result %}
+        
+                <tr>
+                    <td><a href="/view_problem/{{problem[0]}}"> {{ problem[0] }} </a></td>
+                    <td> {{ problem[1] }} </td>
+                    <td> {{ problem[2] }} </td>
+                </tr>
+        
+            {% endfor %}
+         </table>
         
     </div>
 

@@ -67,10 +67,25 @@ def signin():
 
     return render_template('signin.html')
 
+@app.route('/view_problem/<int:id>')
+def view_problem(id):
+    cur = db.cursor(buffered=True)
+    cur.execute("select problem_id,difficulty,statement from problem_set where problem_id = '" + str(id) + "'")
+    result = cur.fetchall()
+    return render_template('view_problem.html',result=result)
+
 # DASHBOARDS
-@app.route('/dashboard-user.html/')
+@app.route('/dashboard-user.html/', methods=['POST','GET'])
 def dash_user():
-    return render_template('dashboard-user.html')
+    if request.method == "POST":
+        content = request.get_json()
+        cur = db.cursor(buffered=True)
+
+    cur = db.cursor(buffered=True)
+    cur.execute("select problem_id, difficulty, times_solved, statement from problem_set")
+    result = cur.fetchall()
+    print(result)
+    return render_template('dashboard-user.html',result=result)
 
 
 @app.route('/dashboard-admin.html/')
