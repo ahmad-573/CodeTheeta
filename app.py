@@ -88,7 +88,7 @@ def dash_user():
     if request.method == "POST":
         content = request.get_json()
         cur = db.cursor(buffered=True)
-
+        
     cur = db.cursor(buffered=True)
     cur.execute("select problem_id, difficulty, times_solved, statement from problem_set")
     result = cur.fetchall()
@@ -101,6 +101,7 @@ def dash_admin():
     if request.method == "POST":
         content = request.get_json()
         cur = db.cursor(buffered=True)
+        return redirect('/dashboard-admin.html')
 
     cur = db.cursor(buffered=True)
     cur.execute("select problem_id, difficulty, times_solved, statement from problem_set")
