@@ -91,14 +91,25 @@ def delete_problem(id):
 @app.route('/dashboard-user.html/', methods=['POST', 'GET'])
 def dash_user():
     if request.method == "POST":
-        content = request.get_json()
         cur = db.cursor(buffered=True)
-        
-    cur = db.cursor(buffered=True)
-    cur.execute(
-        "select problem_id, difficulty, times_solved, statement from problem_set")
-    result = cur.fetchall()
-    print(result)
+        if request.form['wrt']=='Num of time solved':
+            str1 = 'times_solved'
+        elif request.form['wrt']=='Difficulty Level':
+            # print("yo")
+            str1 = 'difficulty'
+        if request.form['by']=='Ascending':
+            str2 = 'asc'
+        elif request.form['by']=='Descending':
+            # print('yo2')
+            str2 = 'desc'
+        cur.execute('select problem_id, difficulty, times_solved, statement from problem_set order by '+str1 +' '+str2)
+        result = cur.fetchall()
+    elif request.method == 'GET':
+        cur = db.cursor(buffered=True)
+        cur.execute(
+            "select problem_id, difficulty, times_solved, statement from problem_set")
+        result = cur.fetchall()
+    print('hello')    
     return render_template('dashboard-user.html', result=result)
 
 
