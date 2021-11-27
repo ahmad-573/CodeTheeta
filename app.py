@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, send_from_directory, jsonify
+from flask import Flask, render_template, url_for, request, redirect, send_from_directory, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date
 from flaskext.mysql import MySQL
@@ -8,23 +8,28 @@ from types import SimpleNamespace
 
 from werkzeug.utils import send_file
 import jwt
+from base64 import b64encode
+from os import urandom
+
+random_bytes = urandom(64)
+key = b64encode(random_bytes).decode('utf-8')
 
 
-def encode_token(userid):
-    try:
-        payload = {'sub': userid}
-        return jwt.encode(payload, "\xf9'\xe4p(\xa9\x12\x1a!\x94\x8d\x1c\x99l\xc7\xb7e\xc7c\x86\x02MJ\xa0", algorithm='HS256')
-    except:
-        return Exception
+# def encode_token(userid):
+#     try:
+#         payload = {'sub': userid}
+#         return jwt.encode(payload, "\xf9'\xe4p(\xa9\x12\x1a!\x94\x8d\x1c\x99l\xc7\xb7e\xc7c\x86\x02MJ\xa0", algorithm='HS256')
+#     except:
+#         return Exception
 
 
-def decode_token(token):
-    try:
-        payload = jwt.decode(
-            token, "\xf9'\xe4p(\xa9\x12\x1a!\x94\x8d\x1c\x99l\xc7\xb7e\xc7c\x86\x02MJ\xa0")
-        return payload['sub']
-    except jwt.InvalidTokenError:
-        return "Invalid token. Please log in again."
+# def decode_token(token):
+#     try:
+#         payload = jwt.decode(
+#             token, "\xf9'\xe4p(\xa9\x12\x1a!\x94\x8d\x1c\x99l\xc7\xb7e\xc7c\x86\x02MJ\xa0")
+#         return payload['sub']
+#     except jwt.InvalidTokenError:
+#         return "Invalid token. Please log in again."
 
 
 app = Flask(__name__)
@@ -32,6 +37,7 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'project_user'
 app.config['MYSQL_PASSWORD'] = 'password123'
 app.config['MYSQL_DB'] = 'ct_db'
+app.secret_key = key
 
 db = mysql.connector.connect(
     user='project_user', database='ct_db', password='password123')
@@ -81,9 +87,10 @@ def signin():
                 content['username']) + "' and password = '" + str(content['password']) + "'")
             users = cur.fetchall()
             if len(users) == 0:
-                return jsonify({'valid': 'No', 'type': 'Solver', 'token': None})
+                return jsonify({'valid': 'No', 'type': 'Solver'})
             else:
-                return jsonify({'valid': 'Yes', 'type': 'Solver', 'token': encode_token(users[0][0])})
+                session['userid']= users[0][0]
+                return jsonify({'valid': 'Yes', 'type': 'Solver'})
 
     return render_template('signin.html')
 
@@ -92,13 +99,20 @@ def signin():
 
 @app.route('/dashboard-user.html/')
 def dash_user():
-    print(request.args.get('token'))
-    return render_template('dashboard-user.html')
+    # print('Fit')
+    if 'userid' in session:
+        return render_template('dashboard-user.html')
+    return redirect('/')
 
 
 @app.route('/dashboard-admin.html/')
 def dash_admin():
     return render_template('dashboard-admin.html')
+
+@app.route('/logout/')
+def logout():
+    session.pop('userid', None)
+    return redirect('/')
 
 # IMAGE RENDERING
 

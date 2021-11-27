@@ -91,6 +91,7 @@
 
                 }
                 const reply = await fetch('/signin.html/', data)
+                
                 if (reply.ok) {
                     const data = await reply.json()
                     if (data['valid'] === 'No') {
@@ -98,8 +99,8 @@
                     }
                     else if (data['valid'] === 'Yes') {
                         if (data['type'] === 'Solver') {
-                            window.localStorage.setItem('token', data['token'])
-                            window.location.replace('/dashboard-user.html',)
+                            // window.sessionStorage.token = data['token']
+                            window.location.replace('/dashboard-user.html')
                         }
                         else if (data['type'] === 'Admin') {
                             // window.sessionStorage.token = data['token']
