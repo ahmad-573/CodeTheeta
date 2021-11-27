@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<table>
+    <tr>
+        <th>Problem ID</th>
+        <th>Difficulty</th>
+        <th>Statement</th>
+    </tr>
+    {% for problem in result %}
+
+        <tr>
+            <td>{{ problem[0] }}</td>
+            <td> {{ problem[1] }} </td>
+            <td> {{ problem[2] }} </td>
+        </tr>
+
+    {% endfor %}
+ </table>
