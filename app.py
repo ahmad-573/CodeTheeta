@@ -83,8 +83,6 @@ def view_problem(id):
 def delete_problem(id):
     cur = db.cursor(buffered=True)
     cur.execute("delete from problem_set where problem_id = '" + str(id) + "'")
-    cur.execute("delete from solved where problem_id = '" + str(id) + "'")
-    cur.execute("delete from created where problem_id = '" + str(id) + "'")
     db.commit()
     return redirect('/dashboard-admin.html')
 
