@@ -78,9 +78,36 @@ def view_problem(id):
     result = cur.fetchall()
     return render_template('view_problem.html', result=result)
 
-@app.route('/update_problem.html/')
+@app.route('/update_problem.html/', methods=['POST', 'GET'])
 def update_problem():
-    return render_template('update_problem.html')
+    if request.method == "POST":
+        cur = db.cursor(buffered=True)
+        str2 = request.form['new']
+        str3 = request.form['id']
+        if request.form['options']=='Title':
+            str1 = 'title'
+        elif request.form['options']=='Statement':
+            str1 = 'statement'
+        elif request.form['options']=='Test Case 1':
+            str1 = 'test_case1'
+        elif request.form['options']=='Test Case 2':
+            str1 = 'test_case2'
+        elif request.form['options']=='Output 1':
+            str1 = 'output1'
+        elif request.form['options']=='Output 2':
+            str1 = 'output2'
+        elif request.form['options']=='Difficulty':
+            str1 = 'difficulty'
+        # print(str1,str2,str3)
+        # print(type(str1),type(str2), type(str3))
+        cur.execute("update problem_set set "+str1+" = '"+ str(str2) +"' where problem_id = "+str(str3))
+        result = cur.fetchall()
+    elif request.method == 'GET':
+        cur = db.cursor(buffered=True)
+        cur.execute(
+            "select problem_id, title, difficulty, times_solved, statement from problem_set")
+        result = cur.fetchall()
+    return render_template('update_problem.html', result=result)
 
 @app.route('/delete_problem/<int:id>')
 def delete_problem(id):
@@ -119,7 +146,6 @@ def dash_user():
 @app.route('/dashboard-admin.html/',  methods=['POST', 'GET'])
 def dash_admin():
     if request.method == "POST":
-
         content = request.get_json()
         # print(type(content['difficulty']), content['difficulty'])
         cur = db.cursor(buffered=True)
