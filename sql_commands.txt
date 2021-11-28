@@ -35,7 +35,7 @@ create table solved(
 	user_id int not null,
 	problem_id int not null,
 	max_score int not null,
-	primary key(user_id,problem_id)
+	primary key(user_id,problem_id),
 	foreign key(problem_id) references problem_set(problem_id)
 		on delete cascade
 		on update cascade,
@@ -47,7 +47,7 @@ create table solved(
 create table created(
 	problem_id int not null,
 	admin_id int not null,
-	primary key(problem_id)
+	primary key(problem_id),
 	foreign key(problem_id) references problem_set(problem_id)
 		on delete cascade
 		on update cascade,

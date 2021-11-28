@@ -102,14 +102,14 @@ def dash_user():
         elif request.form['by']=='Descending':
             # print('yo2')
             str2 = 'desc'
-        cur.execute('select problem_id, difficulty, times_solved, statement from problem_set order by '+str1 +' '+str2)
+        cur.execute('select problem_id, title, difficulty, times_solved, statement from problem_set order by '+str1 +' '+str2)
         result = cur.fetchall()
     elif request.method == 'GET':
         cur = db.cursor(buffered=True)
         cur.execute(
-            "select problem_id, difficulty, times_solved, statement from problem_set")
+            "select problem_id, title, difficulty, times_solved, statement from problem_set")
         result = cur.fetchall()
-    print('hello')    
+    # print('hello')    
     return render_template('dashboard-user.html', result=result)
 
 
@@ -122,7 +122,7 @@ def dash_admin():
         cur = db.cursor(buffered=True)
         try:
             cur.execute('insert into problem_set(title,difficulty, statement, test_case1, test_case2, output1, output2) values(%s,%s,%s,%s, %s,%s,%s)',
-                        ('titleee',content['difficulty'], content['statement'], content['tc1'], content['tc2'], content['o1'], content['o2']))
+                        (content['title'],content['difficulty'], content['statement'], content['tc1'], content['tc2'], content['o1'], content['o2']))
 
             db.commit()
             success = 'Yes'
@@ -132,7 +132,7 @@ def dash_admin():
 
     cur = db.cursor(buffered=True)
     cur.execute(
-        "select problem_id, difficulty, times_solved, statement from problem_set")
+        "select problem_id, title, difficulty, times_solved, statement from problem_set")
     result = cur.fetchall()
     return render_template('dashboard-admin.html', result=result)
 
