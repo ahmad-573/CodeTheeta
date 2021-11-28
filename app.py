@@ -78,6 +78,9 @@ def view_problem(id):
     result = cur.fetchall()
     return render_template('view_problem.html', result=result)
 
+@app.route('/update_problem.html/')
+def update_problem():
+    return render_template('update_problem.html')
 
 @app.route('/delete_problem/<int:id>')
 def delete_problem(id):
