@@ -2,7 +2,7 @@ DATABASE NAME: ct_db
 
 ** CREATE TABLE **
 create table solver(
-	user_ID      int not null auto_increment,
+	user_id      int not null auto_increment,
 	full_name    varchar(40) not null,       
 	username     varchar(20) not null,
 	password     varchar(20) not null,
@@ -20,6 +20,7 @@ create table admin(
 
 create table problem_set(
 	problem_id int not null auto_increment,
+	title varchar(100) not null,
 	difficulty int not null,
 	times_solved int not null default 0,
 	statement longtext not null,
@@ -35,11 +36,23 @@ create table solved(
 	problem_id int not null,
 	max_score int not null,
 	primary key(user_id,problem_id)
+	foreign key(problem_id) references problem_set(problem_id)
+		on delete cascade
+		on update cascade,
+	foreign key(user_id) references solver(user_id)
+		on delete cascade
+		on update cascade
 );
 
 create table created(
 	problem_id int not null,
 	admin_id int not null,
 	primary key(problem_id)
+	foreign key(problem_id) references problem_set(problem_id)
+		on delete cascade
+		on update cascade,
+	foreign key(admin_id) references admin(admin_id)
+		on delete cascade
+		on update cascade
 );
 
