@@ -121,8 +121,8 @@ def dash_admin():
         # print(type(content['difficulty']), content['difficulty'])
         cur = db.cursor(buffered=True)
         try:
-            cur.execute('insert into problem_set(difficulty, statement, test_case1, test_case2, output1, output2) values(%s,%s,%s, %s,%s,%s)',
-                        (content['difficulty'], content['statement'], content['tc1'], content['tc2'], content['o1'], content['o2']))
+            cur.execute('insert into problem_set(title,difficulty, statement, test_case1, test_case2, output1, output2) values(%s,%s,%s,%s, %s,%s,%s)',
+                        ('titleee',content['difficulty'], content['statement'], content['tc1'], content['tc2'], content['o1'], content['o2']))
 
             db.commit()
             success = 'Yes'
