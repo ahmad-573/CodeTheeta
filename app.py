@@ -98,16 +98,12 @@ def update_problem():
             str1 = 'output2'
         elif request.form['options']=='Difficulty':
             str1 = 'difficulty'
-        # print(str1,str2,str3)
-        # print(type(str1),type(str2), type(str3))
         cur.execute("update problem_set set "+str1+" = '"+ str(str2) +"' where problem_id = "+str(str3))
-        result = cur.fetchall()
     elif request.method == 'GET':
         cur = db.cursor(buffered=True)
         cur.execute(
             "select problem_id, title, difficulty, times_solved, statement from problem_set")
-        result = cur.fetchall()
-    return render_template('update_problem.html', result=result)
+    return render_template('update_problem.html')
 
 @app.route('/delete_problem/<int:id>')
 def delete_problem(id):
