@@ -55,4 +55,60 @@ create table created(
 		on delete cascade
 		on update cascade
 );
+*** Other Queries ***
 
+Create table queries:
+
+Admin:
+
+CREATE TABLE codetheeta.admin (
+  admin_ID CHAR(5) NOT NULL,
+  referral_ID CHAR(5) NOT NULL,
+  full_name VARCHAR(20) NOT NULL,
+  email VARCHAR(30) NULL,
+  username VARCHAR(20) NOT NULL,
+  password VARCHAR(20) NOT NULL,
+  PRIMARY KEY (adminId),
+  UNIQUE INDEX referral_ID_UNIQUE (referralID ASC) VISIBLE,
+  UNIQUE INDEX username_UNIQUE (username ASC) VISIBLE)
+
+Solver:
+
+CREATE TABLE codetheeta.solver (
+  user_ID CHAR(5) NOT NULL,
+  full_name VARCHAR(40) NOT NULL,
+  username VARCHAR(20) NOT NULL,
+  password VARCHAR(20) NOT NULL,
+  points INT NULL,
+  PRIMARY KEY (user_ID));
+
+Solver Use Cases:
+
+1) Create Profile:
+
+Check if username already exists(ahmad and fahad will check through flask):
+
+select username from solver where username = provided_username 
+***if this returns a row, python program will return true, else false and python program will display error message***
+
+If username does not already exist, python program will send request to insert
+insert into solver values(s1, s2, s3, s4, s5);
+
+2) Login
+
+select username from solver where username = provided_username and password = provided password ***If this returns a row, python program will return true, else
+false and python program will display error message***
+
+3) Logout
+
+nothing to do with the database.
+
+Admin:
+
+1) when the user login in the api should return account type which can be appened to the url so when we redict we can have access to users role.
+
+2) frontend will have condition which will only show button of create account for the user with role admin.
+
+3) Logout
+
+nothing to do with the database.
