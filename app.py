@@ -80,6 +80,7 @@ def view_problem(id):
 
 @app.route('/update_problem.html/', methods=['POST', 'GET'])
 def update_problem():
+    result = None
     if request.method == "POST":
         cur = db.cursor(buffered=True)
         str2 = request.form['new']
@@ -101,7 +102,6 @@ def update_problem():
         # print(str1,str2,str3)
         # print(type(str1),type(str2), type(str3))
         cur.execute("update problem_set set "+str1+" = '"+ str(str2) +"' where problem_id = "+str(str3))
-        result = cur.fetchall()
     elif request.method == 'GET':
         cur = db.cursor(buffered=True)
         cur.execute(
