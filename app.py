@@ -78,33 +78,32 @@ def view_problem(id):
     result = cur.fetchall()
     return render_template('view_problem.html', result=result)
 
-@app.route('/update_problem.html/', methods=['POST', 'GET'])
-def update_problem():
-    result = None
-    if request.method == "POST":
-        cur = db.cursor(buffered=True)
-        str2 = request.form['new']
-        str3 = request.form['id']
-        if request.form['options']=='Title':
-            str1 = 'title'
-        elif request.form['options']=='Statement':
-            str1 = 'statement'
-        elif request.form['options']=='Test Case 1':
-            str1 = 'test_case1'
-        elif request.form['options']=='Test Case 2':
-            str1 = 'test_case2'
-        elif request.form['options']=='Output 1':
-            str1 = 'output1'
-        elif request.form['options']=='Output 2':
-            str1 = 'output2'
-        elif request.form['options']=='Difficulty':
-            str1 = 'difficulty'
+def update_problem(content):
+    cur = db.cursor(buffered=True)
+    str2 = content['new']
+    str3 = content['id']
+    if content['option']=='Title':
+        str1 = 'title'
+    elif content['option']=='Statement':
+        str1 = 'statement'
+    elif content['option']=='Test Case 1':
+        str1 = 'test_case1'
+    elif content['option']=='Test Case 2':
+        str1 = 'test_case2'
+    elif content['option']=='Output 1':
+        str1 = 'output1'
+    elif content['option']=='Output 2':
+        str1 = 'output2'
+    elif content['option']=='Difficulty':
+        str1 = 'difficulty'
+    try:
         cur.execute("update problem_set set "+str1+" = '"+ str(str2) +"' where problem_id = "+str(str3))
-    elif request.method == 'GET':
-        cur = db.cursor(buffered=True)
-        cur.execute(
-            "select problem_id, title, difficulty, times_solved, statement from problem_set")
-    return render_template('update_problem.html')
+        db.commit()
+        success = 'Yes'
+    except:
+        success = 'No'
+    return {'success': success}
+    
 
 @app.route('/delete_problem/<int:id>')
 def delete_problem(id):
@@ -144,17 +143,20 @@ def dash_user():
 def dash_admin():
     if request.method == "POST":
         content = request.get_json()
-        # print(type(content['difficulty']), content['difficulty'])
-        cur = db.cursor(buffered=True)
-        try:
-            cur.execute('insert into problem_set(title,difficulty, statement, test_case1, test_case2, output1, output2) values(%s,%s,%s,%s, %s,%s,%s)',
-                        (content['title'],content['difficulty'], content['statement'], content['tc1'], content['tc2'], content['o1'], content['o2']))
+        if content['formid'] == 0:
+            cur = db.cursor(buffered=True)
+            try:
+                cur.execute('insert into problem_set(title,difficulty, statement, test_case1, test_case2, output1, output2) values(%s,%s,%s,%s, %s,%s,%s)',
+                            (content['title'],content['difficulty'], content['statement'], content['tc1'], content['tc2'], content['o1'], content['o2']))
 
-            db.commit()
-            success = 'Yes'
-        except:
-            success = 'No'
-        return jsonify({'success': success})
+                db.commit()
+                success = 'Yes'
+            except:
+                success = 'No'
+            return jsonify({'success': success})
+        elif content['formid'] == 1:
+            x = update_problem(content)
+            return jsonify(x)
 
     cur = db.cursor(buffered=True)
     cur.execute(
