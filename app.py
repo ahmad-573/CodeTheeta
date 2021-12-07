@@ -74,7 +74,7 @@ def signin():
 def view_problem(id):
     cur = db.cursor(buffered=True)
     cur.execute(
-        "select problem_id,difficulty,statement from problem_set where problem_id = '" + str(id) + "'")
+        "select problem_id,title,difficulty,statement,test_case1,output1 from problem_set where problem_id = '" + str(id) + "'")
     result = cur.fetchall()
     return render_template('view_problem.html', result=result)
 
@@ -143,6 +143,8 @@ def dash_user():
 def dash_admin():
     if request.method == "POST":
         content = request.get_json()
+        # print(content['title'])
+        # print("hello")
         if content['formid'] == 0:
             cur = db.cursor(buffered=True)
             try:
