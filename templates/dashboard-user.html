@@ -70,7 +70,7 @@
                             <div class="relative">
                                 <select
                                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                id="wrt" name = "wrt">
+                                >
                                 <option></option>
                                 <option>Easy</option>
                                 <option>Medium</option>
@@ -92,7 +92,7 @@
                             <div class="relative">
                                 <select
                                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                id="wrt" name = "wrt">
+                                >
                                 <option>equals</option>
                                 <option>less than</option>
                                 <option>greater than</option>
@@ -130,12 +130,10 @@
                                 Sort with respect to
                             </label>
                             <div class="relative">
-                                <select
-                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="wrt" name = "wrt"
-                                >
-                                <option></option>
-                                <option>Num of time solved</option>
-                                <option>Difficulty Level</option>
+                                <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="wrt" name = "wrt">
+                                    <option></option>
+                                    <option>Num of time solved</option>
+                                    <option>Difficulty Level</option>
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -151,12 +149,10 @@
                             Order by
                         </label>
                         <div class="relative">
-                            <select
-                            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="by" name = "by"
-                            >
-                            <option></option>
-                            <option>Ascending</option>
-                            <option>Descending</option>
+                            <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="by" name = "by">
+                                <option></option>
+                                <option>Ascending</option>
+                                <option>Descending</option>
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -329,6 +325,9 @@
 <script>
     async function myFunction2(e) {
       e.preventDefault()
+    //   alert(document.getElementById("wrt").value)
+    //   alert(document.getElementById("by").value)
+
       if (document.getElementById("wrt").value === '' || document.getElementById("by").value === '') {
         alert("Oh bhaiiiii pura toh bharo")
       }
@@ -346,7 +345,7 @@
           })
         }
         // alert("yo")
-        const reply = await fetch('/dashboard-admin.html/', data)
+        const reply = await fetch('/dashboard-user.html/', data)
         if (reply.ok) {
             alert("Good hogya")
         }    
