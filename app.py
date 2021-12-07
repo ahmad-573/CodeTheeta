@@ -158,7 +158,7 @@ def view_ranking_user():
     return render_template('view_ranking_user.html',result=result)
 
 @app.route('/view_ranking_admin.html/')
-def view_ranking_user():
+def view_ranking_admin():
     cur = db.cursor(buffered=True)
     cur.execute("select username, full_name, points from solver order by points desc")
     result = cur.fetchall()
