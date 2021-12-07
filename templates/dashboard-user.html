@@ -51,7 +51,7 @@
         <div class="w-full overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
                 <h1 class="text-3xl text-black pb-6">Advanced Search</h1>
-                <form action = '/dashboard-user.html/' method="POST">
+                <form action = '/dashboard-user.html/' method="POST" id = "asearch">
                     <div class="flex flex-wrap -mx-3 mb-2">
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
@@ -119,20 +119,20 @@
                     </div>
                     
                     <input type="submit" value="Search"
-                  class="modal-close px-4 p-3 text-white rounded-lg bg-indigo-500 hover:bg-indigo-300 mr-2"
+                  class="modal-close px-4 p-3 text-white rounded-lg bg-indigo-500 hover:bg-indigo-300 mr-2" onclick="myFunction1(event)"
                 >
                 </form>
                 <h1 class="text-3xl text-black pb-6">Sort</h1>
-                <form action = '/dashboard-user.html/' method="POST">
+                <form action = '/dashboard-user.html/' method="POST" id = "sort">
                     <div class="flex flex-wrap -mx-3 mb-2">
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state" >
                                 Sort with respect to
                             </label>
                             <div class="relative">
                                 <select
-                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                id="wrt" name = "wrt">
+                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="wrt" name = "wrt"
+                                >
                                 <option></option>
                                 <option>Num of time solved</option>
                                 <option>Difficulty Level</option>
@@ -147,13 +147,13 @@
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-2">
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state" >
                             Order by
                         </label>
                         <div class="relative">
                             <select
-                            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="by" name = "by">
+                            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="by" name = "by"
+                            >
                             <option></option>
                             <option>Ascending</option>
                             <option>Descending</option>
@@ -167,7 +167,7 @@
                         </div>
                     </div>
                     <input type="submit" value="Sort"
-                  class="modal-close px-4 p-3 text-white rounded-lg bg-indigo-500 hover:bg-indigo-300 mr-2"
+                  class="modal-close px-4 p-3 text-white rounded-lg bg-indigo-500 hover:bg-indigo-300 mr-2" onclick="myFunction2(event)"
                 >
                 </form>
                 <table class="min-w-full divide-y divide-gray-200">
@@ -326,7 +326,44 @@
     <!-- ChartJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
 
-
+<script>
+    async function myFunction2(e) {
+      e.preventDefault()
+      if (document.getElementById("wrt").value === '' || document.getElementById("by").value === '') {
+        alert("Oh bhaiiiii pura toh bharo")
+      }
+      else {
+        let data = {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            formid: 1,
+            wrt: document.getElementById("wrt").value,
+            by: document.getElementById("by").value,
+          })
+        }
+        // alert("yo")
+        const reply = await fetch('/dashboard-admin.html/', data)
+        if (reply.ok) {
+            alert("Good hogya")
+        }    
+        else{
+            alert("Bad hogya")
+        }    
+            //   const data = await reply.json()
+        //   if (data['success'] === 'No') {
+        //     alert('There was some problem in sorting')
+            // window.location.replace('/dashboard-admin.html')
+        //   }
+        //   else if (data['success'] === 'Yes') {
+        //     window.location.replace('/dashboard-admin.html')
+        //   }
+        }
+      }
+</script>
     
 </body>
 </html>
