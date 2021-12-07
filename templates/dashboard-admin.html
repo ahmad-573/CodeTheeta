@@ -139,7 +139,7 @@
               </div>
               <div class="flex justify-end pt-2">
                 <input type="submit" value="Update"
-                  class="modal-close px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2" onclick="myFunction1()">
+                  class="modal-close px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2" onclick="myFunction1(event)">
               </div>
             </form>
 
@@ -478,7 +478,8 @@
 
     }
 
-    async function myFunction1() {
+    async function myFunction1(e) {
+      e.preventDefault()
       if (document.getElementById("new").value === '' || document.getElementById("id").value === '') {
         alert("Oh bhaiiiii pura toh bharo")
       }
@@ -502,6 +503,7 @@
           const data = await reply.json()
           if (data['success'] === 'No') {
             alert('There was some problem in editing in the database')
+            // window.location.replace('/dashboard-admin.html')
           }
           else if (data['success'] === 'Yes') {
             window.location.replace('/dashboard-admin.html')

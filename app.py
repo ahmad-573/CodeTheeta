@@ -96,12 +96,18 @@ def update_problem(content):
         str1 = 'output2'
     elif content['option']=='Difficulty':
         str1 = 'difficulty'
-    try:
-        cur.execute("update problem_set set "+str1+" = '"+ str(str2) +"' where problem_id = "+str(str3))
-        db.commit()
-        success = 'Yes'
-    except:
+    cur.execute("select * from problem_set where problem_id = "+str(str3))
+    if len(cur.fetchall())== 0:
         success = 'No'
+    else:
+        try:
+            
+            cur.execute("update problem_set set "+str1+" = '"+ str(str2) +"' where problem_id = "+str(str3))
+            db.commit()
+            success = 'Yes'
+        except:
+            success = 'No'
+            # print("Yooo")
     return {'success': success}
     
 
@@ -141,6 +147,7 @@ def dash_user():
 
 @app.route('/dashboard-admin.html/',  methods=['POST', 'GET'])
 def dash_admin():
+    print("Hereeee")
     if request.method == "POST":
         content = request.get_json()
         if content['formid'] == 0:
