@@ -150,6 +150,20 @@ def dash_user():
     # print('hello')    
     return render_template('dashboard-user.html', result=result)
 
+@app.route('/view_ranking_user.html/')
+def view_ranking_user():
+    cur = db.cursor(buffered=True)
+    cur.execute("select username, full_name, points from solver order by points desc")
+    result = cur.fetchall()
+    return render_template('view_ranking_user.html',result=result)
+
+@app.route('/view_ranking_admin.html/')
+def view_ranking_user():
+    cur = db.cursor(buffered=True)
+    cur.execute("select username, full_name, points from solver order by points desc")
+    result = cur.fetchall()
+    return render_template('view_ranking_admin.html',result=result)
+
 
 @app.route('/dashboard-admin.html/',  methods=['POST', 'GET'])
 def dash_admin():
