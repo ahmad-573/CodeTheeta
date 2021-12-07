@@ -74,7 +74,7 @@ def signin():
 def view_problem(id):
     cur = db.cursor(buffered=True)
     cur.execute(
-        "select problem_id,difficulty,statement from problem_set where problem_id = '" + str(id) + "'")
+        "select problem_id,title,difficulty,statement,test_case1,output1 from problem_set where problem_id = '" + str(id) + "'")
     result = cur.fetchall()
     return render_template('view_problem.html', result=result)
 
@@ -96,12 +96,18 @@ def update_problem(content):
         str1 = 'output2'
     elif content['option']=='Difficulty':
         str1 = 'difficulty'
-    try:
-        cur.execute("update problem_set set "+str1+" = '"+ str(str2) +"' where problem_id = "+str(str3))
-        db.commit()
-        success = 'Yes'
-    except:
+    cur.execute("select * from problem_set where problem_id = "+str(str3))
+    if len(cur.fetchall())== 0:
         success = 'No'
+    else:
+        try:
+            
+            cur.execute("update problem_set set "+str1+" = '"+ str(str2) +"' where problem_id = "+str(str3))
+            db.commit()
+            success = 'Yes'
+        except:
+            success = 'No'
+            # print("Yooo")
     return {'success': success}
     
 
@@ -117,19 +123,25 @@ def delete_problem(id):
 @app.route('/dashboard-user.html/', methods=['POST', 'GET'])
 def dash_user():
     if request.method == "POST":
-        cur = db.cursor(buffered=True)
-        if request.form['wrt']=='Num of time solved':
-            str1 = 'times_solved'
-        elif request.form['wrt']=='Difficulty Level':
-            # print("yo")
-            str1 = 'difficulty'
-        if request.form['by']=='Ascending':
-            str2 = 'asc'
-        elif request.form['by']=='Descending':
-            # print('yo2')
-            str2 = 'desc'
-        cur.execute('select problem_id, title, difficulty, times_solved, statement from problem_set order by '+str1 +' '+str2)
-        result = cur.fetchall()
+        content = request.get_json()
+        if content['formid'] == 0:
+            pass
+            
+        elif content['formid'] == 1:
+            cur = db.cursor(buffered=True)
+            if content['wrt']=='Num of time solved':
+                str1 = 'times_solved'
+            elif content['wrt']=='Difficulty Level':
+                # print("yo")
+                str1 = 'difficulty'
+            if content['by']=='Ascending':
+                str2 = 'asc'
+            elif content['by']=='Descending':
+                # print('yo2')
+                str2 = 'desc'
+            cur.execute('select problem_id, title, difficulty, times_solved, statement from problem_set order by '+str1 +' '+str2)
+            result = cur.fetchall()
+
     elif request.method == 'GET':
         cur = db.cursor(buffered=True)
         cur.execute(
@@ -141,8 +153,11 @@ def dash_user():
 
 @app.route('/dashboard-admin.html/',  methods=['POST', 'GET'])
 def dash_admin():
+    
     if request.method == "POST":
         content = request.get_json()
+        # print(content['title'])
+        # print("hello")
         if content['formid'] == 0:
             cur = db.cursor(buffered=True)
             try:

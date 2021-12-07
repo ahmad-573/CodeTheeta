@@ -50,38 +50,110 @@
 
         <div class="w-full overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-                <h1 class="text-3xl text-black pb-6">Problemsets</h1>
-                <form action = '/dashboard-user.html/' method="POST">
+                <h1 class="text-3xl text-black pb-6">Advanced Search</h1>
+                <form action = '/dashboard-user.html/' method="POST" id = "asearch">
                     <div class="flex flex-wrap -mx-3 mb-2">
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                            Sort with respect to
-                        </label>
-                        <div class="relative">
-                            <select
-                            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="wrt" name = "wrt">
-                            <option></option>
-                            <option>Num of time solved</option>
-                            <option>Difficulty Level</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                            </svg>
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                                Title Contains
+                            </label>
+                            <div class="md:w-2/3">
+                                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="search" placeholder="xyz">
                             </div>
-                        </div>
                         </div>
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-2">
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                                Difficulty
+                            </label>
+                            <div class="relative">
+                                <select
+                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                id="wrt" name = "wrt">
+                                <option></option>
+                                <option>Easy</option>
+                                <option>Medium</option>
+                                <option>Hard</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-2">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                                Number of times solved
+                            </label>
+                            <div class="relative">
+                                <select
+                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                id="wrt" name = "wrt">
+                                <option>equals</option>
+                                <option>less than</option>
+                                <option>greater than</option>
+                                <option>less than equal to</option>
+                                <option>greater than equal to</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap -mx-3 mb-2">
+                            <div class="w-full px-3 mb-6 md:mb-0">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                                    Value
+                                </label>
+                                <div class="md:w-2/3">
+                                    <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-3 px-4 pr-8 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="search" placeholder="xyz">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <input type="submit" value="Search"
+                  class="modal-close px-4 p-3 text-white rounded-lg bg-indigo-500 hover:bg-indigo-300 mr-2" onclick="myFunction1(event)"
+                >
+                </form>
+                <h1 class="text-3xl text-black pb-6">Sort</h1>
+                <form action = '/dashboard-user.html/' method="POST" id = "sort">
+                    <div class="flex flex-wrap -mx-3 mb-2">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state" >
+                                Sort with respect to
+                            </label>
+                            <div class="relative">
+                                <select
+                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="wrt" name = "wrt"
+                                >
+                                <option></option>
+                                <option>Num of time solved</option>
+                                <option>Difficulty Level</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-2">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state" >
                             Order by
                         </label>
                         <div class="relative">
                             <select
-                            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="by" name = "by">
+                            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="by" name = "by"
+                            >
                             <option></option>
                             <option>Ascending</option>
                             <option>Descending</option>
@@ -95,7 +167,7 @@
                         </div>
                     </div>
                     <input type="submit" value="Sort"
-                  class="modal-close px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2"
+                  class="modal-close px-4 p-3 text-white rounded-lg bg-indigo-500 hover:bg-indigo-300 mr-2" onclick="myFunction2(event)"
                 >
                 </form>
                 <table class="min-w-full divide-y divide-gray-200">
@@ -162,7 +234,7 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                     {% for problem in result %}
                         <tr>
-                        <td class="px-6 py-4 whitespace-nowrap"><a href='/view_problem/{{problem[0]}}'>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                             <div class="ml-4">
                                 <div class="text-sm font-medium text-gray-900">
@@ -172,13 +244,13 @@
                                 </div>
                             </div>
                             </div>
-                        </a>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-500">
+                        <td class="px-6 py-4 whitespace-nowrap"><a href='/view_problem/{{problem[0]}}'>
+                            <div class="text-sm text-blue-500 underline">
                             {{problem[1]}}
                             </div>
-                        </td>
+                        </a>
+                    </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-500">
                             {{ problem[3] }}
@@ -254,7 +326,44 @@
     <!-- ChartJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
 
-
+<script>
+    async function myFunction2(e) {
+      e.preventDefault()
+      if (document.getElementById("wrt").value === '' || document.getElementById("by").value === '') {
+        alert("Oh bhaiiiii pura toh bharo")
+      }
+      else {
+        let data = {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            formid: 1,
+            wrt: document.getElementById("wrt").value,
+            by: document.getElementById("by").value,
+          })
+        }
+        // alert("yo")
+        const reply = await fetch('/dashboard-admin.html/', data)
+        if (reply.ok) {
+            alert("Good hogya")
+        }    
+        else{
+            alert("Bad hogya")
+        }    
+            //   const data = await reply.json()
+        //   if (data['success'] === 'No') {
+        //     alert('There was some problem in sorting')
+            // window.location.replace('/dashboard-admin.html')
+        //   }
+        //   else if (data['success'] === 'Yes') {
+        //     window.location.replace('/dashboard-admin.html')
+        //   }
+        }
+      }
+</script>
     
 </body>
 </html>
