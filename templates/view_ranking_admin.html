@@ -155,6 +155,20 @@
                                         tracking-wider
                                         "
                                     >
+                                        User ID
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
+                                        "
+                                    >
                                         Username
                                     </th>
                                     <th
@@ -197,21 +211,27 @@
                                                 {{i+1}}
                                                 </div>
                                             </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm">
-                                            {{ result[i][0]}}
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-500">
-                                            {{ result[i][1] }}
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ result[i][2] }}
-                                        </td>
+                                        </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm">
+                                        {{ result[i][3]}}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm">
+                                        {{ result[i][0]}}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500">
+                                        {{ result[i][1] }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ result[i][2] }}
+                                    </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -228,14 +248,13 @@ integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="ano
 <!-- ChartJS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
 integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
-
 <script>
     var openmodal = document.querySelectorAll('.modal-open')
     for (var i = 0; i < openmodal.length; i++) {
-        openmodal[i].addEventListener('click', function (event) {
+      openmodal[i].addEventListener('click', function (event) {
         event.preventDefault()
         toggleModal()
-        })
+      })
     }
 
     const overlay = document.querySelector('.modal-overlay')
@@ -243,48 +262,83 @@ integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="ano
 
     var closemodal = document.querySelectorAll('.modal-close')
     for (var i = 0; i < closemodal.length; i++) {
-        closemodal[i].addEventListener('click', toggleModal)
+      closemodal[i].addEventListener('click', toggleModal)
     }
 
     document.onkeydown = function (evt) {
-        evt = evt || window.event
-        var isEscape = false
-        if ("key" in evt) {
+      evt = evt || window.event
+      var isEscape = false
+      if ("key" in evt) {
         isEscape = (evt.key === "Escape" || evt.key === "Esc")
-        } else {
+      } else {
         isEscape = (evt.keyCode === 27)
-        }
-        if (isEscape && document.body.classList.contains('modal-active')) {
+      }
+      if (isEscape && document.body.classList.contains('modal-active')) {
         toggleModal()
-        }
+      }
     };
 
 
     function toggleModal() {
-        const body = document.querySelector('body')
-        const modal = document.querySelector('.modal')
-        modal.classList.toggle('opacity-0')
-        modal.classList.toggle('pointer-events-none')
-        body.classList.toggle('modal-active')
+      const body = document.querySelector('body')
+      const modal = document.querySelector('.modal')
+      modal.classList.toggle('opacity-0')
+      modal.classList.toggle('pointer-events-none')
+      body.classList.toggle('modal-active')
     }
 
-    // function toggle(x)
-    // {
-    //   if (x === 1)
-    //   {
-    //     var clockButton = document.getElementById('addProblem');
-    //     clockButton.style.display = "block"
-    //     var clockButton = document.getElementById('editProblem');
-    //     clockButton.style.display = "none"
-    //   }
-    //   else if (x === 2)
-    //   {
-    //     var clockButton = document.getElementById('addProblem');
-    //     clockButton.style.display = "none"
-    //     var clockButton = document.getElementById('editProblem');
-    //     clockButton.style.display = "block"
-    //   }
-    // }
+    function toggle(x)
+    {
+      if (x === 1)
+      {
+        var clockButton = document.getElementById('addProblem');
+        clockButton.style.display = "block"
+        var clockButton = document.getElementById('editProblem');
+        clockButton.style.display = "none"
+      }
+      else if (x === 2)
+      {
+        var clockButton = document.getElementById('addProblem');
+        clockButton.style.display = "none"
+        var clockButton = document.getElementById('editProblem');
+        clockButton.style.display = "block"
+      }
+    }
+</script>
+<script>
+    async function myFunction1(e) {
+      e.preventDefault()
+      if (document.getElementById("new").value === '' || document.getElementById("id").value === '') {
+        alert("Oh bhaiiiii pura toh bharo")
+      }
+      else {
+        let data = {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            formid: 1,
+            id: document.getElementById("id").value,
+            //option: document.getElementById("options").value,
+            new: document.getElementById("new").value,
+          })
+        }
+        // alert("yo")
+        const reply = await fetch('/view_ranking_admin.html/', data)
+        if (reply.ok) {
+          const data = await reply.json()
+          if (data['success'] === 'No') {
+            alert('There was some problem in editing in the database')
+            // window.location.replace('/dashboard-admin.html')
+          }
+          else if (data['success'] === 'Yes') {
+            window.location.replace('/view_ranking_admin.html')
+          }
+        }
+      }
+    }
 </script>
 
 </body>

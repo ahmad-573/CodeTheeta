@@ -70,13 +70,23 @@ def signin():
     return render_template('signin.html')
 
 
-@app.route('/view_problem/<int:id>')
-def view_problem(id):
+@app.route('/view_problem_user/<int:id>')
+def view_problem_user(id):
     cur = db.cursor(buffered=True)
     cur.execute(
         "select problem_id,title,difficulty,statement,test_case1,output1 from problem_set where problem_id = '" + str(id) + "'")
     result = cur.fetchall()
-    return render_template('view_problem.html', result=result)
+    return render_template('view_problem_user.html', result=result)
+
+@app.route('/view_problem_admin/<int:id>')
+def view_problem_admin(id):
+    cur = db.cursor(buffered=True)
+    cur.execute(
+        "select problem_id,title,difficulty,statement,test_case1,output1 from problem_set where problem_id = '" + str(id) + "'")
+    result = cur.fetchall()
+    return render_template('view_problem_admin.html', result=result)
+
+
 
 def update_problem(content):
     cur = db.cursor(buffered=True)
@@ -157,13 +167,38 @@ def view_ranking_user():
     result = cur.fetchall()
     return render_template('view_ranking_user.html',result=result)
 
-@app.route('/view_ranking_admin.html/')
+@app.route('/view_ranking_admin.html/', methods=['POST','GET'])
 def view_ranking_admin():
+    if request.method == 'POST':
+        content = request.get_json()
+        if content['formid'] == 0:
+            pass
+        elif content['formid'] == 1:
+            x = update_points(content)
+            return jsonify(x)
+        
+
     cur = db.cursor(buffered=True)
-    cur.execute("select username, full_name, points from solver order by points desc")
+    cur.execute("select username, full_name, points,user_id from solver order by points desc")
     result = cur.fetchall()
     return render_template('view_ranking_admin.html',result=result)
 
+def update_points(content):
+    cur = db.cursor(buffered=True)
+    new = content['new']
+    id = content['id']
+    cur.execute("select * from solver where user_id = "+str(id))
+    if len(cur.fetchall())== 0:
+        success = 'No'
+    else:
+        try:
+            cur.execute("update solver set points = '"+ str(new) +"' where user_id = "+str(id))
+            db.commit()
+            success = 'Yes'
+        except:
+            success = 'No'
+    return {'success':success}
+        
 
 @app.route('/dashboard-admin.html/',  methods=['POST', 'GET'])
 def dash_admin():
