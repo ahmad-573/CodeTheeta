@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <meta name="description" content="">
+
+  <!-- Tailwind -->
+  <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+
+    .font-family-karla {
+      font-family: karla;
+    }
+
+    .bg-sidebar {
+      background: #3d68ff;
+    }
+
+    .cta-btn {
+      color: #3d68ff;
+    }
+
+    .upgrade-btn {
+      background: #1947ee;
+    }
+
+    .upgrade-btn:hover {
+      background: #0038fd;
+    }
+
+    .active-nav-link {
+      background: #1947ee;
+    }
+
+    .nav-item:hover {
+      background: #1947ee;
+    }
+
+    .account-link:hover {
+      background: #3d68ff;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 font-family-karla flex">
+    <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
+        <!-- <div class="p-6">
+            <a href="/dashboard-admin.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Home</a>
+            <button class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onclick="toggle(1)">
+            <i class="fas fa-plus mr-3"></i> Add Problem
+            </button>
+            <button class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onclick="toggle(2)">
+            <i class="fas fa-edit mr-3"></i> Edit Problem
+            </button>
+        </div> -->
+        <nav class="text-white text-base font-semibold pt-3">
+            <a href="/dashboard-admin.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+            <i class="far fa-question-circle mr-3"></i>
+            Problemset
+            </a>
+        </nav>
+    </aside>
+  
+    <div class="w-full flex flex-col h-screen overflow-y-hidden">
+      <!-- Desktop Header -->
+        <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
+            <div class="w-1/2"></div>
+            <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
+            <button @click="isOpen = !isOpen"
+                class="realtive w-12 h-12 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
+                <i class="far fa-user-circle text-3xl text-blue-500 hover:text-blue-300"></i>
+            </button>
+            <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
+            <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
+                <a href="/" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
+            </div>
+            </div>
+        </header>
+  
+        <div class="w-full overflow-x-hidden border-t flex flex-col">
+            <main class="w-full flex-grow p-6">
+              <!-- <h1 class="text-3xl text-black pb-6">Problemsets</h1>
+              <table>
+                  <tr>
+                      <th>Problem ID</th>
+                      <th>Title</th>
+                      <th>Difficulty</th>
+                      <th>Statement</th>
+                      <th>Test Case 1</th>
+                      <th>Output 1</th>
+                  </tr>
+                  {% for problem in result %}
+
+                      <tr>
+                          <td>{{ problem[0] }}</td>
+                          <td> {{ problem[1] }} </td>
+                          <td> {{ problem[2] }} </td>
+                          <td>{{ problem[3] }}</td>
+                          <td>{{ problem[4] }}</td>
+                          <td>{{ problem[5] }}</td>
+                      </tr>
+
+                  {% endfor %}
+              </table> -->
+            <!-- This example requires Tailwind CSS v2.0+ -->
+            {% for problem in result %}
+              <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6">
+                  <h3 class="flex text-lg leading-6 font-medium text-gray-900 justify-center">
+                    {{ problem[0] }}
+                  </h3>
+                  <p class="flex mt-1 text-sm text-gray-500 justify-center">
+                    {{ problem[1] }}
+                  </p>
+                </div>
+                <div class="border-t border-gray-200">
+                  <!-- <dl> -->
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <!-- <dt class="text-sm font-medium text-gray-500">
+                        Full name
+                      </dt> -->
+                      <textarea class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" rows="20" disabled>{{ problem[3] }}</textarea>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <!-- <dt class="text-sm font-medium text-gray-500">
+                        Application for
+                      </dt> -->
+                      <textarea class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" rows="10" disabled>{{ problem[4] }}</textarea>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <!-- <dt class="text-sm font-medium text-gray-500">
+                        Email address
+                      </dt> -->
+                      <textarea class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" rows="10" disabled>{{ problem[5] }}</textarea>
+                    </div>
+                    <!-- <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <dt class="text-sm font-medium text-gray-500">
+                        Salary expectation
+                      </dt>
+                      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        $120,000
+                      </dd>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <dt class="text-sm font-medium text-gray-500">
+                        About
+                      </dt>
+                      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
+                      </dd>
+                    </div> -->
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <!-- <dt class="text-sm font-medium text-gray-500">
+                        Attachments
+                      </dt> -->
+                      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <ul role="list" class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                          <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                            <div class="w-0 flex-1 flex items-center">
+                              <!-- Heroicon name: solid/paper-clip -->
+                              <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                              </svg>
+                              <span class="ml-2 flex-1 w-0 truncate">
+                                resume_back_end_developer.pdf
+                              </span>
+                            </div>
+                            <div class="ml-4 flex-shrink-0">
+                              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+                                Download
+                              </a>
+                            </div>
+                          </li>
+                          <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                            <div class="w-0 flex-1 flex items-center">
+                              <!-- Heroicon name: solid/paper-clip -->
+                              <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                              </svg>
+                              <span class="ml-2 flex-1 w-0 truncate">
+                                coverletter_back_end_developer.pdf
+                              </span>
+                            </div>
+                            <div class="ml-4 flex-shrink-0">
+                              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+                                Download
+                              </a>
+                            </div>
+                          </li>
+                        </ul>
+                      </dd>
+                    </div>
+                  <!-- </dl> -->
+                </div>
+              </div>
+              {% endfor %}  
+            </main>
+        </div>
+    </div>
+
+<!-- AlpineJS -->
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+<!-- Font Awesome -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
+integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+<!-- ChartJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+
+</body>
+</html>
