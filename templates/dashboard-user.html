@@ -58,7 +58,7 @@
                                 Title Contains
                             </label>
                             <div class="md:w-2/3">
-                                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="search" placeholder="xyz">
+                                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="titlec" placeholder="xyz">
                             </div>
                         </div>
                     </div>
@@ -69,8 +69,8 @@
                             </label>
                             <div class="relative">
                                 <select
-                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                >
+                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id = "difficult" name = "difficult"
+                                id = "diff" name = "diff">
                                 <option></option>
                                 <option>Easy</option>
                                 <option>Medium</option>
@@ -92,7 +92,7 @@
                             <div class="relative">
                                 <select
                                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                >
+                                id = "nots" name = "nots">
                                 <option>equals</option>
                                 <option>less than</option>
                                 <option>greater than</option>
@@ -112,7 +112,7 @@
                                     Value
                                 </label>
                                 <div class="md:w-2/3">
-                                    <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-3 px-4 pr-8 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="search" placeholder="xyz">
+                                    <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-3 px-4 pr-8 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="value" placeholder="xyz">
                                 </div>
                             </div>
                         </div>
@@ -323,6 +323,51 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
 
 <script>
+    async function myFunction1(e) {
+      e.preventDefault()
+    //   alert(document.getElementById("wrt").value)
+    //   alert(document.getElementById("by").value)
+
+      if (document.getElementById("titlec").value === '' && document.getElementById("diff").value === '' && document.getElementById("value").value === '') {
+        alert("Oh bhaiiiii pura toh bharo")
+      }
+      else {
+        let data = {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            formid: 0,
+            titlec: document.getElementById("titlec").value,
+            diff: document.getElementById("diff").value,
+            nots: document.getElementById("nots").value,
+            value: document.getElementById("value").value
+          })
+        }
+        // alert("yo")
+        const reply = await fetch('/dashboard-user.html/', data)
+        if (reply.ok) {
+            const res = await reply.json()
+            // alert(JSON.parse(res))
+            // alert(res['res'])
+            window.location.assign('/dashboard-user.html/' + res)
+            // alert("Good hogya")
+        }    
+        // else{
+        //     alert("Bad hogya")
+        // }    
+            //   const data = await reply.json()
+        //   if (data['success'] === 'No') {
+        //     alert('There was some problem in sorting')
+            // window.location.replace('/dashboard-admin.html')
+        //   }
+        //   else if (data['success'] === 'Yes') {
+        //     window.location.replace('/dashboard-admin.html')
+        //   }
+        }
+      }
     async function myFunction2(e) {
       e.preventDefault()
     //   alert(document.getElementById("wrt").value)
@@ -341,17 +386,22 @@
           body: JSON.stringify({
             formid: 1,
             wrt: document.getElementById("wrt").value,
-            by: document.getElementById("by").value,
+            by: document.getElementById("by").value
           })
         }
         // alert("yo")
         const reply = await fetch('/dashboard-user.html/', data)
         if (reply.ok) {
-            alert("Good hogya")
+            const res = await reply[body]
+            // alert(JSON.parse(res))
+            // alert(res['res'])
+            alert(res)
+            window.location.assign(res)
+            // alert("Good hogya")
         }    
-        else{
-            alert("Bad hogya")
-        }    
+        // else{
+        //     alert("Bad hogya")
+        // }    
             //   const data = await reply.json()
         //   if (data['success'] === 'No') {
         //     alert('There was some problem in sorting')
@@ -362,6 +412,7 @@
         //   }
         }
       }
+
 </script>
     
 </body>

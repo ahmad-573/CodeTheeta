@@ -120,13 +120,34 @@ def delete_problem(id):
 
 
 # DASHBOARDS
+# @app.route('/dashboard-user.html/', methods=['POST', 'GET'], defaults={'res': None})
 @app.route('/dashboard-user.html/', methods=['POST', 'GET'])
 def dash_user():
     if request.method == "POST":
         content = request.get_json()
         if content['formid'] == 0:
-            pass
-            
+            cur = db.cursor(buffered=True)
+            s1 = 'select problem_id, title, difficulty, times_solved, statement from problem_set where'
+            if content['titlec'] != '':
+                s1 = s1 + ' title = ' + content['titlec']
+            if content['diff'] != '':
+                s1 = s1 + ' difficulty = ' + content['diff']
+            if content['value'] != '':
+                if content['nots'] == 'equals':
+                    s2 = ' = '
+                elif content['nots'] == 'less than':
+                    s2 = ' < '
+                elif content['nots'] == 'greater than':
+                    s2 = ' > '
+                elif content['nots'] == 'less than equal to':
+                    s2 = ' <= '
+                elif content['nots'] == 'greater than equal to':
+                    s2 = ' >= '
+                s1 = s1 + ' times_solved' + s2 + content['value']
+            cur.execute(s1)
+            result = cur.fetchall()
+            return render_template('dashboard-user.html', result=result)                 
+                               
         elif content['formid'] == 1:
             cur = db.cursor(buffered=True)
             if content['wrt']=='Num of time solved':
@@ -141,14 +162,43 @@ def dash_user():
                 str2 = 'desc'
             cur.execute('select problem_id, title, difficulty, times_solved, statement from problem_set order by '+str1 +' '+str2)
             result = cur.fetchall()
+            # print(result)
+            # return jsonify({'res':result})
+            return render_template('dashboard-user.html', result=result)
+            # return json.loads(' '.join(result))
 
     elif request.method == 'GET':
+        # if res == None:
         cur = db.cursor(buffered=True)
         cur.execute(
             "select problem_id, title, difficulty, times_solved, statement from problem_set")
         result = cur.fetchall()
+        return render_template('dashboard-user.html', result=result)
+        # else:
+        #     # result = res['res']
+        #     # a = json.loads(res)
+        #     # print('yooo')
+        #     # print(a['res'])
+        #     # a = json.dumps(res)[:][0]
+        #     # print(res)
+        #     l1 = res.split(",")
+        #     # print(l1)
+        #     l2 = []
+        #     l3 = []
+        #     k = 0
+        #     for i in range(len(l1)):
+        #         k+=1
+        #         l2.append(l1[i])
+        #         if(k == 5):
+        #             l3.append(tuple(l2))
+        #             l2 = []
+        #             k = 0
+                       
+            
+            # return render_template('dashboard-user.html', result = l3)
+            # return render_template('dashboard-user.html', result=l3)    
     # print('hello')    
-    return render_template('dashboard-user.html', result=result)
+    # return render_template('dashboard-user.html', result=result)
 
 
 @app.route('/dashboard-admin.html/',  methods=['POST', 'GET'])
