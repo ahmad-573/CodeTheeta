@@ -221,12 +221,23 @@ def dash_admin():
         elif content['formid'] == 1:
             x = update_problem(content)
             return jsonify(x)
+        elif content['formid'] == 2:
+            cur = db.cursor(buffered=True)
+            try:
+                cur.execute('insert into admin(referral_id,full_name,username,password) values(%s,%s,%s,%s)', ('1',content['fullname'],content['username'],content['password']))
+                db.commit()
+                success = 'Yes'
+            except:
+                success = 'No'
+            return jsonify({'success': success})
 
     cur = db.cursor(buffered=True)
     cur.execute(
         "select problem_id, title, difficulty, times_solved, statement from problem_set")
     result = cur.fetchall()
     return render_template('dashboard-admin.html', result=result)
+
+
 
 # IMAGE RENDERING
 

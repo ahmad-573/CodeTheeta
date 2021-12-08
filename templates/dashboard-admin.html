@@ -77,6 +77,9 @@
       <button class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onclick="toggle(2)">
         <i class="fas fa-edit mr-3"></i> Edit Problem
       </button>
+      <button class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onclick="toggle(3)">
+        <i class="fas fa-edit mr-3"></i> Create Admin
+      </button>
     </div>
     <nav class="text-white text-base font-semibold pt-3">
       <a href="/dashboard-admin.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
@@ -113,6 +116,41 @@
           <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
           <div class="modal-container bg-white w-11/12 h-3/4 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
             <button class="modal-close ml-3 mt-3 fixed block"><i class="far fa-times-circle text-red-800"></i></button>
+
+            <form method="POST" class="w-full max-w-lg p-8" style="display: none;" id="createAdmin">
+              <h1 class="text-xl text-black pb-6">Create Admin</h1>
+              <div class="flex flex-wrap -mx-3 mb-6">
+                  <div class="w-full px-3">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                      Full Name
+                    </label>
+                    <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="1" id="fullname" name= "id" placeholder="Enter Full Name"></textarea>
+                    <p class="text-gray-600 text-xs italic">Comment</p>
+                  </div>
+              </div>
+              <div class="flex flex-wrap -mx-3 mb-6">
+                  <div class="w-full px-3">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                      Username
+                    </label>
+                    <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="1" id="username" name="new" placeholder="Enter Username"></textarea>
+                    <p class="text-gray-600 text-xs italic">Comment</p>
+                  </div>
+              </div>
+              <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full px-3">
+                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                    Password
+                  </label>
+                  <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="1" id="password" name= "id" placeholder="Enter password" type="Password"></textarea>
+                  <p class="text-gray-600 text-xs italic">Comment</p>
+                </div>
+            </div>
+              <div class="flex justify-end pt-2">
+                <input type="submit" value="Create"
+                  class="modal-close px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2" onclick="myFunction2(event)">
+              </div>
+            </form>
 
             <form method="POST" class="w-full max-w-lg p-8" style="display: none;" id="editProblem">
               <h1 class="text-xl text-black pb-6">Edit Problem</h1>
@@ -436,14 +474,27 @@
       {
         var clockButton = document.getElementById('addProblem');
         clockButton.style.display = "block"
-        var clockButton = document.getElementById('editProblem');
+        clockButton = document.getElementById('editProblem');
+        clockButton.style.display = "none"
+        clockButton = document.getElementById('createAdmin');
         clockButton.style.display = "none"
       }
       else if (x === 2)
       {
         var clockButton = document.getElementById('addProblem');
         clockButton.style.display = "none"
-        var clockButton = document.getElementById('editProblem');
+        clockButton = document.getElementById('editProblem');
+        clockButton.style.display = "block"
+        clockButton = document.getElementById('createAdmin');
+        clockButton.style.display = "none"
+      }
+      else if (x === 3)
+      {
+        var clockButton = document.getElementById('addProblem');
+        clockButton.style.display = "none"
+        clockButton = document.getElementById('editProblem');
+        clockButton.style.display = "none"
+        clockButton = document.getElementById('createAdmin');
         clockButton.style.display = "block"
       }
     }
@@ -516,6 +567,40 @@
             id: document.getElementById("id").value,
             option: document.getElementById("options").value,
             new: document.getElementById("new").value,
+          })
+        }
+        // alert("yo")
+        const reply = await fetch('/dashboard-admin.html/', data)
+        if (reply.ok) {
+          const data = await reply.json()
+          if (data['success'] === 'No') {
+            alert('There was some problem in editing in the database')
+            // window.location.replace('/dashboard-admin.html')
+          }
+          else if (data['success'] === 'Yes') {
+            window.location.replace('/dashboard-admin.html')
+          }
+        }
+      }
+    }
+
+    async function myFunction2(e) {
+      e.preventDefault()
+      if (document.getElementById("username").value === '' || document.getElementById("password").value === '' || document.getElementById("fullname").value === '') {
+        alert("Oh bhaiiiii pura toh bharo")
+      }
+      else {
+        let data = {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            formid: 2,
+            username: document.getElementById("username").value,
+            fullname: document.getElementById("fullname").value,
+            password: document.getElementById("password").value,
           })
         }
         // alert("yo")

@@ -83,29 +83,6 @@
   
         <div class="w-full overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-              <!-- <h1 class="text-3xl text-black pb-6">Problemsets</h1>
-              <table>
-                  <tr>
-                      <th>Problem ID</th>
-                      <th>Title</th>
-                      <th>Difficulty</th>
-                      <th>Statement</th>
-                      <th>Test Case 1</th>
-                      <th>Output 1</th>
-                  </tr>
-                  {% for problem in result %}
-
-                      <tr>
-                          <td>{{ problem[0] }}</td>
-                          <td> {{ problem[1] }} </td>
-                          <td> {{ problem[2] }} </td>
-                          <td>{{ problem[3] }}</td>
-                          <td>{{ problem[4] }}</td>
-                          <td>{{ problem[5] }}</td>
-                      </tr>
-
-                  {% endfor %}
-              </table> -->
             <!-- This example requires Tailwind CSS v2.0+ -->
             {% for problem in result %}
               <div class="bg-white shadow overflow-hidden sm:rounded-lg">
@@ -123,75 +100,71 @@
                       <!-- <dt class="text-sm font-medium text-gray-500">
                         Full name
                       </dt> -->
-                      <textarea class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" rows="20" disabled>{{ problem[3] }}</textarea>
+                      <textarea class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-5" rows="20" disabled>{{ problem[3] }}</textarea>
                     </div>
                     <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                       <!-- <dt class="text-sm font-medium text-gray-500">
                         Application for
                       </dt> -->
-                      <textarea class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" rows="10" disabled>{{ problem[4] }}</textarea>
+                      <textarea class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-5" rows="10" disabled>{{ problem[4] }}</textarea>
                     </div>
                     <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                       <!-- <dt class="text-sm font-medium text-gray-500">
                         Email address
                       </dt> -->
-                      <textarea class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" rows="10" disabled>{{ problem[5] }}</textarea>
+                      <textarea class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-5" rows="10" disabled>{{ problem[5] }}</textarea>
                     </div>
-                    <!-- <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <dt class="text-sm font-medium text-gray-500">
-                        Salary expectation
-                      </dt>
-                      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        $120,000
-                      </dd>
-                    </div>
-                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <dt class="text-sm font-medium text-gray-500">
-                        About
-                      </dt>
-                      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
-                      </dd>
-                    </div> -->
                     <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                       <!-- <dt class="text-sm font-medium text-gray-500">
                         Attachments
                       </dt> -->
-                      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <ul role="list" class="border border-gray-200 rounded-md divide-y divide-gray-200">
-                          <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                            <div class="w-0 flex-1 flex items-center">
-                              <!-- Heroicon name: solid/paper-clip -->
-                              <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-5">
+                        <!-- file upload modal -->
+                        <article aria-label="File Upload Modal" class="relative h-full flex flex-col rounded-md" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" ondragleave="dragLeaveHandler(event);" ondragenter="dragEnterHandler(event);">
+                          <!-- overlay -->
+                          <div id="overlay" class="w-full h-full absolute top-0 left-0 pointer-events-none z-50 flex flex-col items-center justify-center rounded-md">
+                            <i>
+                              <svg class="fill-current w-12 h-12 mb-3 text-blue-700" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M19.479 10.092c-.212-3.951-3.473-7.092-7.479-7.092-4.005 0-7.267 3.141-7.479 7.092-2.57.463-4.521 2.706-4.521 5.408 0 3.037 2.463 5.5 5.5 5.5h13c3.037 0 5.5-2.463 5.5-5.5 0-2.702-1.951-4.945-4.521-5.408zm-7.479-1.092l4 4h-3v4h-2v-4h-3l4-4z" />
                               </svg>
-                              <span class="ml-2 flex-1 w-0 truncate">
-                                resume_back_end_developer.pdf
-                              </span>
-                            </div>
-                            <div class="ml-4 flex-shrink-0">
-                              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-                                Download
-                              </a>
-                            </div>
-                          </li>
-                          <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                            <div class="w-0 flex-1 flex items-center">
-                              <!-- Heroicon name: solid/paper-clip -->
-                              <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
-                              </svg>
-                              <span class="ml-2 flex-1 w-0 truncate">
-                                coverletter_back_end_developer.pdf
-                              </span>
-                            </div>
-                            <div class="ml-4 flex-shrink-0">
-                              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-                                Download
-                              </a>
-                            </div>
-                          </li>
-                        </ul>
+                            </i>
+                            <p class="text-lg text-blue-700">Drop files to upload</p>
+                          </div>
+
+                          <!-- scroll area -->
+                          <section class="h-full overflow-auto p-8 w-full h-full flex flex-col">
+                            <header class="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
+                              <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
+                                <span>Drag and drop your</span>&nbsp;<span>files anywhere or</span>
+                              </p>
+                              <input id="hidden-input" type="file" multiple class="hidden" />
+                              <button id="button" class="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
+                                Upload a file
+                              </button>
+                            </header>
+
+                            <h1 class="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
+                              To Upload
+                            </h1>
+
+                            <ul id="gallery" class="flex flex-1 flex-wrap -m-1">
+                              <li id="empty" class="h-full w-full text-center flex flex-col items-center justify-center items-center">
+                                <img class="mx-auto w-32" src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png" alt="no data" />
+                                <span class="text-small text-gray-500">No files selected</span>
+                              </li>
+                            </ul>
+                          </section>
+
+                          <!-- sticky footer -->
+                          <footer class="flex justify-end px-8 pb-8 pt-4">
+                            <button id="submit" class="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none">
+                              Upload now
+                            </button>
+                            <button id="cancel" class="ml-3 rounded-sm px-3 py-1 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
+                              Cancel
+                            </button>
+                          </footer>
+                        </article>
                       </dd>
                     </div>
                   <!-- </dl> -->
