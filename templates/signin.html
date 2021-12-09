@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="w-full mt-16 md:mt-0 md:w-2/5">
-                    <form method="POST" id="signin-form">
+                    <form method="GET" id="signin-form">
                         <div class="relative z-10 h-auto p-8 py-10 overflow-hidden bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7">
                             <h3 class="mb-6 text-2xl font-medium text-center">Sign in to your Account</h3>
 
@@ -75,31 +75,34 @@
                 alert("Oh bhaiiiii empty form")
             }
             else {
-                let data = {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        username: document.getElementById("username").value,
-                        password: document.getElementById("password").value,
-                        selection: String(selectedValue)
-                    })
+                // let data = {
+                //     method: 'POST',
+                //     headers: {
+                //         'Accept': 'application/json',
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify({
+                //         username: document.getElementById("username").value,
+                //         password: document.getElementById("password").value,
+                //         selection: String(selectedValue)
+                //     })
 
-                }
-                const reply = await fetch('/signin.html/', data)
+                // }
+                const reply = await fetch('/signin.html?username=' + document.getElementById("username").value + '&password=' + document.getElementById("password").value + '&selection=' + String(selectedValue))
                 if (reply.ok) {
                     const data = await reply.json()
                     if (data['valid'] === 'No') {
                         alert('Bhaiii pehle account create karo ya phir details theek enter karo')
                     }
                     else if (data['valid'] === 'Yes') {
+                        window.sessionStorage.token = data['token']
+                        // alert(data['token'])
+                        // alert(window.sessionStorage.token)
                         if (data['type'] === 'Solver') {
-                            window.location.assign('/dashboard-user.html')
+                            window.location.replace('/dashboard-user.html?token=' + window.sessionStorage.token)
                         }
                         else if (data['type'] === 'Admin') {
-                            window.location.assign('/dashboard-admin.html')
+                            window.location.replace('/dashboard-admin.html?token=' + window.sessionStorage.token)
                         }
                     }
                 }
