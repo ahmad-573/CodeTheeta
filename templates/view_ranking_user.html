@@ -1,0 +1,208 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ranking</title>
+        <meta name="description" content="">
+    
+        <!-- Tailwind -->
+        <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+        <style>
+        @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+    
+        .font-family-karla {
+            font-family: karla;
+        }
+    
+        .bg-sidebar {
+            background: #3d68ff;
+        }
+    
+        .cta-btn {
+            color: #3d68ff;
+        }
+    
+        .upgrade-btn {
+            background: #1947ee;
+        }
+    
+        .upgrade-btn:hover {
+            background: #0038fd;
+        }
+    
+        .active-nav-link {
+            background: #1947ee;
+        }
+    
+        .nav-item:hover {
+            background: #1947ee;
+        }
+    
+        .account-link:hover {
+            background: #3d68ff;
+        }
+        </style>
+    </head>
+    
+    <body class="bg-gray-100 font-family-karla flex">
+        <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
+            <!-- <div class="p-6">
+                <a href="/dashboard-user.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Home</a>
+                <button class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onclick="toggle(1)">
+                <i class="fas fa-plus mr-3"></i> Add Problem
+                </button>
+                <button class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onclick="toggle(2)">
+                <i class="fas fa-edit mr-3"></i> Edit Problem
+                </button>
+            </div> -->
+            <nav class="text-white text-base font-semibold pt-3">
+                <a href="/dashboard-user.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+                <i class="far fa-question-circle mr-3"></i>
+                Problemset
+                </a>
+                <a href="/view_ranking_user.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+                    <i class="far fa-question-circle mr-3"></i>
+                    View Ranking
+                </a>
+            </nav>
+        </aside>
+        
+        <div class="w-full flex flex-col h-screen overflow-y-hidden">
+            <!-- Desktop Header -->
+            <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
+                <div class="w-1/2"></div>
+                <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
+                <button @click="isOpen = !isOpen"
+                    class="realtive w-12 h-12 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
+                    <i class="far fa-user-circle text-3xl text-blue-500 hover:text-blue-300"></i>
+                </button>
+                <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
+                <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
+                    <a href="/" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
+                </div>
+                </div>
+            </header>
+        
+            <div class="w-full overflow-x-hidden border-t flex flex-col">
+                <main class="w-full flex-grow p-6">
+                    <div class="flex flex-col">
+                        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                <div
+                                    class="
+                                    shadow
+                                    overflow-hidden
+                                    border-b border-gray-200
+                                    sm:rounded-lg
+                                    "
+                                >
+                                <table class="min-w-full divide-y divide-gray-200" id="problemTable">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                        <th
+                                            scope="col"
+                                            class="
+                                            px-6
+                                            py-3
+                                            text-left text-xs
+                                            font-medium
+                                            text-gray-500
+                                            uppercase
+                                            tracking-wider
+                                            "
+                                        >
+                                            Rank
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="
+                                            px-6
+                                            py-3
+                                            text-left text-xs
+                                            font-medium
+                                            text-gray-500
+                                            uppercase
+                                            tracking-wider
+                                            "
+                                        >
+                                            Username
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="
+                                            px-6
+                                            py-3
+                                            text-left text-xs
+                                            font-medium
+                                            text-gray-500
+                                            uppercase
+                                            tracking-wider
+                                            "
+                                        >
+                                            Full Name
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="
+                                            px-6
+                                            py-3
+                                            text-left text-xs
+                                            font-medium
+                                            text-gray-500
+                                            uppercase
+                                            tracking-wider
+                                            "
+                                        >
+                                            Points
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        {% for i in range(result|length) %}
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">
+                                                    {{i+1}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm">
+                                            {{ result[i][0]}}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-500">
+                                            {{ result[i][1] }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ result[i][2] }}
+                                        </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    </table>
+                        </main>
+                    </div>
+        </div>
+    
+    <!-- AlpineJS -->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
+    integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+    <!-- ChartJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+    integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+    
+    </body>
+    </html>
+        
+    

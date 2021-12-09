@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking</title>
+    <meta name="description" content="">
+
+    <!-- Tailwind -->
+    <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+    @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+
+    .font-family-karla {
+        font-family: karla;
+    }
+
+    .bg-sidebar {
+        background: #3d68ff;
+    }
+
+    .cta-btn {
+        color: #3d68ff;
+    }
+
+    .upgrade-btn {
+        background: #1947ee;
+    }
+
+    .upgrade-btn:hover {
+        background: #0038fd;
+    }
+
+    .active-nav-link {
+        background: #1947ee;
+    }
+
+    .nav-item:hover {
+        background: #1947ee;
+    }
+
+    .account-link:hover {
+        background: #3d68ff;
+    }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-family-karla flex">
+    <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
+        <div class="p-6">
+            <a href="/dashboard-admin.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Home</a>
+            <button class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+                <i class="fas fa-edit mr-3"></i> Edit Points
+            </button>
+        </div>
+        <nav class="text-white text-base font-semibold pt-3">
+            <a href="/dashboard-admin.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+            <i class="far fa-question-circle mr-3"></i>
+            Problemset
+            </a>
+            <a href="/view_ranking_admin.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+                <i class="far fa-question-circle mr-3"></i>
+                View Ranking
+            </a>
+        </nav>
+    </aside>
+    
+    <div class="w-full flex flex-col h-screen overflow-y-hidden">
+        <!-- Desktop Header -->
+        <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
+            <div class="w-1/2"></div>
+            <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
+            <button @click="isOpen = !isOpen"
+                class="realtive w-12 h-12 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
+                <i class="far fa-user-circle text-3xl text-blue-500 hover:text-blue-300"></i>
+            </button>
+            <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
+            <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
+                <a href="/" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
+            </div>
+            </div>
+        </header>
+    
+        <div class="w-full overflow-x-hidden border-t flex flex-col">
+            <main class="w-full flex-grow p-6">
+                <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                        <div class="modal-container bg-white w-11/12 h-3/4 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                            <button class="modal-close ml-3 mt-3 fixed block"><i class="far fa-times-circle text-red-800"></i></button>
+                            <form method="POST" class="w-full max-w-lg p-8" id="editProblem">
+                                <h1 class="text-xl text-black pb-6">Edit Points</h1>
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                                        User ID
+                                        </label>
+                                        <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="1" id="id" name= "id" placeholder="Enter User ID"></textarea>
+                                        <p class="text-gray-600 text-xs italic">Comment</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full px-3">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                                        New Points
+                                        </label>
+                                        <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="1" id="new" name="new" placeholder="Enter new data"></textarea>
+                                        <p class="text-gray-600 text-xs italic">Comment</p>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end pt-2">
+                                    <input type="submit" value="Update"
+                                    class="modal-close px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2" onclick="myFunction1(event)">
+                                </div>
+                            </form>
+                        </div>
+                        </div>
+                <div class="flex flex-col">
+                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                            <div
+                                class="
+                                shadow
+                                overflow-hidden
+                                border-b border-gray-200
+                                sm:rounded-lg
+                                "
+                            >
+                            <table class="min-w-full divide-y divide-gray-200" id="problemTable">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                    <th
+                                        scope="col"
+                                        class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
+                                        "
+                                    >
+                                        Rank
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
+                                        "
+                                    >
+                                        User ID
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
+                                        "
+                                    >
+                                        Username
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
+                                        "
+                                    >
+                                        Full Name
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
+                                        "
+                                    >
+                                        Points
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                {% for i in range(result|length) %}
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">
+                                                {{i+1}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm">
+                                        {{ result[i][3]}}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm">
+                                        {{ result[i][0]}}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500">
+                                        {{ result[i][1] }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ result[i][2] }}
+                                    </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                </table>
+                    </main>
+                </div>
+    </div>
+
+<!-- AlpineJS -->
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+<!-- Font Awesome -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
+integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+<!-- ChartJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+<script>
+    var openmodal = document.querySelectorAll('.modal-open')
+    for (var i = 0; i < openmodal.length; i++) {
+      openmodal[i].addEventListener('click', function (event) {
+        event.preventDefault()
+        toggleModal()
+      })
+    }
+
+    const overlay = document.querySelector('.modal-overlay')
+    overlay.addEventListener('click', toggleModal)
+
+    var closemodal = document.querySelectorAll('.modal-close')
+    for (var i = 0; i < closemodal.length; i++) {
+      closemodal[i].addEventListener('click', toggleModal)
+    }
+
+    document.onkeydown = function (evt) {
+      evt = evt || window.event
+      var isEscape = false
+      if ("key" in evt) {
+        isEscape = (evt.key === "Escape" || evt.key === "Esc")
+      } else {
+        isEscape = (evt.keyCode === 27)
+      }
+      if (isEscape && document.body.classList.contains('modal-active')) {
+        toggleModal()
+      }
+    };
+
+
+    function toggleModal() {
+      const body = document.querySelector('body')
+      const modal = document.querySelector('.modal')
+      modal.classList.toggle('opacity-0')
+      modal.classList.toggle('pointer-events-none')
+      body.classList.toggle('modal-active')
+    }
+
+    function toggle(x)
+    {
+      if (x === 1)
+      {
+        var clockButton = document.getElementById('addProblem');
+        clockButton.style.display = "block"
+        var clockButton = document.getElementById('editProblem');
+        clockButton.style.display = "none"
+      }
+      else if (x === 2)
+      {
+        var clockButton = document.getElementById('addProblem');
+        clockButton.style.display = "none"
+        var clockButton = document.getElementById('editProblem');
+        clockButton.style.display = "block"
+      }
+    }
+</script>
+<script>
+    async function myFunction1(e) {
+      e.preventDefault()
+      if (document.getElementById("new").value === '' || document.getElementById("id").value === '') {
+        alert("Oh bhaiiiii pura toh bharo")
+      }
+      else {
+        let data = {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            formid: 1,
+            id: document.getElementById("id").value,
+            //option: document.getElementById("options").value,
+            new: document.getElementById("new").value,
+          })
+        }
+        // alert("yo")
+        const reply = await fetch('/view_ranking_admin.html/', data)
+        if (reply.ok) {
+          const data = await reply.json()
+          if (data['success'] === 'No') {
+            alert('There was some problem in editing in the database')
+            // window.location.replace('/dashboard-admin.html')
+          }
+          else if (data['success'] === 'Yes') {
+            window.location.replace('/view_ranking_admin.html')
+          }
+        }
+      }
+    }
+</script>
+
+</body>
+</html>
+    
