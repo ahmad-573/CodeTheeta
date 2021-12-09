@@ -100,11 +100,12 @@
                     else if (data['valid'] === 'Yes') {
                         if (data['type'] === 'Solver') {
                             // window.sessionStorage.token = data['token']
+                            
                             window.location.replace('/dashboard-user.html')
                         }
                         else if (data['type'] === 'Admin') {
                             // window.sessionStorage.token = data['token']
-                            window.location.assign('/dashboard-admin.html')
+                            window.location.replace('/dashboard-admin.html')
                         }
                     }
                 }
