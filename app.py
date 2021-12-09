@@ -1,3 +1,4 @@
+from os import close
 from flask import Flask, render_template, url_for, request, redirect, send_from_directory, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date
@@ -5,6 +6,8 @@ from flaskext.mysql import MySQL
 import mysql.connector
 from json import dumps, loads
 from types import SimpleNamespace
+import subprocess
+from sys import stderr, stdin, stdout
 
 from werkzeug.utils import send_file
 
@@ -238,10 +241,16 @@ def dash_admin():
     return render_template('dashboard-admin.html', result=result)
 
 
+def run_file():
+    inp = open('input.txt','r')
+    open('output.txt','w')
+    for line in inp:
+        with open('output.txt','a') as f:
+            p = subprocess.Popen('python file.py', shell=True, stdout=f, stdin=subprocess.PIPE ,text=True)
+            p.communicate(line)
 
-# IMAGE RENDERING
-def run_file(inputs):
-    
+# # IMAGE RENDERING
+
 
 
 
