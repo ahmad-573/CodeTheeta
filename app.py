@@ -229,6 +229,9 @@ def dash_admin():
     return render_template('dashboard-admin.html', result=result)
 
 # IMAGE RENDERING
+def run_file(inputs):
+    
+
 
 
 @app.route('/res/<name>', methods=["GET"])
