@@ -503,8 +503,6 @@
 <script>
     async function myFunction() {
       var x;
-      // const nicEditor = nicEditors.findEditor('statement').getContent();
-      // alert(document.getElementById('difficulty').value)
       if (document.getElementById('difficulty').value === "Easy") {
         x = 1
       }
@@ -537,14 +535,15 @@
           })
         }
         // alert(data[o1])
-        const reply = await fetch('/dashboard-admin.html/', data)
+        const reply = await fetch('/dashboard-admin.html?token=' + window.sessionStorage.token, data)
+        // window.location.replace('/dashboard-admin.html?title=' + document.getElementById('title').value + '&statement=' + document.getElementById('statement').value + '&tc1=' + document.getElementById('tc1').value + '&tc2=' + document.getElementById('tc2').value)
         if (reply.ok) {
           const data = await reply.json()
           if (data['success'] === 'No') {
             alert('There was some problem in adding to database')
           }
           else if (data['success'] === 'Yes') {
-            window.location.replace('/dashboard-admin.html')
+            window.location.replace('/dashboard-admin.html?token=' + window.sessionStorage.token)
           }
         }
       }

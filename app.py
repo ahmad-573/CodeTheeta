@@ -136,19 +136,20 @@ def update_problem(content):
     elif content['option']=='Difficulty':
         str1 = 'difficulty'
     cur.execute("select * from problem_set where problem_id = "+str(str3))
-    if len(cur.fetchall())== 0:
-        success = 'No'
-    else:
+    if len(cur.fetchall())!= 0:
         try:
-            
             cur.execute("update problem_set set "+str1+" = '"+ str(str2) +"' where problem_id = "+str(str3))
             db.commit()
-            success = 'Yes'
         except:
-            success = 'No'
-            # print("Yooo")
-    return {'success': success}
-    
+            pass
+
+def diff_str_to_int(diff):
+    if(diff == 'Easy'):
+        return 1
+    elif(diff == "Medium"):
+        return 2
+    elif(diff == "Hard"):
+        return 3                 
 
 @app.route('/delete_problem/<int:id>')
 def delete_problem(id):
@@ -177,9 +178,9 @@ def dash_user():
         cur = db.cursor(buffered=True)
         s1 = 'select problem_id, title, difficulty, times_solved, statement from problem_set where'
         if request.args.get('titlec') != '':
-            s1 = s1 + ' title = ' + request.args.get('titlec')
+            s1 = s1 + " title like '%" + request.args.get('titlec') + "%'"
         if request.args.get('diff') != '':
-            s1 = s1 + ' difficulty = ' + request.args.get('diff')
+            s1 = s1 + ' and difficulty = ' + str(diff_str_to_int(request.args.get('diff')))
         if request.args.get('value') != '':
             if request.args.get('nots') == 'equals':
                 s2 = ' = '
@@ -191,12 +192,12 @@ def dash_user():
                 s2 = ' <= '
             elif request.args.get('nots') == 'greater than equal to':
                 s2 = ' >= '
-            s1 = s1 + ' times_solved' + s2 + request.args.get('value')
+            s1 = s1 + ' and times_solved' + s2 + request.args.get('value')
+        print(s1)    
         cur.execute(s1)
         result = cur.fetchall()   
 
     elif int(formid) == 1:
-        
         cur = db.cursor(buffered=True)
         if request.args.get('wrt')=='Num of time solved':
             str1 = 'times_solved'
@@ -263,36 +264,36 @@ def dash_admin():
         cur.execute("select problem_id, title, difficulty, times_solved, statement from problem_set")
         result = cur.fetchall()
     
-    # if request.method == "POST":
-    #     content = request.get_json()
-        # print(content['title'])
-        # print("hello")
-    elif formid == 0:
+    elif int(formid) == 0:
         cur = db.cursor(buffered=True)
         try:
             cur.execute('insert into problem_set(title,difficulty, statement, test_case1, test_case2, output1, output2) values(%s,%s,%s,%s, %s,%s,%s)',
                         (request.args.get('title'), request.args.get('difficulty'), request.args.get('statement'), request.args.get('tc1'), request.args.get('tc2'), request.args.get('o1'), request.args.get('o2')))
             db.commit()
-            success = 'Yes'
         except:
-            success = 'No'
-        return jsonify({'success': success})
-    elif formid == 1:
+            pass
+        cur.execute("select problem_id, title, difficulty, times_solved, statement from problem_set")
+        result = cur.fetchall()
+    
+    elif int(formid) == 1:
         content = {}
         content['new'] = request.args.get('new')
         content['option'] = request.args.get('option')
         content['id'] = request.args.get('id')
-        x = update_problem(content)
-        return jsonify(x)
-    elif formid == 2:
+        update_problem(content)
+        cur = db.cursor(buffered=True)
+        cur.execute("select problem_id, title, difficulty, times_solved, statement from problem_set")
+        result = cur.fetchall()
+
+    elif int(formid) == 2:
         cur = db.cursor(buffered=True)
         try:
             cur.execute('insert into admin(referral_id,full_name,username,password) values(%s,%s,%s,%s)', ('1',request.args.get('fullname'), request.args.get('username'), request.args.get('password')))
             db.commit()
-            success = 'Yes'
         except:
-            success = 'No'
-        return jsonify({'success': success})
+            pass
+        cur.execute("select problem_id, title, difficulty, times_solved, statement from problem_set")
+        result = cur.fetchall()
     return render_template('dashboard-admin.html', result=result)
 
 
