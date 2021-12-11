@@ -59,10 +59,12 @@
             </button>
         </div> -->
         <nav class="text-white text-base font-semibold pt-3">
-            <a href="/dashboard-user.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+            <!-- <a href="/dashboard-user.html?token=" + window.sessionStorage.token class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
             <i class="far fa-question-circle mr-3"></i>
             Problemset
-            </a>
+            </a> -->
+            <button type="button" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item"
+                onclick="onProblem(event)"> <i class="far fa-question-circle mr-3"></i>Problemset</button>
         </nav>
     </aside>
   
@@ -76,23 +78,27 @@
                 <i class="far fa-user-circle text-3xl text-blue-500 hover:text-blue-300"></i>
             </button>
             <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
-            <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
+            <!-- <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
                 <a href="/" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
-            </div>
+            </div> -->
             </div>
         </header>
   
         <div class="w-full overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
             <!-- This example requires Tailwind CSS v2.0+ -->
-            {% for problem in result %}
               <div class="bg-white shadow overflow-hidden sm:rounded-lg">
                 <div class="px-4 py-5 sm:px-6">
                   <h3 class="flex text-lg leading-6 font-medium text-gray-900 justify-center">
                     {{ problem[0] }}
                   </h3>
                   <p class="flex mt-1 text-sm text-gray-500 justify-center">
-                    {{ problem[1] }}
+                    {{ problem[1] }} 
+                    
+                  </p>
+                  <p class="flex mt-1 text-sm text-gray-500 justify-center">
+                    Your max score for this problem is {{score}} 
+                    
                   </p>
                 </div>
                 <div class="border-t border-gray-200">
@@ -161,14 +167,13 @@
                         </article>
                       </dd>
                     </div> -->
-                    <form action='/run_code.html/{{ problem[0] }}' method=post enctype=multipart/form-data>
-                      <input type=file name=file>
-                      <input type=submit value=Upload>
+                    <form method='POST' enctype='multipart/form-data'>
+                      <input type='file' name='file' id='file'>
+                      <input type='submit' value='Upload' onclick="file_func(event,{{problem[0]}})">
                     </form>
                   <!-- </dl> -->
                 </div>
               </div>
-              {% endfor %}  
             </main>
         </div>
     </div>
@@ -181,6 +186,39 @@ integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="ano
 <!-- ChartJS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
 integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+
+<script>
+  function onProblem(e) {
+            e.preventDefault()
+            window.location.assign('/dashboard-user.html?token=' + window.sessionStorage.token)
+        }
+
+  async function file_func(e,id){
+        if (document.getElementById("file").value === '') {
+          alert("File to daalo bhaii")
+      }
+      else {
+        let data = {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            file: document.getElementById("file").value
+            
+          })
+        }
+        // alert("yo")
+        const reply = await fetch('/view_problem_user.html/?id=' + String(id) + '&token=' + window.sessionStorage.token, data)
+        if (reply.ok) {
+          const data = await reply.json()
+          alert(data['verdict'])
+        }
+      }
+        
+  }
+</script>
 
 </body>
 </html>
