@@ -160,7 +160,7 @@ def delete_problem(id):
 
 # DASHBOARDS
 # @app.route('/dashboard-user.html/', methods=['POST', 'GET'], defaults={'res': None})
-@app.route('/dashboard-user.html/', methods=['POST', 'GET'])
+@app.route('/dashboard-user.html/')
 def dash_user():
     # print(request.args.get("token"))
     token = decode_token(request.args.get("token"))
@@ -252,7 +252,7 @@ def update_points(content):
     return {'success':success}
         
 
-@app.route('/dashboard-admin.html/',  methods=['POST', 'GET'])
+@app.route('/dashboard-admin.html/')
 def dash_admin():
     token = decode_token(request.args.get("token"))
     if(token == 'Invalid'):
