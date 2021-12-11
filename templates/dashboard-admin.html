@@ -5,25 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
-
   <meta name="description" content="">
-  <!-- <script src="https://cdn.tiny.cloud/1/8qkuiv0jawlfdszgg4k612a8ohtrs0146kgjpgh6jfmzy6bz/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-  <script>
-    tinymce.init({
-      selector: 'textarea',
-      plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-      toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
-      toolbar_mode: 'floating',
-      tinycomments_mode: 'embedded',
-      tinycomments_author: 'Author name',
-    });
-  </script> -->
-
-  <!-- <script type="text/javascript" src="//js.nicedit.com/nicEdit-latest.js"></script> 
-  <script type="text/javascript">
- 
-        bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
-  </script> -->
 
   <!-- Tailwind -->
   <!-- <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet"> -->
@@ -68,7 +50,7 @@
 <body class="bg-gray-100 font-family-karla flex">
   <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
     <div class="p-6">
-      <a href="/dashboard-admin.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
+      <span class="text-white text-3xl font-semibold uppercase">Admin</span>
       <button
         class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center"
         onclick="toggle(1)">
@@ -89,14 +71,14 @@
       </button>
     </div>
     <nav class="text-white text-base font-semibold pt-3">
-      <a href="/dashboard-admin.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+      <button class="flex items-center bg-blue-800 w-full text-white py-4 pl-6" onclick="onRefreshToAdmin(event)">
         <i class="far fa-question-circle mr-3"></i>
         Problemset
-      </a>
-      <a href="/view_ranking_admin.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+      </button>
+      <button class="flex items-center text-white py-4 pl-6" onclick="onRefreshToRanking(event)">
         <i class="far fa-question-circle mr-3"></i>
         View Ranking
-      </a>
+      </button>
     </nav>
   </aside>
 
@@ -659,6 +641,16 @@
           }
         }
       }
+    }
+
+    function onRefreshToAdmin(e){
+        e.preventDefault()
+        window.location.assign('/dashboard-admin.html?token=' + window.sessionStorage.token)
+    }
+
+    function onRefreshToRanking(e){
+        e.preventDefault()
+        window.location.assign('/view_ranking_admin.html?token=' + window.sessionStorage.token)
     }
   </script>
 </body>
