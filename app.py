@@ -8,11 +8,14 @@ from json import dumps, loads
 from types import SimpleNamespace
 import subprocess
 from sys import stderr, stdin, stdout
+from werkzeug.utils import secure_filename
+import os
 
 import jwt
 from base64 import b64encode
 from os import urandom
 from werkzeug.utils import send_file
+
 
 random_bytes = urandom(64)
 key = b64encode(random_bytes).decode('utf-8')
@@ -40,6 +43,8 @@ app.config['MYSQL_USER'] = 'project_user'
 app.config['MYSQL_PASSWORD'] = 'password123'
 app.config['MYSQL_DB'] = 'ct_db'
 app.secret_key = key
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 db = mysql.connector.connect(
     user='project_user', database='ct_db', password='password123')
@@ -106,6 +111,30 @@ def view_problem_user(id):
         "select problem_id,title,difficulty,statement,test_case1,output1 from problem_set where problem_id = '" + str(id) + "'")
     result = cur.fetchall()
     return render_template('view_problem_user.html', result=result)
+
+@app.route('/run_code.html/<int:id>', methods=['GET','POST'])
+def run_code(id):
+    if request.method == 'POST':
+        file = request.files['file']
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'file.py'))
+        cur = db.cursor(buffered=True)
+        cur.execute(
+        "select problem_id,title,difficulty,statement,test_case1,output1 from problem_set where problem_id = '" + str(id) + "'")
+        result1 = cur.fetchall()
+
+        cur.execute(
+        "select test_case2,output2 from problem_set where problem_id = '" + str(id) + "'")
+        result2 = cur.fetchall()
+        open('input.txt','w')
+        input_file = open('input.txt','a')
+        input_string = result2[0][0]
+        input_file.write(input_string)
+        input_file.close()
+        run_file()
+
+        return render_template('view_problem_user.html',result=result1)
+    else:  
+        return render_template('run_code.html')
 
 @app.route('/view_problem_admin/<int:id>')
 def view_problem_admin(id):
@@ -250,7 +279,7 @@ def update_points(content):
         except:
             success = 'No'
     return {'success':success}
-        
+    
 
 @app.route('/dashboard-admin.html/')
 def dash_admin():
@@ -299,10 +328,14 @@ def dash_admin():
 def run_file():
     inp = open('input.txt','r')
     open('output.txt','w')
+
+    input_str = ''
     for line in inp:
-        with open('output.txt','a') as f:
-            p = subprocess.Popen('python file.py', shell=True, stdout=f, stdin=subprocess.PIPE ,text=True)
-            p.communicate(line)
+        input_str = input_str + ' ' + line
+
+    with open('output.txt','a') as f:
+        p = subprocess.Popen('python uploads/file.py', shell=True, stdout=f, stdin=subprocess.PIPE ,text=True)
+        p.communicate(input_str)
 
 # # IMAGE RENDERING
 
