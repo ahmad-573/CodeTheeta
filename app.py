@@ -105,7 +105,7 @@ def signin():
                 return jsonify({'valid': 'Yes', 'type': 'Solver', 'token': encode_token(users[0][0], 'Solver')})
 
 
-@app.route('/view_problem_user/')
+@app.route('/view_problem_user.html/')
 def view_problem_user():
     token = decode_token(request.args.get("token"))
     if(token == 'Invalid'):
@@ -118,7 +118,7 @@ def view_problem_user():
     return render_template('view_problem_user.html', result=result)
 
 
-@app.route('/view_problem_admin/')
+@app.route('/view_problem_admin.html/')
 def view_problem_admin():
     token = decode_token(request.args.get("token"))
     if(token == 'Invalid'):

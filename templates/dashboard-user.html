@@ -285,7 +285,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <button type="button" class="text-sm text-blue-500 underline"
-                onclick="onProblem(event, {{ problem[0]}})"> <i class="far fa-question-circle mr-3"></i>{{problem[1]}}</button>
+                onclick="onProblem(event, {{ problem[0] }})"> <i class="far fa-question-circle mr-3"></i>{{problem[1]}}</button>
                                 <!-- <a href='/view_problem_user?id={{problem[0]}}&token=' + window.sessionStorage.token>
                                     <div class="text-sm text-blue-500 underline">
                                         {{problem[1]}}
@@ -399,8 +399,7 @@
         }
         function onProblem(e,id) {
             e.preventDefault()
-            alert(typeof(String(id)))
-            window.location.assign('/view_problem_user.html?id='+ String(id)+ '&token=' + window.sessionStorage.token)
+            window.location.assign('/view_problem_user.html?id=' + String(id)+ '&token=' + window.sessionStorage.token)
         }
     </script>
 
