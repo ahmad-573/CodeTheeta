@@ -17,6 +17,7 @@ from werkzeug.utils import send_file
 random_bytes = urandom(64)
 key = b64encode(random_bytes).decode('utf-8')
 
+
 def encode_token(userid, type_user):
     try:
         payload = {'userid': userid, 'type_user': type_user}
@@ -27,11 +28,10 @@ def encode_token(userid, type_user):
 
 def decode_token(token):
     try:
-        payload = jwt.decode(token, key, algorithms = 'HS256')
+        payload = jwt.decode(token, key, algorithms='HS256')
         return payload['userid'], payload['type_user']
     except jwt.InvalidTokenError:
         return "Invalid"
-
 
 
 app = Flask(__name__)
@@ -71,12 +71,12 @@ def signup():
     return render_template('signup.html')
 
 
-@app.route('/signin.html/', methods=["GET"])
+@app.route('/signin.html/')
 def signin():
     username = request.args.get("username")
     if(username is None):
         return render_template('signin.html')
-    else:   
+    else:
         password = request.args.get("password")
         selection = request.args.get("selection")
         cur = db.cursor(buffered=True)
@@ -107,6 +107,7 @@ def view_problem_user(id):
     result = cur.fetchall()
     return render_template('view_problem_user.html', result=result)
 
+
 @app.route('/view_problem_admin/<int:id>')
 def view_problem_admin(id):
     cur = db.cursor(buffered=True)
@@ -116,32 +117,37 @@ def view_problem_admin(id):
     return render_template('view_problem_admin.html', result=result)
 
 
-
 def update_problem(content):
     cur = db.cursor(buffered=True)
     str2 = content['new']
     str3 = content['id']
-    if content['option']=='Title':
+    if content['option'] == 'Title':
         str1 = 'title'
-    elif content['option']=='Statement':
+    elif content['option'] == 'Statement':
         str1 = 'statement'
-    elif content['option']=='Test Case 1':
+    elif content['option'] == 'Test Case 1':
         str1 = 'test_case1'
-    elif content['option']=='Test Case 2':
+    elif content['option'] == 'Test Case 2':
         str1 = 'test_case2'
-    elif content['option']=='Output 1':
+    elif content['option'] == 'Output 1':
         str1 = 'output1'
-    elif content['option']=='Output 2':
+    elif content['option'] == 'Output 2':
         str1 = 'output2'
-    elif content['option']=='Difficulty':
+    elif content['option'] == 'Difficulty':
         str1 = 'difficulty'
     cur.execute("select * from problem_set where problem_id = "+str(str3))
-    if len(cur.fetchall())!= 0:
+    if len(cur.fetchall()) == 0:
+        success = 'No'
+    else:
         try:
-            cur.execute("update problem_set set "+str1+" = '"+ str(str2) +"' where problem_id = "+str(str3))
+            cur.execute("update problem_set set "+str1+" = '" +
+                        str(str2) + "' where problem_id = "+str(str3))
             db.commit()
+            success = 'Yes'
         except:
-            pass
+            success = "No"
+    return {'success': success}
+
 
 def diff_str_to_int(diff):
     if(diff == 'Easy'):
@@ -149,7 +155,8 @@ def diff_str_to_int(diff):
     elif(diff == "Medium"):
         return 2
     elif(diff == "Hard"):
-        return 3                 
+        return 3
+
 
 @app.route('/delete_problem/<int:id>')
 def delete_problem(id):
@@ -171,7 +178,8 @@ def dash_user():
     formid = request.args.get('formid')
     if formid is None:
         cur = db.cursor(buffered=True)
-        cur.execute("select problem_id, title, difficulty, times_solved, statement from problem_set")
+        cur.execute(
+            "select problem_id, title, difficulty, times_solved, statement from problem_set")
         result = cur.fetchall()
 
     elif int(formid) == 0:
@@ -180,7 +188,8 @@ def dash_user():
         if request.args.get('titlec') != '':
             s1 = s1 + " title like '%" + request.args.get('titlec') + "%'"
         if request.args.get('diff') != '':
-            s1 = s1 + ' and difficulty = ' + str(diff_str_to_int(request.args.get('diff')))
+            s1 = s1 + ' and difficulty = ' + \
+                str(diff_str_to_int(request.args.get('diff')))
         if request.args.get('value') != '':
             if request.args.get('nots') == 'equals':
                 s2 = ' = '
@@ -193,21 +202,22 @@ def dash_user():
             elif request.args.get('nots') == 'greater than equal to':
                 s2 = ' >= '
             s1 = s1 + ' and times_solved' + s2 + request.args.get('value')
-        print(s1)    
+        print(s1)
         cur.execute(s1)
-        result = cur.fetchall()   
+        result = cur.fetchall()
 
     elif int(formid) == 1:
         cur = db.cursor(buffered=True)
-        if request.args.get('wrt')=='Num of time solved':
+        if request.args.get('wrt') == 'Num of time solved':
             str1 = 'times_solved'
-        elif request.args.get('wrt')=='Difficulty Level':
+        elif request.args.get('wrt') == 'Difficulty Level':
             str1 = 'difficulty'
-        if request.args.get('by')=='Ascending':
+        if request.args.get('by') == 'Ascending':
             str2 = 'asc'
-        elif request.args.get('by')=='Descending':
+        elif request.args.get('by') == 'Descending':
             str2 = 'desc'
-        cur.execute('select problem_id, title, difficulty, times_solved, statement from problem_set order by '+str1 +' '+str2)
+        cur.execute(
+            'select problem_id, title, difficulty, times_solved, statement from problem_set order by '+str1 + ' '+str2)
         result = cur.fetchall()
 
     return render_template('dashboard-user.html', result=result)
@@ -216,11 +226,13 @@ def dash_user():
 @app.route('/view_ranking_user.html/')
 def view_ranking_user():
     cur = db.cursor(buffered=True)
-    cur.execute("select username, full_name, points from solver order by points desc")
+    cur.execute(
+        "select username, full_name, points from solver order by points desc")
     result = cur.fetchall()
-    return render_template('view_ranking_user.html',result=result)
+    return render_template('view_ranking_user.html', result=result)
 
-@app.route('/view_ranking_admin.html/', methods=['POST','GET'])
+
+@app.route('/view_ranking_admin.html/', methods=['POST', 'GET'])
 def view_ranking_admin():
     if request.method == 'POST':
         content = request.get_json()
@@ -229,85 +241,84 @@ def view_ranking_admin():
         elif content['formid'] == 1:
             x = update_points(content)
             return jsonify(x)
-        
 
     cur = db.cursor(buffered=True)
-    cur.execute("select username, full_name, points,user_id from solver order by points desc")
+    cur.execute(
+        "select username, full_name, points,user_id from solver order by points desc")
     result = cur.fetchall()
-    return render_template('view_ranking_admin.html',result=result)
+    return render_template('view_ranking_admin.html', result=result)
+
 
 def update_points(content):
     cur = db.cursor(buffered=True)
     new = content['new']
     id = content['id']
     cur.execute("select * from solver where user_id = "+str(id))
-    if len(cur.fetchall())== 0:
+    if len(cur.fetchall()) == 0:
         success = 'No'
     else:
         try:
-            cur.execute("update solver set points = '"+ str(new) +"' where user_id = "+str(id))
+            cur.execute("update solver set points = '" +
+                        str(new) + "' where user_id = "+str(id))
             db.commit()
             success = 'Yes'
         except:
             success = 'No'
-    return {'success':success}
-        
+    return {'success': success}
 
-@app.route('/dashboard-admin.html/')
+
+@app.route('/dashboard-admin.html/', methods=["GET", "POST"])
 def dash_admin():
     token = decode_token(request.args.get("token"))
     if(token == 'Invalid'):
         return redirect('/signin.html')
-    formid = request.args.get('formid')
-    if formid is None:
-        cur = db.cursor(buffered=True)
-        cur.execute("select problem_id, title, difficulty, times_solved, statement from problem_set")
-        result = cur.fetchall()
-    
-    elif int(formid) == 0:
-        cur = db.cursor(buffered=True)
-        try:
-            cur.execute('insert into problem_set(title,difficulty, statement, test_case1, test_case2, output1, output2) values(%s,%s,%s,%s, %s,%s,%s)',
-                        (request.args.get('title'), request.args.get('difficulty'), request.args.get('statement'), request.args.get('tc1'), request.args.get('tc2'), request.args.get('o1'), request.args.get('o2')))
-            db.commit()
-        except:
-            pass
-        cur.execute("select problem_id, title, difficulty, times_solved, statement from problem_set")
-        result = cur.fetchall()
-    
-    elif int(formid) == 1:
-        content = {}
-        content['new'] = request.args.get('new')
-        content['option'] = request.args.get('option')
-        content['id'] = request.args.get('id')
-        update_problem(content)
-        cur = db.cursor(buffered=True)
-        cur.execute("select problem_id, title, difficulty, times_solved, statement from problem_set")
-        result = cur.fetchall()
 
-    elif int(formid) == 2:
-        cur = db.cursor(buffered=True)
-        try:
-            cur.execute('insert into admin(referral_id,full_name,username,password) values(%s,%s,%s,%s)', ('1',request.args.get('fullname'), request.args.get('username'), request.args.get('password')))
-            db.commit()
-        except:
-            pass
-        cur.execute("select problem_id, title, difficulty, times_solved, statement from problem_set")
-        result = cur.fetchall()
+    if request.method == 'POST':
+        content = request.get_json()
+        formid = content['formid']
+
+        if formid == 0:
+            cur = db.cursor(buffered=True)
+            try:
+                cur.execute('insert into problem_set(title,difficulty, statement, test_case1, test_case2, output1, output2) values(%s,%s,%s,%s, %s,%s,%s)',
+                            (content['title'], content['difficulty'], content['statement'], content['tc1'], content['tc2'], content['o1'], content['o2']))
+                db.commit()
+                success = 'Yes'
+            except:
+                success = 'No'
+            return jsonify({'success': success})
+
+        elif formid == 1:
+            return jsonify(update_problem(content))
+
+        elif formid == 2:
+            cur = db.cursor(buffered=True)
+            try:
+                cur.execute('insert into admin(referral_id,full_name,username,password) values(%s,%s,%s,%s)',
+                            (token[0], content['fullname'], content['username'], content['password']))
+                db.commit()
+                success = 'Yes'
+            except:
+                success = 'No'
+            return jsonify({'success': success})
+
+    cur = db.cursor(buffered=True)
+    cur.execute(
+        "select problem_id, title, difficulty, times_solved, statement from problem_set")
+    result = cur.fetchall()
     return render_template('dashboard-admin.html', result=result)
 
 
 def run_file():
-    inp = open('input.txt','r')
-    open('output.txt','w')
+    inp = open('input.txt', 'r')
+    open('output.txt', 'w')
     for line in inp:
-        with open('output.txt','a') as f:
-            p = subprocess.Popen('python file.py', shell=True, stdout=f, stdin=subprocess.PIPE ,text=True)
+        with open('output.txt', 'a') as f:
+            p = subprocess.Popen('python file.py', shell=True,
+                                 stdout=f, stdin=subprocess.PIPE, text=True)
             p.communicate(line)
 
 # # IMAGE RENDERING
-
-
 
 
 @app.route('/res/<name>', methods=["GET"])
