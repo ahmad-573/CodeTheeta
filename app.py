@@ -57,16 +57,22 @@ def signup():
     if request.method == "POST":
         content = request.get_json()
         cur = db.cursor(buffered=True)
-        cur.execute("select username from solver where username = '" +
+        cur.execute("select user_ID from solver where username = '" +
                     str(content['username']) + "'")
-        usernames = cur.fetchall()
-        if len(usernames) > 0:
+        users = cur.fetchall()
+        if len(users) > 0:
             return jsonify({'valid': 'No'})
         else:
-            cur.execute('insert into solver(full_name,username,password) values(%s,%s,%s)',
-                        (content['full_name'], content['username'], content['password']))
-            db.commit()
-            return jsonify({'valid': 'Yes'})
+            try:
+                cur.execute('insert into solver(full_name,username,password) values(%s,%s,%s)',
+                            (content['full_name'], content['username'], content['password']))
+                db.commit()
+                cur.execute(
+                    "select user_ID from solver where username = '" + str(content['username']) + "'")
+                users = cur.fetchall()
+                return jsonify({'valid': 'Yes', 'token': encode_token(users[0][0], 'Solver')})
+            except:
+                return jsonify({'valid': 'No'})
 
     return render_template('signup.html')
 
@@ -99,20 +105,28 @@ def signin():
                 return jsonify({'valid': 'Yes', 'type': 'Solver', 'token': encode_token(users[0][0], 'Solver')})
 
 
-@app.route('/view_problem_user/<int:id>')
-def view_problem_user(id):
+@app.route('/view_problem_user/')
+def view_problem_user():
+    token = decode_token(request.args.get("token"))
+    if(token == 'Invalid'):
+        return redirect('/signin.html')
+    p_id = request.args.get("id")
     cur = db.cursor(buffered=True)
     cur.execute(
-        "select problem_id,title,difficulty,statement,test_case1,output1 from problem_set where problem_id = '" + str(id) + "'")
+        "select problem_id,title,difficulty,statement,test_case1,output1 from problem_set where problem_id = '" + str(p_id) + "'")
     result = cur.fetchall()
     return render_template('view_problem_user.html', result=result)
 
 
-@app.route('/view_problem_admin/<int:id>')
-def view_problem_admin(id):
+@app.route('/view_problem_admin/')
+def view_problem_admin():
+    token = decode_token(request.args.get("token"))
+    if(token == 'Invalid'):
+        return redirect('/signin.html')
+    p_id = request.args.get("id")
     cur = db.cursor(buffered=True)
     cur.execute(
-        "select problem_id,title,difficulty,statement,test_case1,output1 from problem_set where problem_id = '" + str(id) + "'")
+        "select problem_id,title,difficulty,statement,test_case1,output1 from problem_set where problem_id = '" + str(p_id) + "'")
     result = cur.fetchall()
     return render_template('view_problem_admin.html', result=result)
 
@@ -158,12 +172,17 @@ def diff_str_to_int(diff):
         return 3
 
 
-@app.route('/delete_problem/<int:id>')
-def delete_problem(id):
+@app.route('/delete_problem/')
+def delete_problem():
+    token = decode_token(request.args.get("token"))
+    if(token == 'Invalid'):
+        return redirect('/signin.html')
+    p_id = request.args.get("id")
     cur = db.cursor(buffered=True)
-    cur.execute("delete from problem_set where problem_id = '" + str(id) + "'")
+    cur.execute("delete from problem_set where problem_id = '" +
+                str(p_id) + "'")
     db.commit()
-    return redirect('/dashboard-admin.html')
+    return redirect('/dashboard-admin.html?token='+request.args.get("token"))
 
 
 # DASHBOARDS
@@ -225,6 +244,9 @@ def dash_user():
 
 @app.route('/view_ranking_user.html/')
 def view_ranking_user():
+    token = decode_token(request.args.get("token"))
+    if(token == 'Invalid'):
+        return redirect('/signin.html')
     cur = db.cursor(buffered=True)
     cur.execute(
         "select username, full_name, points from solver order by points desc")
@@ -234,13 +256,13 @@ def view_ranking_user():
 
 @app.route('/view_ranking_admin.html/', methods=['POST', 'GET'])
 def view_ranking_admin():
+    token = decode_token(request.args.get("token"))
+    if(token == 'Invalid'):
+        return redirect('/signin.html')
     if request.method == 'POST':
         content = request.get_json()
-        if content['formid'] == 0:
-            pass
-        elif content['formid'] == 1:
-            x = update_points(content)
-            return jsonify(x)
+        x = update_points(content)
+        return jsonify(x)
 
     cur = db.cursor(buffered=True)
     cur.execute(

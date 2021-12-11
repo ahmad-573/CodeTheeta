@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,24 +12,48 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
-        .font-family-karla { font-family: karla; }
-        .bg-sidebar { background: #3d68ff; }
-        .cta-btn { color: #3d68ff; }
-        .upgrade-btn { background: #1947ee; }
-        .upgrade-btn:hover { background: #0038fd; }
-        .active-nav-link { background: #1947ee; }
+
+        .font-family-karla {
+            font-family: karla;
+        }
+
+        .bg-sidebar {
+            background: #3d68ff;
+        }
+
+        .cta-btn {
+            color: #3d68ff;
+        }
+
+        .upgrade-btn {
+            background: #1947ee;
+        }
+
+        .upgrade-btn:hover {
+            background: #0038fd;
+        }
+
+        .active-nav-link {
+            background: #1947ee;
+        }
+
         /* .nav-item:hover { background: #1947ee; } */
-        .account-link:hover { background: #3d68ff; }
+        .account-link:hover {
+            background: #3d68ff;
+        }
     </style>
 </head>
+
 <body class="bg-gray-100 font-family-karla flex">
     <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
         <div class="p-6">
             <span class="text-white text-3xl font-semibold uppercase">Solver</span>
         </div>
         <nav class="text-white text-base font-semibold pt-3">
-            <button type="button" class="flex items-center text-white py-4 pl-6 bg-blue-800 w-full" onclick="onRefreshToUser(event)"> <i class="far fa-question-circle mr-3"></i>ProblemSet</button>
-            <button type="button" class="flex items-center text-white py-4 pl-6" onclick="onRefreshToRanking(event)"> <i class="far fa-question-circle mr-3"></i>Ranking</button>
+            <button type="button" class="flex items-center text-white py-4 pl-6 bg-blue-800 w-full"
+                onclick="onRefreshToUser(event)"> <i class="far fa-question-circle mr-3"></i>ProblemSet</button>
+            <button type="button" class="flex items-center text-white py-4 pl-6" onclick="onRefreshToRanking(event)"> <i
+                    class="far fa-question-circle mr-3"></i>Ranking</button>
         </nav>
     </aside>
 
@@ -37,12 +62,15 @@
         <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
             <div class="w-1/2"></div>
             <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
-                <button @click="isOpen = !isOpen" class="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
+                <button @click="isOpen = !isOpen"
+                    class="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
                     <img src="https://www.w3schools.com/images/w3schools_green.jpg">
                 </button>
-                <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
+                <button x-show="isOpen" @click="isOpen = false"
+                    class="h-full w-full fixed inset-0 cursor-default"></button>
                 <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
-                    <button type="button" class="block px-4 py-2 account-link hover:text-white" onclick="onSignout(event)">Sign Out</button>
+                    <button type="button" class="block px-4 py-2 account-link hover:text-white"
+                        onclick="onSignout(event)">Sign Out</button>
                 </div>
             </div>
         </header>
@@ -50,127 +78,151 @@
         <div class="w-full overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
                 <h1 class="text-3xl text-black pb-6">Advanced Search</h1>
-                <form action = '/dashboard-user.html/' method="GET" id = "asearch">
+                <form action='/dashboard-user.html/' method="GET" id="asearch">
                     <div class="flex flex-wrap -mx-3 mb-2">
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                for="grid-state">
                                 Title Contains
                             </label>
                             <div class="md:w-2/3">
-                                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="titlec" placeholder="xyz">
+                                <input
+                                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="titlec" placeholder="xyz">
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-2">
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                for="grid-state">
                                 Difficulty
                             </label>
                             <div class="relative">
                                 <select
-                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                id = "diff" name = "diff">
-                                <option></option>
-                                <option>Easy</option>
-                                <option>Medium</option>
-                                <option>Hard</option>
+                                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    id="diff" name="diff">
+                                    <option></option>
+                                    <option>Easy</option>
+                                    <option>Medium</option>
+                                    <option>Hard</option>
                                 </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                </svg>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20">
+                                        <path
+                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                    </svg>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-2">
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                for="grid-state">
                                 Number of times solved
                             </label>
                             <div class="relative">
                                 <select
-                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                id = "nots" name = "nots">
-                                <option>equals</option>
-                                <option>less than</option>
-                                <option>greater than</option>
-                                <option>less than equal to</option>
-                                <option>greater than equal to</option>
+                                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    id="nots" name="nots">
+                                    <option>equals</option>
+                                    <option>less than</option>
+                                    <option>greater than</option>
+                                    <option>less than equal to</option>
+                                    <option>greater than equal to</option>
                                 </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                </svg>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20">
+                                        <path
+                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                    </svg>
                                 </div>
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-2">
                             <div class="w-full px-3 mb-6 md:mb-0">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                    for="grid-state">
                                     Value
                                 </label>
                                 <div class="md:w-2/3">
-                                    <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-3 px-4 pr-8 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="value" placeholder="xyz">
+                                    <input
+                                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-3 px-4 pr-8 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                        id="value" placeholder="xyz">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <input type="submit" value="Search"
-                  class="modal-close px-4 p-3 text-white rounded-lg bg-indigo-500 hover:bg-indigo-300 mr-2" onclick="myFunction1(event)"
-                >
+                        class="modal-close px-4 p-3 text-white rounded-lg bg-indigo-500 hover:bg-indigo-300 mr-2"
+                        onclick="myFunction1(event)">
                 </form>
                 <h1 class="text-3xl text-black pb-6">Sort</h1>
-                <form action = '/dashboard-user.html/' method="GET" id = "sort">
+                <form action='/dashboard-user.html/' method="GET" id="sort">
                     <div class="flex flex-wrap -mx-3 mb-2">
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state" >
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                for="grid-state">
                                 Sort with respect to
                             </label>
                             <div class="relative">
-                                <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="wrt" name = "wrt">
+                                <select
+                                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    id="wrt" name="wrt">
                                     <option></option>
                                     <option>Num of time solved</option>
                                     <option>Difficulty Level</option>
                                 </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                </svg>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20">
+                                        <path
+                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                    </svg>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-2">
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state" >
-                            Order by
-                        </label>
-                        <div class="relative">
-                            <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="by" name = "by">
-                                <option></option>
-                                <option>Ascending</option>
-                                <option>Descending</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                            </svg>
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                for="grid-state">
+                                Order by
+                            </label>
+                            <div class="relative">
+                                <select
+                                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    id="by" name="by">
+                                    <option></option>
+                                    <option>Ascending</option>
+                                    <option>Descending</option>
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20">
+                                        <path
+                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                    </svg>
+                                </div>
                             </div>
-                        </div>
                         </div>
                     </div>
                     <input type="submit" value="Sort"
-                  class="modal-close px-4 p-3 text-white rounded-lg bg-indigo-500 hover:bg-indigo-300 mr-2" onclick="myFunction2(event)"
-                >
+                        class="modal-close px-4 p-3 text-white rounded-lg bg-indigo-500 hover:bg-indigo-300 mr-2"
+                        onclick="myFunction2(event)">
                 </form>
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                        <th
-                            scope="col"
-                            class="
+                            <th scope="col" class="
                             px-6
                             py-3
                             text-left text-xs
@@ -178,13 +230,10 @@
                             text-gray-500
                             uppercase
                             tracking-wider
-                            "
-                        >
-                            Problem ID
-                        </th>
-                        <th
-                            scope="col"
-                            class="
+                            ">
+                                Problem ID
+                            </th>
+                            <th scope="col" class="
                             px-6
                             py-3
                             text-left text-xs
@@ -192,13 +241,10 @@
                             text-gray-500
                             uppercase
                             tracking-wider
-                            "
-                        >
-                            Title
-                        </th>
-                        <th
-                            scope="col"
-                            class="
+                            ">
+                                Title
+                            </th>
+                            <th scope="col" class="
                             px-6
                             py-3
                             text-left text-xs
@@ -206,13 +252,10 @@
                             text-gray-500
                             uppercase
                             tracking-wider
-                            "
-                        >
-                            Times Solved
-                        </th>
-                        <th
-                            scope="col"
-                            class="
+                            ">
+                                Times Solved
+                            </th>
+                            <th scope="col" class="
                             px-6
                             py-3
                             text-left text-xs
@@ -220,40 +263,43 @@
                             text-gray-500
                             uppercase
                             tracking-wider
-                            "
-                        >
-                            Difficulty
-                        </th>
-                    </tr>
+                            ">
+                                Difficulty
+                            </th>
+                        </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                    {% for problem in result %}
+                        {% for problem in result %}
+                        
                         <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                            <div class="ml-4">
-                                <div class="text-sm font-medium text-gray-900">
-                                
-                                {{ problem[0] }}
-                                
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">
+
+                                            {{ problem[0] }}
+
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap"><a href='/view_problem_user/{{problem[0]}}'>
-                            <div class="text-sm text-blue-500 underline">
-                            {{problem[1]}}
-                            </div>
-                        </a>
-                    </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-500">
-                            {{ problem[3] }}
-                            </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            {% if problem[2] == 3 %}
-                              <span class="
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button type="button" class="text-sm text-blue-500 underline"
+                onclick="onProblem(event, {{ problem[0]}})"> <i class="far fa-question-circle mr-3"></i>{{problem[1]}}</button>
+                                <!-- <a href='/view_problem_user?id={{problem[0]}}&token=' + window.sessionStorage.token>
+                                    <div class="text-sm text-blue-500 underline">
+                                        {{problem[1]}}
+                                    </div>
+                                </a> -->
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-500">
+                                    {{ problem[3] }}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                {% if problem[2] == 3 %}
+                                <span class="
                               text-sm
                               px-2
                               font-medium
@@ -262,8 +308,8 @@
                               rounded
                               py-0.5
                               ">Hard</span>
-                            {% elif problem[2] == 2 %}
-                              <span class="
+                                {% elif problem[2] == 2 %}
+                                <span class="
                               text-sm
                               px-2
                               font-medium
@@ -272,8 +318,8 @@
                               rounded
                               py-0.5
                               ">Medium</span>
-                            {% elif problem[2] == 1 %}
-                              <span class="
+                                {% elif problem[2] == 1 %}
+                                <span class="
                               text-sm
                               px-2
                               font-medium
@@ -282,12 +328,12 @@
                               rounded
                               py-0.5
                               ">Easy</span>
-                            {% endif %}
-                        </td>
+                                {% endif %}
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
-                    </table>
+                </table>
             </main>
         </div>
         <!-- <table>
@@ -306,51 +352,58 @@
         
             {% endfor %}
          </table> -->
-        
+
     </div>
 
     <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <!-- Font Awesome -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
+        integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
     <!-- ChartJS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+        integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
 
-<script>
-    async function myFunction1(e) {
-      e.preventDefault()
-      if (document.getElementById("titlec").value === '' && document.getElementById("diff").value === '' && document.getElementById("value").value === '') {
-        alert("Oh bhaiiiii pura toh bharo")
-      }
-      else {
-        window.location.assign('/dashboard-user.html?titlec=' + document.getElementById("titlec").value + '&diff=' + document.getElementById("diff").value + '&nots=' + document.getElementById("nots").value + '&value=' + document.getElementById("value").value + '&token=' + window.sessionStorage.token + '&formid=' + '0')
+    <script>
+        async function myFunction1(e) {
+            e.preventDefault()
+            if (document.getElementById("titlec").value === '' && document.getElementById("diff").value === '' && document.getElementById("value").value === '') {
+                alert("Oh bhaiiiii pura toh bharo")
+            }
+            else {
+                window.location.assign('/dashboard-user.html?titlec=' + document.getElementById("titlec").value + '&diff=' + document.getElementById("diff").value + '&nots=' + document.getElementById("nots").value + '&value=' + document.getElementById("value").value + '&token=' + window.sessionStorage.token + '&formid=' + '0')
+            }
         }
-      }
-    async function myFunction2(e) {
-      e.preventDefault()
+        async function myFunction2(e) {
+            e.preventDefault()
 
-      if (document.getElementById("wrt").value === '' || document.getElementById("by").value === '') {
-        alert("Oh bhaiiiii pura toh bharo")
-      }
-      else {
-        window.location.assign('/dashboard-user.html?wrt=' + document.getElementById("wrt").value + '&by=' + document.getElementById("by").value + '&token=' + window.sessionStorage.token + '&formid=' + '1')
+            if (document.getElementById("wrt").value === '' || document.getElementById("by").value === '') {
+                alert("Oh bhaiiiii pura toh bharo")
+            }
+            else {
+                window.location.assign('/dashboard-user.html?wrt=' + document.getElementById("wrt").value + '&by=' + document.getElementById("by").value + '&token=' + window.sessionStorage.token + '&formid=' + '1')
+            }
         }
-      }
-    function onSignout(e){
-        e.preventDefault()
-        window.sessionStorage.removeItem('token')
-        // alert(window.sessionStorage.token)
-        window.location.replace('/')
-    }
-    function onRefreshToUser(e){
-        e.preventDefault()
-        window.location.assign('/dashboard-user.html?token=' + window.sessionStorage.token)
-    }
-    function onRefreshToRanking(e){
-        e.preventDefault()
-        window.location.assign('/view_ranking_user.html?token=' + window.sessionStorage.token)
-    }
-</script>
-    
+        function onSignout(e) {
+            e.preventDefault()
+            window.sessionStorage.clear()
+            window.location.replace('/')
+        }
+        function onRefreshToUser(e) {
+            e.preventDefault()
+            window.location.assign('/dashboard-user.html?token=' + window.sessionStorage.token)
+        }
+        function onRefreshToRanking(e) {
+            e.preventDefault()
+            window.location.assign('/view_ranking_user.html?token=' + window.sessionStorage.token)
+        }
+        function onProblem(e,id) {
+            e.preventDefault()
+            alert(typeof(String(id)))
+            window.location.assign('/view_problem_user.html?id='+ String(id)+ '&token=' + window.sessionStorage.token)
+        }
+    </script>
+
 </body>
+
 </html>

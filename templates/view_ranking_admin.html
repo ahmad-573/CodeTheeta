@@ -319,22 +319,20 @@ integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="ano
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            formid: 1,
             id: document.getElementById("id").value,
             //option: document.getElementById("options").value,
             new: document.getElementById("new").value,
           })
         }
         // alert("yo")
-        const reply = await fetch('/view_ranking_admin.html/', data)
+        const reply = await fetch('/view_ranking_admin.html/?token=' + window.sessionStorage.token, data)
         if (reply.ok) {
           const data = await reply.json()
           if (data['success'] === 'No') {
-            alert('There was some problem in editing in the database')
-            // window.location.replace('/dashboard-admin.html')
+            alert('Ya tou banda exist nahi karta ya wesai koi issue aya hai')
           }
           else if (data['success'] === 'Yes') {
-            window.location.replace('/view_ranking_admin.html')
+            window.location.replace('/view_ranking_admin.html?token=' + window.sessionStorage.token)
           }
         }
       }

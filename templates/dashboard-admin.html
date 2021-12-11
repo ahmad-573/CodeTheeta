@@ -93,7 +93,8 @@
         </button>
         <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
         <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
-          <a href="/" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
+          <button type="button" class="block px-4 py-2 account-link hover:text-white" onclick="onSignout(event)">Sign
+            Out</button>
         </div>
       </div>
     </header>
@@ -374,6 +375,7 @@
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200">
                     {% for problem in result %}
+                    
                     <tr>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
@@ -384,11 +386,14 @@
                           </div>
                         </div>
                       </td>
-                      <td class="px-6 py-4 whitespace-nowrap"><a href='/view_problem_admin/{{problem[0]}}'>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <button type="button" class="text-sm text-blue-500 underline"
+                onclick="onProblem(event, {{ problem[0]}})"> <i class="far fa-question-circle mr-3"></i>{{problem[1]}}</button>
+                        <!-- <a href='/view_problem_admin?id={{problem[0]}}&token=' + window.sessionStorage.token>
                           <div class="text-sm text-blue-500 underline">
                             {{ problem[1]}}
                           </div>
-                        </a>
+                        </a> -->
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-500">
@@ -439,7 +444,7 @@
                           >Update</a
                           > -->
                         <!-- <span>|</span>  -->
-                        <a href="/delete_problem/{{problem[0]}}" class="text-red-600 hover:text-indigo-900">Delete</a>
+                        <a href="/delete_problem?id={{problem[0]}}&token=" + window.sessionStorage.token class="text-red-600 hover:text-indigo-900">Delete</a>
                       </td>
                     </tr>
                     {% endfor %}
@@ -642,16 +647,24 @@
         }
       }
     }
-
-    function onRefreshToAdmin(e){
-        e.preventDefault()
-        window.location.assign('/dashboard-admin.html?token=' + window.sessionStorage.token)
+    function onSignout(e) {
+      e.preventDefault()
+      window.sessionStorage.clear()
+      window.location.replace('/')
+    }
+    function onRefreshToAdmin(e) {
+      e.preventDefault()
+      window.location.assign('/dashboard-admin.html?token=' + window.sessionStorage.token)
     }
 
-    function onRefreshToRanking(e){
-        e.preventDefault()
-        window.location.assign('/view_ranking_admin.html?token=' + window.sessionStorage.token)
+    function onRefreshToRanking(e) {
+      e.preventDefault()
+      window.location.assign('/view_ranking_admin.html?token=' + window.sessionStorage.token)
     }
+    function onProblem(e,id) {
+            e.preventDefault()
+            window.location.assign('/view_problem_admin.html?id='+ String(id)+ '&token=' + window.sessionStorage.token)
+        }
   </script>
 </body>
 
