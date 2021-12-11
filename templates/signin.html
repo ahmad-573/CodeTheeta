@@ -90,6 +90,7 @@
 
                 // }
                 const reply = await fetch('/signin.html?username=' + document.getElementById("username").value + '&password=' + document.getElementById("password").value + '&selection=' + String(selectedValue))
+                // alert(reply)
                 if (reply.ok) {
                     const data = await reply.json()
                     if (data['valid'] === 'No') {

@@ -295,91 +295,21 @@
 <script>
     async function myFunction1(e) {
       e.preventDefault()
-    //   alert(document.getElementById("wrt").value)
-    //   alert(document.getElementById("by").value)
-
       if (document.getElementById("titlec").value === '' && document.getElementById("diff").value === '' && document.getElementById("value").value === '') {
         alert("Oh bhaiiiii pura toh bharo")
       }
       else {
-        let data = {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            formid: 0,
-            titlec: document.getElementById("titlec").value,
-            diff: document.getElementById("diff").value,
-            nots: document.getElementById("nots").value,
-            value: document.getElementById("value").value
-          })
-        }
-        // alert("yo")
-        const reply = await fetch('/dashboard-user.html/', data)
-        if (reply.ok) {
-            const res = await reply.json()
-            // alert(JSON.parse(res))
-            // alert(res['res'])
-            window.location.assign('/dashboard-user.html/' + res)
-            // alert("Good hogya")
-        }    
-        // else{
-        //     alert("Bad hogya")
-        // }    
-            //   const data = await reply.json()
-        //   if (data['success'] === 'No') {
-        //     alert('There was some problem in sorting')
-            // window.location.replace('/dashboard-admin.html')
-        //   }
-        //   else if (data['success'] === 'Yes') {
-        //     window.location.replace('/dashboard-admin.html')
-        //   }
+        window.location.assign('/dashboard-user.html?titlec=' + document.getElementById("titlec").value + '&diff=' + document.getElementById("diff").value + '&nots=' + document.getElementById("nots").value + '&value=' + document.getElementById("value").value + '&token=' + window.sessionStorage.token + '&formid=' + '0')
         }
       }
     async function myFunction2(e) {
       e.preventDefault()
-    //   alert(document.getElementById("wrt").value)
-    //   alert(document.getElementById("by").value)
 
       if (document.getElementById("wrt").value === '' || document.getElementById("by").value === '') {
         alert("Oh bhaiiiii pura toh bharo")
       }
       else {
-        let data = {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            formid: 1,
-            wrt: document.getElementById("wrt").value,
-            by: document.getElementById("by").value
-          })
-        }
-        // alert("yo")
-        const reply = await fetch('/dashboard-user.html/', data)
-        if (reply.ok) {
-            const res = await reply[body]
-            // alert(JSON.parse(res))
-            // alert(res['res'])
-            alert(res)
-            window.location.assign(res)
-            // alert("Good hogya")
-        }    
-        // else{
-        //     alert("Bad hogya")
-        // }    
-            //   const data = await reply.json()
-        //   if (data['success'] === 'No') {
-        //     alert('There was some problem in sorting')
-            // window.location.replace('/dashboard-admin.html')
-        //   }
-        //   else if (data['success'] === 'Yes') {
-        //     window.location.replace('/dashboard-admin.html')
-        //   }
+        window.location.assign('/dashboard-user.html?wrt=' + document.getElementById("wrt").value + '&by=' + document.getElementById("by").value + '&token=' + window.sessionStorage.token + '&formid=' + '1')
         }
       }
     function onSignout(e){

@@ -75,7 +75,6 @@ def signup():
 def signin():
     username = request.args.get("username")
     if(username is None):
-        # print('yooooo')
         return render_template('signin.html')
     else:   
         password = request.args.get("password")
@@ -167,13 +166,14 @@ def dash_user():
     token = decode_token(request.args.get("token"))
     if(token == 'Invalid'):
         return redirect('/signin.html')
+    #    return render_template('signin.html')
     formid = request.args.get('formid')
     if formid is None:
         cur = db.cursor(buffered=True)
         cur.execute("select problem_id, title, difficulty, times_solved, statement from problem_set")
         result = cur.fetchall()
 
-    elif formid == 0:
+    elif int(formid) == 0:
         cur = db.cursor(buffered=True)
         s1 = 'select problem_id, title, difficulty, times_solved, statement from problem_set where'
         if request.args.get('titlec') != '':
@@ -195,7 +195,8 @@ def dash_user():
         cur.execute(s1)
         result = cur.fetchall()   
 
-    elif formid == 1:
+    elif int(formid) == 1:
+        print('here')
         cur = db.cursor(buffered=True)
         if request.args.get('wrt')=='Num of time solved':
             str1 = 'times_solved'
@@ -253,39 +254,45 @@ def update_points(content):
 
 @app.route('/dashboard-admin.html/',  methods=['POST', 'GET'])
 def dash_admin():
+    token = decode_token(request.args.get("token"))
+    if(token == 'Invalid'):
+        return redirect('/signin.html')
+    formid = request.args.get('formid')
+    if formid is None:
+        cur = db.cursor(buffered=True)
+        cur.execute("select problem_id, title, difficulty, times_solved, statement from problem_set")
+        result = cur.fetchall()
     
-    if request.method == "POST":
-        content = request.get_json()
+    # if request.method == "POST":
+    #     content = request.get_json()
         # print(content['title'])
         # print("hello")
-        if content['formid'] == 0:
-            cur = db.cursor(buffered=True)
-            try:
-                cur.execute('insert into problem_set(title,difficulty, statement, test_case1, test_case2, output1, output2) values(%s,%s,%s,%s, %s,%s,%s)',
-                            (content['title'],content['difficulty'], content['statement'], content['tc1'], content['tc2'], content['o1'], content['o2']))
-
-                db.commit()
-                success = 'Yes'
-            except:
-                success = 'No'
-            return jsonify({'success': success})
-        elif content['formid'] == 1:
-            x = update_problem(content)
-            return jsonify(x)
-        elif content['formid'] == 2:
-            cur = db.cursor(buffered=True)
-            try:
-                cur.execute('insert into admin(referral_id,full_name,username,password) values(%s,%s,%s,%s)', ('1',content['fullname'],content['username'],content['password']))
-                db.commit()
-                success = 'Yes'
-            except:
-                success = 'No'
-            return jsonify({'success': success})
-
-    cur = db.cursor(buffered=True)
-    cur.execute(
-        "select problem_id, title, difficulty, times_solved, statement from problem_set")
-    result = cur.fetchall()
+    elif formid == 0:
+        cur = db.cursor(buffered=True)
+        try:
+            cur.execute('insert into problem_set(title,difficulty, statement, test_case1, test_case2, output1, output2) values(%s,%s,%s,%s, %s,%s,%s)',
+                        (request.args.get('title'), request.args.get('difficulty'), request.args.get('statement'), request.args.get('tc1'), request.args.get('tc2'), request.args.get('o1'), request.args.get('o2')))
+            db.commit()
+            success = 'Yes'
+        except:
+            success = 'No'
+        return jsonify({'success': success})
+    elif formid == 1:
+        content = {}
+        content['new'] = request.args.get('new')
+        content['option'] = request.args.get('option')
+        content['id'] = request.args.get('id')
+        x = update_problem(content)
+        return jsonify(x)
+    elif formid == 2:
+        cur = db.cursor(buffered=True)
+        try:
+            cur.execute('insert into admin(referral_id,full_name,username,password) values(%s,%s,%s,%s)', ('1',request.args.get('fullname'), request.args.get('username'), request.args.get('password')))
+            db.commit()
+            success = 'Yes'
+        except:
+            success = 'No'
+        return jsonify({'success': success})
     return render_template('dashboard-admin.html', result=result)
 
 
