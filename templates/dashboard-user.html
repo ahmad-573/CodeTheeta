@@ -258,7 +258,37 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ problem[2] }}
+                            {% if problem[2] == 3 %}
+                                <span class="
+                                text-sm
+                                px-2
+                                font-medium
+                                bg-red-500 bg-opacity-10
+                                text-red-800
+                                rounded
+                                py-0.5
+                                ">Hard</span>
+                            {% elif problem[2] == 2 %}
+                                <span class="
+                                text-sm
+                                px-2
+                                font-medium
+                                bg-yellow-500 bg-opacity-10
+                                text-yellow-800
+                                rounded
+                                py-0.5
+                                ">Medium</span>
+                            {% elif problem[2] == 1 %}
+                                <span class="
+                                text-sm
+                                px-2
+                                font-medium
+                                bg-green-500 bg-opacity-10
+                                text-green-800
+                                rounded
+                                py-0.5
+                                ">Easy</span>
+                            {% endif %}
                         </td>
                         </tr>
                         {% endfor %}
@@ -266,23 +296,6 @@
                     </table>
             </main>
         </div>
-        <!-- <table>
-            <tr>
-                <th>Problem ID</th>
-                <th>Difficulty</th>
-                <th>Times Solved</th>
-            </tr>
-            {% for problem in result %}
-        
-                <tr>
-                    <td><a href="/view_problem/{{problem[0]}}"> {{ problem[0] }} </a></td>
-                    <td> {{ problem[1] }} </td>
-                    <td> {{ problem[2] }} </td>
-                </tr>
-        
-            {% endfor %}
-         </table> -->
-        
     </div>
 
     <!-- AlpineJS -->
@@ -295,8 +308,6 @@
 <script>
     async function myFunction1(e) {
       e.preventDefault()
-    //   alert(document.getElementById("wrt").value)
-    //   alert(document.getElementById("by").value)
 
       if (document.getElementById("titlec").value === '' && document.getElementById("diff").value === '' && document.getElementById("value").value === '') {
         alert("Oh bhaiiiii pura toh bharo")
