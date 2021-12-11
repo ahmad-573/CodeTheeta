@@ -196,7 +196,7 @@ def dash_user():
         result = cur.fetchall()   
 
     elif int(formid) == 1:
-        print('here')
+        
         cur = db.cursor(buffered=True)
         if request.args.get('wrt')=='Num of time solved':
             str1 = 'times_solved'
