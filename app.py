@@ -10,6 +10,7 @@ import subprocess
 from sys import stderr, stdin, stdout
 from werkzeug.utils import secure_filename
 import os
+import sys
 
 import jwt
 from base64 import b64encode
@@ -120,30 +121,42 @@ def view_problem_user():
         file = request.files['file']
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'file.py'))
         cur = db.cursor(buffered=True)
-        # cur.execute(
-        # "select problem_id,title,difficulty,statement,test_case1,output1 from problem_set where problem_id = '" + str(p_id) + "'")
-        # result1 = cur.fetchall()
-
         cur.execute(
-        "select test_case2,output2 from problem_set where problem_id = '" + str(p_id) + "'")
+        "select test_case2,output2,difficulty from problem_set where problem_id = '" + str(p_id) + "'")
         result2 = cur.fetchall()
         open('input.txt','w')
         input_file = open('input.txt','a')
         input_string = result2[0][0]
         input_file.write(input_string)
         input_file.close()
-        run_file()
-        open('correct_output.txt','w')
-        cor_output = open('correct_output.txt','a')
-        out_string = result2[0][1]
-        cor_output.write(out_string)
-        cor_output.close()
-        
+        error = run_file()
+        if error != '':
+            verdict = error
+        else:
+            open('correct_output.txt','w')
+            cor_output = open('correct_output.txt','a')
+            out_string = result2[0][1]
+            cor_output.write(out_string)
+            cor_output.write('\n')
+            cor_output.close()
+            cor_output = open('correct_output.txt','r')
+            o = open('output.txt','r')
+            ver = isMatching(cor_output,o)
+            o.close()
+            cor_output.close()
 
-        possible_verdicts = ['Solved','Failed','Compile time error','Runtime error','Time out']
-        verdict = possible_verdicts[0]
-
-        return jsonify({'verdict': verdict})
+            possible_verdicts = ['Solved','Failed','Compile time error','Runtime error','Time out']
+            verdict = possible_verdicts[(int(ver)+1)%2]
+            if verdict == 'Solved':
+                cur.execute("select * from solved where user_id= '" + str(token[0]) + "' and problem_id = '" + str(p_id) + "'")
+                r = cur.fetchall()
+                if len(r) == 0:
+                    cur.execute('insert into solved values(%s,%s,%s)', (token[0],p_id,result2[0][2]))
+                    db.commit()
+                    cur.execute("update solver set points =" + str(result2[0][2]) + "+points where user_id = '" + str(token[0]) + "'")
+                    db.commit()
+                    cur.execute("update problem_set set times_solved =" + str(1) + "+times_solved where problem_id = '" + str(p_id) + "'")
+                    db.commit()
 
     cur = db.cursor(buffered=True)
     cur.execute(
@@ -155,8 +168,24 @@ def view_problem_user():
         score = 0
     else:
         score = res[0][0]
-    return render_template('view_problem_user.html', problem=result[0],score=score)
+    return render_template('view_problem_user.html', problem=result[0],score=score,verdict=verdict)
 
+
+def isMatching(file1,file2):
+    c1 = ''
+    c2 = ''
+    for line in file1:
+        c1 = c1 + line
+    
+    for line in file2:
+        c2 = c2 + line
+    print(c1)
+    print(c2)
+    if c1 == c2:
+        return True
+    else:
+        return False
+    
 # @app.route('/run_code.html/<int:id>', methods=['GET','POST'])
 # def run_code(id):
 #     if request.method == 'POST':
@@ -254,6 +283,7 @@ def delete_problem():
 def dash_user():
     # print(request.args.get("token"))
     token = decode_token(request.args.get("token"))
+    print(token)
     if(token == 'Invalid'):
         return redirect('/signin.html')
     #    return render_template('signin.html')
@@ -408,8 +438,9 @@ def run_file():
         input_str = input_str + ' ' + line
 
     with open('output.txt','a') as f:
-        p = subprocess.Popen('python uploads/file.py', shell=True, stdout=f, stdin=subprocess.PIPE ,text=True)
-        p.communicate(input_str)
+        p = subprocess.Popen('python uploads/file.py', shell=True, stdout=f, stdin=subprocess.PIPE,stderr=subprocess.PIPE ,text=True)
+        out,err = p.communicate(input_str)
+        return err
 
 # # IMAGE RENDERING
 

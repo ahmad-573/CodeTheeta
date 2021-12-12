@@ -45,8 +45,14 @@
       background: #3d68ff;
     }
   </style>
+    <!-- {% if verdict != '' %}
+    <script type="text/javascript">
+      window.onload = function(){//window.addEventListener('load',function(){...}); (for Netscape) and window.attachEvent('onload',function(){...}); (for IE and Opera) also work
+          alert('{{verdict}}')
+      }
+      </script>
+      {% endif %} -->
 </head>
-
 <body class="bg-gray-100 font-family-karla flex">
     <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
         <!-- <div class="p-6">
@@ -167,10 +173,11 @@
                         </article>
                       </dd>
                     </div> -->
-                    <form method='POST' enctype='multipart/form-data'>
+                    <form action="" method='POST' id='myform' enctype='multipart/form-data'>
                       <input type='file' name='file' id='file'>
-                      <input type='submit' value='Upload' onclick="file_func(event,{{problem[0]}})">
+                      <input type='submit' value='Upload' onclick="badal_do({{problem[0]}})">
                     </form>
+
                   <!-- </dl> -->
                 </div>
               </div>
@@ -217,6 +224,9 @@ integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="ano
         }
       }
         
+  }
+  function badal_do(id){
+    document.getElementById('myform').action = "/view_problem_user.html/?id=" + String(id) + "&token=" + window.sessionStorage.token
   }
 </script>
 
