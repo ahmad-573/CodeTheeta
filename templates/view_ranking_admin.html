@@ -71,16 +71,17 @@
         <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
             <div class="w-1/2"></div>
             <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
-            <button @click="isOpen = !isOpen"
+              <button @click="isOpen = !isOpen"
                 class="realtive w-12 h-12 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
                 <i class="far fa-user-circle text-3xl text-blue-500 hover:text-blue-300"></i>
-            </button>
-            <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
-            <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
-                <a href="/" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
+              </button>
+              <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
+              <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
+                <button type="button" class="block px-4 py-2 account-link hover:text-white" onclick="onSignout(event)">Sign
+                  Out</button>
+              </div>
             </div>
-            </div>
-        </header>
+          </header>
     
         <div class="w-full overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
@@ -336,6 +337,11 @@ integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="ano
           }
         }
       }
+    }
+    function onSignout(e) {
+      e.preventDefault()
+      window.sessionStorage.clear()
+      window.location.replace('/')
     }
     function onRefreshToAdmin(e){
         e.preventDefault()
