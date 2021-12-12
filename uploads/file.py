@@ -1,9 +1,14 @@
 if __name__ == '__main__':
-    n = int(input())
-    m = 0
-    l = []
-    for i in range(n):
-        l.append(int(input()))
+	t = int(input())
+	for i in range(t):
+		ans = ''
+		n,s = input().split()
+		n = int(n)
+		for j in range(n):
+			if s[j] != s[n-j-1]:
+				ans = 'No'
 
 
-    print(max(l))
+		if ans == '':
+			ans = 'Yes'
+		print(ans)

@@ -44,7 +44,8 @@ app.config['MYSQL_USER'] = 'project_user'
 app.config['MYSQL_PASSWORD'] = 'password123'
 app.config['MYSQL_DB'] = 'ct_db'
 app.secret_key = key
-UPLOAD_FOLDER = '../../../Desktop'
+#UPLOAD_FOLDER = '../../../Desktop'
+UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 db = mysql.connector.connect(
@@ -298,11 +299,14 @@ def dash_user():
     elif int(formid) == 0:
         cur = db.cursor(buffered=True)
         s1 = 'select problem_id, title, difficulty, times_solved, statement from problem_set where'
+        print(request.args.get('titlec'))
         if request.args.get('titlec') != '':
             s1 = s1 + " title like '%" + request.args.get('titlec') + "%'"
+            s1 = s1 + ' and'
         if request.args.get('diff') != '':
-            s1 = s1 + ' and difficulty = ' + \
+            s1 = s1 + ' difficulty = ' + \
                 str(diff_str_to_int(request.args.get('diff')))
+            s1 = s1 + ' and'
         if request.args.get('value') != '':
             if request.args.get('nots') == 'equals':
                 s2 = ' = '
@@ -314,7 +318,9 @@ def dash_user():
                 s2 = ' <= '
             elif request.args.get('nots') == 'greater than equal to':
                 s2 = ' >= '
-            s1 = s1 + ' and times_solved' + s2 + request.args.get('value')
+            s1 = s1 + ' times_solved' + s2 + request.args.get('value')
+        if s1[-3:] == 'and':
+            s1 = s1[:-3]
         print(s1)
         cur.execute(s1)
         result = cur.fetchall()
@@ -453,4 +459,4 @@ def fetchImg(name):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
