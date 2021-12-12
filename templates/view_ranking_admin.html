@@ -50,20 +50,19 @@
 <body class="bg-gray-100 font-family-karla flex">
     <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
         <div class="p-6">
-            <a href="/dashboard-admin.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Home</a>
             <button class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
                 <i class="fas fa-edit mr-3"></i> Edit Points
             </button>
         </div>
         <nav class="text-white text-base font-semibold pt-3">
-            <a href="/dashboard-admin.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+            <button class="flex items-center text-white py-4 pl-6" onclick="onRefreshToAdmin(event)">
             <i class="far fa-question-circle mr-3"></i>
             Problemset
-            </a>
-            <a href="/view_ranking_admin.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+            </button>
+            <button class="flex bg-blue-800 w-full items-center text-white py-4 pl-6" onclick="onRefreshToRanking(event)">
                 <i class="far fa-question-circle mr-3"></i>
                 View Ranking
-            </a>
+            </button>
         </nav>
     </aside>
     
@@ -320,25 +319,31 @@ integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="ano
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            formid: 1,
             id: document.getElementById("id").value,
             //option: document.getElementById("options").value,
             new: document.getElementById("new").value,
           })
         }
         // alert("yo")
-        const reply = await fetch('/view_ranking_admin.html/', data)
+        const reply = await fetch('/view_ranking_admin.html/?token=' + window.sessionStorage.token, data)
         if (reply.ok) {
           const data = await reply.json()
           if (data['success'] === 'No') {
-            alert('There was some problem in editing in the database')
-            // window.location.replace('/dashboard-admin.html')
+            alert('Ya tou banda exist nahi karta ya wesai koi issue aya hai')
           }
           else if (data['success'] === 'Yes') {
-            window.location.replace('/view_ranking_admin.html')
+            window.location.replace('/view_ranking_admin.html?token=' + window.sessionStorage.token)
           }
         }
       }
+    }
+    function onRefreshToAdmin(e){
+        e.preventDefault()
+        window.location.assign('/dashboard-admin.html?token=' + window.sessionStorage.token)
+    }
+    function onRefreshToRanking(e){
+        e.preventDefault()
+        window.location.assign('/view_ranking_admin.html?token=' + window.sessionStorage.token)
     }
 </script>
 

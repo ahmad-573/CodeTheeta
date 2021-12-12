@@ -80,10 +80,11 @@
             if (reply.ok) {
                 const data = await reply.json()
                 if (data['valid'] === 'No') {
-                    alert('Bhaiii Username pehle se exist krta hai')
+                    alert('Bhaiii Username pehle se exist krta hai ya koi wesai issue aya hai')
                 }
                 else if (data['valid'] === 'Yes') {
-                    window.location.assign('/dashboard-user.html')
+                    window.sessionStorage.token = data['token']
+                    window.location.replace('/dashboard-user.html?token=' + window.sessionStorage.token)
                 }
             }
         }

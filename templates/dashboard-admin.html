@@ -5,25 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
-  
   <meta name="description" content="">
-  <!-- <script src="https://cdn.tiny.cloud/1/8qkuiv0jawlfdszgg4k612a8ohtrs0146kgjpgh6jfmzy6bz/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-  <script>
-    tinymce.init({
-      selector: 'textarea',
-      plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-      toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
-      toolbar_mode: 'floating',
-      tinycomments_mode: 'embedded',
-      tinycomments_author: 'Author name',
-    });
-  </script> -->
-
-  <!-- <script type="text/javascript" src="//js.nicedit.com/nicEdit-latest.js"></script> 
-  <script type="text/javascript">
- 
-        bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
-  </script> -->
 
   <!-- Tailwind -->
   <!-- <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet"> -->
@@ -68,29 +50,35 @@
 <body class="bg-gray-100 font-family-karla flex">
   <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
     <div class="p-6">
-      <a href="/dashboard-admin.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
-      <button class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onclick="toggle(1)">
+      <span class="text-white text-3xl font-semibold uppercase">Admin</span>
+      <button
+        class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center"
+        onclick="toggle(1)">
         <i class="fas fa-plus mr-3"></i> Add Problem
       </button>
       <!-- <a href="/update_problem.html" class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onclick="toggle(2)">
         <i class="fas fa-edit mr-3"></i> Edit Problem
       </a> -->
-      <button class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onclick="toggle(2)">
+      <button
+        class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center"
+        onclick="toggle(2)">
         <i class="fas fa-edit mr-3"></i> Edit Problem
       </button>
-      <button class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onclick="toggle(3)">
+      <button
+        class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center"
+        onclick="toggle(3)">
         <i class="far fa-address-card mr-3"></i>Create Admin
       </button>
     </div>
     <nav class="text-white text-base font-semibold pt-3">
-      <a href="/dashboard-admin.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+      <button class="flex items-center bg-blue-800 w-full text-white py-4 pl-6" onclick="onRefreshToAdmin(event)">
         <i class="far fa-question-circle mr-3"></i>
         Problemset
-      </a>
-      <a href="/view_ranking_admin.html" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+      </button>
+      <button class="flex items-center text-white py-4 pl-6" onclick="onRefreshToRanking(event)">
         <i class="far fa-question-circle mr-3"></i>
         View Ranking
-      </a>
+      </button>
     </nav>
   </aside>
 
@@ -105,7 +93,8 @@
         </button>
         <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
         <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
-          <a href="/" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
+          <button type="button" class="block px-4 py-2 account-link hover:text-white" onclick="onSignout(event)">Sign
+            Out</button>
         </div>
       </div>
     </header>
@@ -113,56 +102,67 @@
     <div class="w-full overflow-x-hidden border-t flex flex-col">
       <main class="w-full flex-grow p-6">
         <h1 class="text-3xl text-black pb-6">Problemsets</h1>
-        <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+        <div
+          class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
           <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-          <div class="modal-container bg-white w-11/12 h-3/4 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+          <div
+            class="modal-container bg-white w-11/12 h-3/4 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
             <button class="modal-close ml-3 mt-3 fixed block"><i class="far fa-times-circle text-red-800"></i></button>
 
             <form method="POST" class="w-full max-w-lg p-8" style="display: none;" id="createAdmin">
               <h1 class="text-xl text-black pb-6">Create Admin</h1>
               <div class="flex flex-wrap -mx-3 mb-6">
-                  <div class="w-full px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-                      Full Name
-                    </label>
-                    <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="1" id="fullname" name= "id" placeholder="Enter Full Name"></textarea>
-                    <p class="text-gray-600 text-xs italic">Comment</p>
-                  </div>
+                <div class="w-full px-3">
+                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                    Full Name
+                  </label>
+                  <textarea
+                    class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                    rows="1" id="fullname" placeholder="Enter Full Name"></textarea>
+                  <p class="text-gray-600 text-xs italic">Comment</p>
+                </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-6">
-                  <div class="w-full px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-                      Username
-                    </label>
-                    <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="1" id="username" name="new" placeholder="Enter Username"></textarea>
-                    <p class="text-gray-600 text-xs italic">Comment</p>
-                  </div>
+                <div class="w-full px-3">
+                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                    Username
+                  </label>
+                  <textarea
+                    class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                    rows="1" id="username" placeholder="Enter Username"></textarea>
+                  <p class="text-gray-600 text-xs italic">Comment</p>
+                </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full px-3">
                   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                     Password
                   </label>
-                  <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="1" id="password" name= "id" placeholder="Enter password" type="Password"></textarea>
+                  <textarea
+                    class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                    rows="1" id="password" placeholder="Enter password" type="Password"></textarea>
                   <p class="text-gray-600 text-xs italic">Comment</p>
                 </div>
-            </div>
+              </div>
               <div class="flex justify-end pt-2">
                 <input type="submit" value="Create"
-                  class="modal-close px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2" onclick="myFunction2(event)">
+                  class="modal-close px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2"
+                  onclick="myFunction2(event)">
               </div>
             </form>
 
             <form method="POST" class="w-full max-w-lg p-8" style="display: none;" id="editProblem">
               <h1 class="text-xl text-black pb-6">Edit Problem</h1>
               <div class="flex flex-wrap -mx-3 mb-6">
-                  <div class="w-full px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-                      Problem ID
-                    </label>
-                    <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="4" id="id" name= "id" placeholder="Enter Problem ID"></textarea>
-                    <p class="text-gray-600 text-xs italic">Comment</p>
-                  </div>
+                <div class="w-full px-3">
+                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                    Problem ID
+                  </label>
+                  <textarea
+                    class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                    rows="4" id="id" name="id" placeholder="Enter Problem ID"></textarea>
+                  <p class="text-gray-600 text-xs italic">Comment</p>
+                </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-2">
                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -190,17 +190,20 @@
                 </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-6">
-                  <div class="w-full px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-                      New data
-                    </label>
-                    <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="4" id="new" name="new" placeholder="Enter new data"></textarea>
-                    <p class="text-gray-600 text-xs italic">Comment</p>
-                  </div>
+                <div class="w-full px-3">
+                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                    New data
+                  </label>
+                  <textarea
+                    class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                    rows="4" id="new" name="new" placeholder="Enter new data"></textarea>
+                  <p class="text-gray-600 text-xs italic">Comment</p>
+                </div>
               </div>
               <div class="flex justify-end pt-2">
                 <input type="submit" value="Update"
-                  class="modal-close px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2" onclick="myFunction1(event)">
+                  class="modal-close px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2"
+                  onclick="myFunction1(event)">
               </div>
             </form>
 
@@ -212,7 +215,9 @@
                   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                     Title
                   </label>
-                  <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" id="title" placeholder="Enter title"></textarea>
+                  <textarea
+                    class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="title" placeholder="Enter title"></textarea>
                   <p class="text-gray-600 text-xs italic">Comment</p>
                 </div>
               </div>
@@ -221,7 +226,10 @@
                   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                     Statement
                   </label>
-                  <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" style = "white-space:pre-warp"  rows="4" id="statement" placeholder="Enter problem statement"></textarea>
+                  <textarea
+                    class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                    style="white-space:pre-warp" rows="4" id="statement"
+                    placeholder="Enter problem statement"></textarea>
                   <p class="text-gray-600 text-xs italic">Comment</p>
                 </div>
               </div>
@@ -230,7 +238,9 @@
                   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                     Test Case 1
                   </label>
-                  <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="4" id="tc1" placeholder="Enter Test Case 1"></textarea>
+                  <textarea
+                    class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                    rows="4" id="tc1" placeholder="Enter Test Case 1"></textarea>
                   <p class="text-gray-600 text-xs italic">Comment</p>
                 </div>
               </div>
@@ -239,7 +249,9 @@
                   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                     Test Case 2
                   </label>
-                  <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="4" id="tc2" placeholder="Enter Test Case 2"></textarea>
+                  <textarea
+                    class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                    rows="4" id="tc2" placeholder="Enter Test Case 2"></textarea>
                   <p class="text-gray-600 text-xs italic">Comment</p>
                 </div>
               </div>
@@ -248,7 +260,9 @@
                   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                     Output 1
                   </label>
-                  <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="4" id="o1" placeholder="Enter Output 1"></textarea>
+                  <textarea
+                    class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                    rows="4" id="o1" placeholder="Enter Output 1"></textarea>
                   <p class="text-gray-600 text-xs italic">Comment</p>
                 </div>
               </div>
@@ -257,7 +271,9 @@
                   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                     Output 2
                   </label>
-                  <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="4" id="o2" placeholder="Enter Output 2"></textarea>
+                  <textarea
+                    class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                    rows="4" id="o2" placeholder="Enter Output 2"></textarea>
                   <p class="text-gray-600 text-xs italic">Comment</p>
                 </div>
               </div>
@@ -285,28 +301,24 @@
               <div class="flex justify-end pt-2">
                 <input type="button" value="Submit"
                   class="modal-close px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2"
-                  onclick="myFunction()">
+                  onclick="myFunction(event)">
               </div>
             </form>
           </div>
         </div>
         <div class="flex flex-col">
           <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div
-                  class="
+            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+              <div class="
                   shadow
                   overflow-hidden
                   border-b border-gray-200
                   sm:rounded-lg
-                  "
-              >
-              <table class="min-w-full divide-y divide-gray-200" id="problemTable">
+                  ">
+                <table class="min-w-full divide-y divide-gray-200" id="problemTable">
                   <thead class="bg-gray-50">
-                      <tr>
-                      <th
-                          scope="col"
-                          class="
+                    <tr>
+                      <th scope="col" class="
                           px-6
                           py-3
                           text-left text-xs
@@ -314,13 +326,10 @@
                           text-gray-500
                           uppercase
                           tracking-wider
-                          "
-                      >
-                          Problem ID
+                          ">
+                        Problem ID
                       </th>
-                      <th
-                          scope="col"
-                          class="
+                      <th scope="col" class="
                           px-6
                           py-3
                           text-left text-xs
@@ -328,13 +337,10 @@
                           text-gray-500
                           uppercase
                           tracking-wider
-                          "
-                      >
-                          Title
+                          ">
+                        Title
                       </th>
-                      <th
-                          scope="col"
-                          class="
+                      <th scope="col" class="
                           px-6
                           py-3
                           text-left text-xs
@@ -342,13 +348,10 @@
                           text-gray-500
                           uppercase
                           tracking-wider
-                          "
-                      >
-                          Times Solved
+                          ">
+                        Times Solved
                       </th>
-                      <th
-                          scope="col"
-                          class="
+                      <th scope="col" class="
                           px-6
                           py-3
                           text-left text-xs
@@ -356,9 +359,8 @@
                           text-gray-500
                           uppercase
                           tracking-wider
-                          "
-                      >
-                          Difficulty
+                          ">
+                        Difficulty
                       </th>
                       <th scope="col" class="px-6
                       py-3
@@ -367,87 +369,89 @@
                       text-gray-500
                       uppercase
                       tracking-wider">
-                         Action
+                        Action
                       </th>
-                  </tr>
+                    </tr>
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200">
-                  {% for problem in result %}
-                      <tr>
+                    {% for problem in result %}
+                    
+                    <tr>
                       <td class="px-6 py-4 whitespace-nowrap">
-                          <div class="flex items-center">
+                        <div class="flex items-center">
                           <div class="ml-4">
-                              <div class="text-sm font-medium text-gray-900">
+                            <div class="text-sm font-medium text-gray-900">
                               {{ problem[0] }}
-                              </div>
+                            </div>
                           </div>
-                          </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap"><a href='/view_problem_admin/{{problem[0]}}'>
-                          <div class="text-sm text-blue-500 underline">
-                          {{ problem[1]}}
-                          </div>
-                      </a>
+                        </div>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                          <div class="text-sm text-gray-500">
-                          {{ problem[3] }}
+                        <button type="button" class="text-sm text-blue-500 underline"
+                onclick="onProblem(event, {{ problem[0]}})"> <i class="far fa-question-circle mr-3"></i>{{problem[1]}}</button>
+                        <!-- <a href='/view_problem_admin?id={{problem[0]}}&token=' + window.sessionStorage.token>
+                          <div class="text-sm text-blue-500 underline">
+                            {{ problem[1]}}
                           </div>
+                        </a> -->
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-500">
+                          {{ problem[3] }}
+                        </div>
                       </td>
                       <td class="px-6 py-4">
-                          {% if problem[2] == 3 %}
-                            <span class="
-                            text-sm
-                            px-2
-                            font-medium
-                            bg-red-500 bg-opacity-10
-                            text-red-800
-                            rounded
-                            py-0.5
-                            ">Hard</span>
-                          {% elif problem[2] == 2 %}
-                            <span class="
-                            text-sm
-                            px-2
-                            font-medium
-                            bg-yellow-500 bg-opacity-10
-                            text-yellow-800
-                            rounded
-                            py-0.5
-                            ">Medium</span>
-                          {% elif problem[2] == 1 %}
-                            <span class="
-                            text-sm
-                            px-2
-                            font-medium
-                            bg-green-500 bg-opacity-10
-                            text-green-800
-                            rounded
-                            py-0.5
-                            ">Easy</span>
-                          {% endif %}
+                        {% if problem[2] == 3 %}
+                        <span class="
+                          text-sm
+                          px-2
+                          font-medium
+                          bg-red-500 bg-opacity-10
+                          text-red-800
+                          rounded
+                          py-0.5
+                          ">Hard</span>
+                        {% elif problem[2] == 2 %}
+                        <span class="
+                          text-sm
+                          px-2
+                          font-medium
+                          bg-yellow-500 bg-opacity-10
+                          text-yellow-800
+                          rounded
+                          py-0.5
+                          ">Medium</span>
+                        {% elif problem[2] == 1 %}
+                        <span class="
+                          text-sm
+                          px-2
+                          font-medium
+                          bg-green-500 bg-opacity-10
+                          text-green-800
+                          rounded
+                          py-0.5
+                          ">Easy</span>
+                        {% endif %}
                       </td>
-                      <td
-                          class="
+                      <td class="
                           px-6
                           py-4
                           whitespace-nowrap
                           text-sm
                           font-medium
-                          "
-                      >
-                          <!-- <a href="/update/{{problem[0]}}" class="text-indigo-600 hover:text-indigo-900"
+                          ">
+                        <!-- <a href="/update/{{problem[0]}}" class="text-indigo-600 hover:text-indigo-900"
                           >Update</a
                           > -->
-                          <!-- <span>|</span>  -->
-                          <a href="/delete_problem/{{problem[0]}}" class="text-red-600 hover:text-indigo-900"
-                          >Delete</a
-                      >
+                        <!-- <span>|</span>  -->
+                        <!-- <a href="/delete_problem?id={{problem[0]}}&token=" + window.sessionStorage.token class="text-red-600 hover:text-indigo-900">Delete</a> -->
+                        <button type="button" class="text-red-600 hover:text-indigo-900"
+                onclick="onDelete(event, {{problem[0]}})">Delete</button>
                       </td>
-                      </tr>
-                      {% endfor %}
+                    </tr>
+                    {% endfor %}
                   </tbody>
-                  </table>
+                </table>
       </main>
     </div>
   </div>
@@ -499,10 +503,8 @@
       body.classList.toggle('modal-active')
     }
 
-    function toggle(x)
-    {
-      if (x === 1)
-      {
+    function toggle(x) {
+      if (x === 1) {
         var clockButton = document.getElementById('addProblem');
         clockButton.style.display = "block"
         clockButton = document.getElementById('editProblem');
@@ -510,8 +512,7 @@
         clockButton = document.getElementById('createAdmin');
         clockButton.style.display = "none"
       }
-      else if (x === 2)
-      {
+      else if (x === 2) {
         var clockButton = document.getElementById('addProblem');
         clockButton.style.display = "none"
         clockButton = document.getElementById('editProblem');
@@ -519,8 +520,7 @@
         clockButton = document.getElementById('createAdmin');
         clockButton.style.display = "none"
       }
-      else if (x === 3)
-      {
+      else if (x === 3) {
         var clockButton = document.getElementById('addProblem');
         clockButton.style.display = "none"
         clockButton = document.getElementById('editProblem');
@@ -529,12 +529,11 @@
         clockButton.style.display = "block"
       }
     }
-</script>
-<script>
-    async function myFunction() {
+  </script>
+  <script>
+    async function myFunction(e) {
+      e.preventDefault()
       var x;
-      // const nicEditor = nicEditors.findEditor('statement').getContent();
-      // alert(document.getElementById('difficulty').value)
       if (document.getElementById('difficulty').value === "Easy") {
         x = 1
       }
@@ -545,7 +544,7 @@
         x = 3
       }
       // alert("here")
-      if (document.getElementById('statement').value === '' || document.getElementById('title').value === '' ||document.getElementById('tc1').value === '' || document.getElementById('tc2').value === '' || document.getElementById('o1').value === '' || document.getElementById('o2').value === '') {
+      if (document.getElementById('statement').value === '' || document.getElementById('title').value === '' || document.getElementById('tc1').value === '' || document.getElementById('tc2').value === '' || document.getElementById('o1').value === '' || document.getElementById('o2').value === '') {
         alert("Oh bhaiiiii pura toh bharo")
       }
       else {
@@ -567,14 +566,15 @@
           })
         }
         // alert(data[o1])
-        const reply = await fetch('/dashboard-admin.html/', data)
+        const reply = await fetch('/dashboard-admin.html/?token=' + window.sessionStorage.token, data)
+        // window.location.replace('/dashboard-admin.html?title=' + document.getElementById('title').value + '&statement=' + document.getElementById('statement').value + '&tc1=' + document.getElementById('tc1').value + '&tc2=' + document.getElementById('tc2').value)
         if (reply.ok) {
           const data = await reply.json()
           if (data['success'] === 'No') {
             alert('There was some problem in adding to database')
           }
           else if (data['success'] === 'Yes') {
-            window.location.replace('/dashboard-admin.html')
+            window.location.replace('/dashboard-admin.html/?token=' + window.sessionStorage.token)
           }
         }
       }
@@ -601,7 +601,7 @@
           })
         }
         // alert("yo")
-        const reply = await fetch('/dashboard-admin.html/', data)
+        const reply = await fetch('/dashboard-admin.html/?token=' + window.sessionStorage.token, data)
         if (reply.ok) {
           const data = await reply.json()
           if (data['success'] === 'No') {
@@ -609,7 +609,7 @@
             // window.location.replace('/dashboard-admin.html')
           }
           else if (data['success'] === 'Yes') {
-            window.location.replace('/dashboard-admin.html')
+            window.location.replace('/dashboard-admin.html/?token=' + window.sessionStorage.token)
           }
         }
       }
@@ -635,18 +635,41 @@
           })
         }
         // alert("yo")
-        const reply = await fetch('/dashboard-admin.html/', data)
+        const reply = await fetch('/dashboard-admin.html/?token=' + window.sessionStorage.token, data)
         if (reply.ok) {
           const data = await reply.json()
           if (data['success'] === 'No') {
-            alert('There was some problem in editing in the database')
+            alert('There was some problem in creating new admin')
             // window.location.replace('/dashboard-admin.html')
           }
           else if (data['success'] === 'Yes') {
-            window.location.replace('/dashboard-admin.html')
+            alert('New admin successfully created')
+            // window.location.replace('/dashboard-admin.html')
           }
         }
       }
+    }
+    function onSignout(e) {
+      e.preventDefault()
+      window.sessionStorage.clear()
+      window.location.replace('/')
+    }
+    function onRefreshToAdmin(e) {
+      e.preventDefault()
+      window.location.assign('/dashboard-admin.html?token=' + window.sessionStorage.token)
+    }
+
+    function onRefreshToRanking(e) {
+      e.preventDefault()
+      window.location.assign('/view_ranking_admin.html?token=' + window.sessionStorage.token)
+    }
+    function onProblem(e,id) {
+            e.preventDefault()
+            window.location.assign('/view_problem_admin.html?id='+ String(id)+ '&token=' + window.sessionStorage.token)
+        }
+    function onDelete(e, id){
+      e.preventDefault()
+      window.location.assign('/delete_problem?id='+ String(id)+ '&token=' + window.sessionStorage.token)
     }
   </script>
 </body>
