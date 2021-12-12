@@ -173,9 +173,9 @@
                         </article>
                       </dd>
                     </div> -->
-                    <form action="" method='POST' id='myform' enctype='multipart/form-data'>
-                      <input type='file' name='file' id='file'>
-                      <input type='submit' value='Upload' onclick="badal_do({{problem[0]}})">
+                    <form method='POST' enctype='multipart/form-data'>
+                      <input type='file' id='inp'>
+                      <input type='submit' value='Upload' onclick="file_func(event,{{problem[0]}})">
                     </form>
 
                   <!-- </dl> -->
@@ -197,37 +197,34 @@ integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="ano
 <script>
   function onProblem(e) {
             e.preventDefault()
+            alert(window.sessionStorage.token)
             window.location.assign('/dashboard-user.html?token=' + window.sessionStorage.token)
         }
-
-  async function file_func(e,id){
-        if (document.getElementById("file").value === '') {
-          alert("File to daalo bhaii")
+  async function file_func(e, id) {
+      e.preventDefault()
+      if (document.getElementById("inp").value === '') {
+        alert("File to daalo bhaii")
       }
       else {
-        let data = {
+        const inp = document.getElementById('inp')
+        const data = new FormData()
+        data.append('file', inp.files[0])
+
+        let dict = {
           method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            file: document.getElementById("file").value
-            
-          })
+          body: data
         }
-        // alert("yo")
-        const reply = await fetch('/view_problem_user.html/?id=' + String(id) + '&token=' + window.sessionStorage.token, data)
+        const reply = await fetch('/view_problem_user.html/?id=' + String(id) + '&token=' + window.sessionStorage.token, dict)
         if (reply.ok) {
-          const data = await reply.json()
-          alert(data['verdict'])
+          const d = await reply.json()
+          alert(d['verdict'])
+          alert(window.sessionStorage.token)
+          window.location.replace('/view_problem_user.html/?id=' + String(id) + '&token=' + window.sessionStorage.token)
         }
       }
-        
-  }
-  function badal_do(id){
-    document.getElementById('myform').action = "/view_problem_user.html/?id=" + String(id) + "&token=" + window.sessionStorage.token
-  }
+
+    }
+
 </script>
 
 </body>

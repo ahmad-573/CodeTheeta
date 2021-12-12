@@ -114,6 +114,7 @@ def signin():
 @app.route('/view_problem_user.html/', methods=['GET','POST'])
 def view_problem_user():
     token = decode_token(request.args.get("token"))
+    print(token)
     if(token == 'Invalid'):
         return redirect('/signin.html')
     p_id = request.args.get("id")
@@ -150,6 +151,7 @@ def view_problem_user():
             if verdict == 'Solved':
                 cur.execute("select * from solved where user_id= '" + str(token[0]) + "' and problem_id = '" + str(p_id) + "'")
                 r = cur.fetchall()
+                print(r)
                 if len(r) == 0:
                     cur.execute('insert into solved values(%s,%s,%s)', (token[0],p_id,result2[0][2]))
                     db.commit()
@@ -157,7 +159,7 @@ def view_problem_user():
                     db.commit()
                     cur.execute("update problem_set set times_solved =" + str(1) + "+times_solved where problem_id = '" + str(p_id) + "'")
                     db.commit()
-
+        return jsonify({'verdict':verdict})
     cur = db.cursor(buffered=True)
     cur.execute(
         "select problem_id,title,difficulty,statement,test_case1,output1 from problem_set where problem_id = '" + str(p_id) + "'")
@@ -168,7 +170,7 @@ def view_problem_user():
         score = 0
     else:
         score = res[0][0]
-    return render_template('view_problem_user.html', problem=result[0],score=score,verdict=verdict)
+    return render_template('view_problem_user.html', problem=result[0],score=score)
 
 
 def isMatching(file1,file2):
@@ -283,7 +285,6 @@ def delete_problem():
 def dash_user():
     # print(request.args.get("token"))
     token = decode_token(request.args.get("token"))
-    print(token)
     if(token == 'Invalid'):
         return redirect('/signin.html')
     #    return render_template('signin.html')
