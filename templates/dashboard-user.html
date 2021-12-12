@@ -50,174 +50,225 @@
             <span class="text-white text-3xl font-semibold uppercase">Solver</span>
         </div>
         <nav class="text-white text-base font-semibold pt-3">
-            <button type="button" class="flex items-center text-red-600 py-4 pl-6 bg-blue-800 w-full"
-                onclick="onRefreshToUser(event)"> <i class="far fa-question-circle mr-3"></i>ProblemSet</button>
-            <button type="button" class="flex items-center text-white py-4 pl-6" onclick="onRefreshToRanking(event)"> <i class="far fa-question-trophy mr-3"></i>Ranking</button>
+            <button type="button" class="flex items-center bg-blue-800 w-full text-white py-4 pl-6"
+                onclick="onRefreshToUser(event)"> <i class="fas fa-check-double mr-3"></i>ProblemSet</button>
+            <button type="button" class="flex items-center text-white py-4 pl-6 w-full hover:bg-blue-500" onclick="onRefreshToRanking(event)"><i class="fas fa-award mr-3"></i>Ranking</button>
         </nav>
     </aside>
 
     <div class="w-full flex flex-col h-screen overflow-y-hidden">
-        <!-- Desktop Header -->
         <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
             <div class="w-1/2"></div>
-            <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
-                <button @click="isOpen = !isOpen"
-                    class="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
-                    <img src="https://www.w3schools.com/images/w3schools_green.jpg">
-                </button>
-                <button x-show="isOpen" @click="isOpen = false"
-                    class="h-full w-full fixed inset-0 cursor-default"></button>
-                <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
-                    <button type="button" class="block px-4 py-2 account-link hover:text-white"
-                        onclick="onSignout(event)">Sign Out</button>
-                </div>
+              <div class="relative w-1/2 flex justify-end">
+                  <button type="button" class="bg-blue-500
+                  text-blue-500
+                  bg-transparent
+                  border border-solid border-blue-500
+                  hover:bg-blue-500 hover:text-white
+                  active:bg-blue-600
+                  font-bold
+                  uppercase
+                  text-sm
+                  px-6
+                  py-3
+                  rounded-full
+                  outline-none
+                  focus:outline-none
+                  mr-1
+                  mb-1
+                  ease-linear
+                  transition-all
+                  duration-150" onclick="onSignout(event)">Sign Out</button>
             </div>
         </header>
 
         <div class="w-full overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-                <h1 class="text-3xl text-black pb-6">Advanced Search</h1>
-                <form action='/dashboard-user.html/' method="GET" id="asearch">
-                    <div class="flex flex-wrap -mx-3 mb-2">
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                for="grid-state">
-                                Title Contains
-                            </label>
-                            <div class="md:w-2/3">
-                                <input
-                                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                    id="titlec" placeholder="xyz">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap -mx-3 mb-2">
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                for="grid-state">
-                                Difficulty
-                            </label>
-                            <div class="relative">
-                                <select
-                                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="diff" name="diff">
-                                    <option></option>
-                                    <option>Easy</option>
-                                    <option>Medium</option>
-                                    <option>Hard</option>
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20">
-                                        <path
-                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                    </svg>
+                <div class="grid grid-cols-2 divide-x mb-6 divide-gray-200">
+                    <div>
+                        <h1 class="text-3xl text-black pb-6">Advanced Search</h1>
+                        <form action='/dashboard-user.html/' method="GET" id="asearch">
+                            <div class="flex flex-wrap -mx-3 mb-2">
+                                <div class="w-5/6 px-3 mb-6 md:mb-0">
+                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                        for="grid-state">
+                                        Title Contains
+                                    </label>
+                                    <div>
+                                        <input
+                                            class="bg-gray-200 appearance-none border border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                            id="titlec" placeholder="Enter text">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="flex flex-wrap -mx-3 mb-2">
+                                <div class="w-5/6 px-3 mb-6 md:mb-0">
+                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                        for="grid-state">
+                                        Difficulty
+                                    </label>
+                                    <div class="relative">
+                                        <select
+                                            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                            id="diff" name="diff">
+                                            <option></option>
+                                            <option>Easy</option>
+                                            <option>Medium</option>
+                                            <option>Hard</option>
+                                        </select>
+                                        <div
+                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20">
+                                                <path
+                                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap -mx-3 mb-2">
+                                <div class="w-1/2 px-3 mb-6 md:mb-0">
+                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                        for="grid-state">
+                                        Number of times solved
+                                    </label>
+                                    <div class="relative">
+                                        <select
+                                            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                            id="nots" name="nots">
+                                            <option>equals</option>
+                                            <option>less than</option>
+                                            <option>greater than</option>
+                                            <option>less than equal to</option>
+                                            <option>greater than equal to</option>
+                                        </select>
+                                        <div
+                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20">
+                                                <path
+                                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap -mx-3 mb-2">
+                                    <div class="w-5/6 px-3 mb-6 md:mb-0">
+                                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                            for="grid-state">
+                                            Value
+                                        </label>
+                                        <div>
+                                            <input
+                                                class="bg-gray-200 appearance-none border border-gray-200 rounded w-full py-3 px-4 pr-8 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                                id="value" placeholder="Enter text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="submit" value="Search"
+                                class="bg-blue-500
+                                text-blue-500
+                                bg-transparent
+                                border border-solid border-blue-500
+                                hover:bg-blue-500 hover:text-white
+                                active:bg-blue-600
+                                font-bold
+                                uppercase
+                                text-sm
+                                px-6
+                                py-3
+                                rounded
+                                outline-none
+                                focus:outline-none
+                                mr-1
+                                mb-1
+                                ease-linear
+                                transition-all
+                                duration-150 cursor-pointer"
+                                onclick="myFunction1(event)">
+                        </form>
                     </div>
-                    <div class="flex flex-wrap -mx-3 mb-2">
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                for="grid-state">
-                                Number of times solved
-                            </label>
-                            <div class="relative">
-                                <select
-                                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="nots" name="nots">
-                                    <option>equals</option>
-                                    <option>less than</option>
-                                    <option>greater than</option>
-                                    <option>less than equal to</option>
-                                    <option>greater than equal to</option>
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20">
-                                        <path
-                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                    </svg>
+                <div>
+                    <h1 class="text-3xl text-black pb-6 ml-6">Sort</h1>
+                    <form action='/dashboard-user.html/' method="GET" id="sort">
+                        <div class="flex flex-wrap -mx-3 mb-2">
+                            <div class="w-5/6 px-3 mb-6 ml-6 md:mb-0">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                    for="grid-state">
+                                    Sort with respect to
+                                </label>
+                                <div class="relative">
+                                    <select
+                                        class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                        id="wrt" name="wrt">
+                                        <option></option>
+                                        <option>Num of time solved</option>
+                                        <option>Difficulty Level</option>
+                                    </select>
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20">
+                                            <path
+                                                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="flex flex-wrap -mx-3 mb-2">
-                            <div class="w-full px-3 mb-6 md:mb-0">
+                            <div class="w-5/6 px-3 mb-6 ml-6 md:mb-0">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     for="grid-state">
-                                    Value
+                                    Order by
                                 </label>
-                                <div class="md:w-2/3">
-                                    <input
-                                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-3 px-4 pr-8 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                        id="value" placeholder="xyz">
+                                <div class="relative">
+                                    <select
+                                        class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                        id="by" name="by">
+                                        <option></option>
+                                        <option>Ascending</option>
+                                        <option>Descending</option>
+                                    </select>
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20">
+                                            <path
+                                                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <input type="submit" value="Search"
-                        class="modal-close px-4 p-3 text-white rounded-lg bg-indigo-500 hover:bg-indigo-300 mr-2"
-                        onclick="myFunction1(event)">
-                </form>
-                <h1 class="text-3xl text-black pb-6">Sort</h1>
-                <form action='/dashboard-user.html/' method="GET" id="sort">
-                    <div class="flex flex-wrap -mx-3 mb-2">
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                for="grid-state">
-                                Sort with respect to
-                            </label>
-                            <div class="relative">
-                                <select
-                                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="wrt" name="wrt">
-                                    <option></option>
-                                    <option>Num of time solved</option>
-                                    <option>Difficulty Level</option>
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20">
-                                        <path
-                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap -mx-3 mb-2">
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                for="grid-state">
-                                Order by
-                            </label>
-                            <div class="relative">
-                                <select
-                                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="by" name="by">
-                                    <option></option>
-                                    <option>Ascending</option>
-                                    <option>Descending</option>
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20">
-                                        <path
-                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <input type="submit" value="Sort"
-                        class="modal-close px-4 p-3 text-white rounded-lg bg-indigo-500 hover:bg-indigo-300 mr-2"
-                        onclick="myFunction2(event)">
-                </form>
+                        <input type="submit" value="Sort"
+                            class="bg-blue-500
+                            text-blue-500
+                            bg-transparent
+                            border border-solid border-blue-500
+                            hover:bg-blue-500 hover:text-white
+                            active:bg-blue-600
+                            font-bold
+                            uppercase
+                            text-sm
+                            px-6
+                            py-3
+                            rounded
+                            outline-none
+                            focus:outline-none
+                            mr-1
+                            mb-1
+                            mt-2
+                            ease-linear
+                            transition-all
+                            duration-150 ml-6 cursor-pointer"
+                            onclick="myFunction2(event)">
+                    </form>
+                </div>
+                </div>
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
@@ -284,7 +335,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <button type="button" class="text-sm text-blue-500 underline"
-                onclick="onProblem(event, problem[0])">{{problem[1]}}</button>
+                onclick="onProblem(event, {{problem[0]}})">{{problem[1]}}</button>
                                 <!-- <a href='/view_problem_user?id={{problem[0]}}&token=' + window.sessionStorage.token>
                                     <div class="text-sm text-blue-500 underline">
                                         {{problem[1]}}

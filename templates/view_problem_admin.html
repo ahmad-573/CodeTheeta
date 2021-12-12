@@ -49,45 +49,49 @@
 
 <body class="bg-gray-100 font-family-karla flex">
     <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
-        <!-- <div class="p-6">
-            <a href="/dashboard-admin.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Home</a>
-            <button class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onclick="toggle(1)">
-            <i class="fas fa-plus mr-3"></i> Add Problem
-            </button>
-            <button class="modal-open w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onclick="toggle(2)">
-            <i class="fas fa-edit mr-3"></i> Edit Problem
-            </button>
-        </div> -->
-        <nav class="text-white text-base font-semibold pt-3">
-            <!-- <a href="/dashboard-admin.html?token=" + window.sessionStorage.token class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
-            <i class="far fa-question-circle mr-3"></i>
-            Problemset
-            </a> -->
-            <button type="button" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item"
-                onclick="onProblem(event)"> <i class="far fa-question-circle mr-3"></i>Problemset</button>
-        </nav>
+      <div class="p-6">
+        <span class="text-white text-3xl font-semibold uppercase">Admin</span>
+      </div>
+      <nav class="text-white text-base font-semibold pt-3">
+          <!-- <a href="/dashboard-admin.html?token=" + window.sessionStorage.token class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+          <i class="far fa-question-circle mr-3"></i>
+          Problemset
+          </a> -->
+          <button type="button" class="flex items-center w-full text-white py-4 pl-6 hover:bg-blue-500"
+              onclick="onProblem(event)"> <i class="fas fa-check-double mr-3"></i>Problemset</button>
+          <button class="flex items-center text-white py-4 pl-6 hover:bg-blue-500 w-full" onclick="onRefreshToRanking(event)"> <i class="fas fa-award mr-3"></i>View Ranking</button>
+      </nav>
     </aside>
   
     <div class="w-full flex flex-col h-screen overflow-y-hidden">
       <!-- Desktop Header -->
       <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
         <div class="w-1/2"></div>
-        <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
-            <button @click="isOpen = !isOpen"
-                class="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
-                <img src="https://www.w3schools.com/images/w3schools_green.jpg">
-            </button>
-            <button x-show="isOpen" @click="isOpen = false"
-                class="h-full w-full fixed inset-0 cursor-default"></button>
-            <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
-                <button type="button" class="block px-4 py-2 account-link hover:text-white"
-                    onclick="onSignout(event)">Sign Out</button>
-            </div>
+          <div class="relative w-1/2 flex justify-end">
+              <button type="button" class="bg-blue-500
+              text-blue-500
+              bg-transparent
+              border border-solid border-blue-500
+              hover:bg-blue-500 hover:text-white
+              active:bg-blue-600
+              font-bold
+              uppercase
+              text-sm
+              px-6
+              py-3
+              rounded-full
+              outline-none
+              focus:outline-none
+              mr-1
+              mb-1
+              ease-linear
+              transition-all
+              duration-150" onclick="onSignout(event)">Sign Out</button>
         </div>
-    </header>
+      </header>
   
-        <div class="w-full overflow-x-hidden border-t flex flex-col">
-            <main class="w-full flex-grow p-6">
+      <div class="w-full overflow-x-hidden border-t flex flex-col">
+          <main class="w-full flex-grow p-6">
             {% for problem in result %}
               <div class="bg-white shadow overflow-hidden sm:rounded-lg">
                 <div class="px-4 py-5 sm:px-6">
@@ -101,22 +105,22 @@
                 <div class="border-t border-gray-200">
                   <!-- <dl> -->
                     <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <!-- <dt class="text-sm font-medium text-gray-500">
-                        Full name
-                      </dt> -->
-                      <textarea class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-5" rows="20" disabled>{{ problem[3] }}</textarea>
+                      <h3 class="text-lg leading-6 font-medium text-gray-900 underline">
+                        Problem Statement
+                      </h3>
+                      <textarea class="mt-1 bg-gray-50 text-sm text-gray-900 sm:mt-0 sm:col-span-5" rows="20" disabled>{{ problem[3] }}</textarea>
                     </div>
                     <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <!-- <dt class="text-sm font-medium text-gray-500">
-                        Application for
-                      </dt> -->
-                      <textarea class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-5" rows="10" disabled>{{ problem[4] }}</textarea>
+                      <h3 class="text-lg leading-6 font-medium text-gray-900 underline">
+                        Sample Input
+                      </h3>
+                      <textarea class="mt-1 bg-white text-sm text-gray-900 sm:mt-0 sm:col-span-5" rows="10" disabled>{{ problem[4] }}</textarea>
                     </div>
                     <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <!-- <dt class="text-sm font-medium text-gray-500">
-                        Email address
-                      </dt> -->
-                      <textarea class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-5" rows="10" disabled>{{ problem[5] }}</textarea>
+                      <h3 class="text-lg leading-6 font-medium text-gray-900 underline">
+                        Sample Output
+                      </h3>
+                      <textarea class="mt-1 bg-gray-50 text-sm text-gray-900 sm:mt-0 sm:col-span-5" rows="10" disabled>{{ problem[5] }}</textarea>
                     </div>
                     <!-- <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                       <dt class="text-sm font-medium text-gray-500">
@@ -161,7 +165,11 @@ integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="ano
       e.preventDefault()
       window.sessionStorage.clear()
       window.location.replace('/')
-    }
+  }
+  function onRefreshToRanking(e) {
+    e.preventDefault()
+    window.location.assign('/view_ranking_admin.html?token=' + window.sessionStorage.token)
+  }
 </script>
 
 </body>
