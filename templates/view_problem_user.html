@@ -197,7 +197,6 @@ integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="ano
 <script>
   function onProblem(e) {
             e.preventDefault()
-            alert(window.sessionStorage.token)
             window.location.assign('/dashboard-user.html?token=' + window.sessionStorage.token)
         }
   async function file_func(e, id) {
@@ -218,7 +217,6 @@ integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="ano
         if (reply.ok) {
           const d = await reply.json()
           alert(d['verdict'])
-          alert(window.sessionStorage.token)
           window.location.replace('/view_problem_user.html/?id=' + String(id) + '&token=' + window.sessionStorage.token)
         }
       }
