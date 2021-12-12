@@ -44,7 +44,7 @@ app.config['MYSQL_USER'] = 'project_user'
 app.config['MYSQL_PASSWORD'] = 'password123'
 app.config['MYSQL_DB'] = 'ct_db'
 app.secret_key = key
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = '../../../Desktop'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 db = mysql.connector.connect(
@@ -439,7 +439,8 @@ def run_file():
         input_str = input_str + ' ' + line
 
     with open('output.txt','a') as f:
-        p = subprocess.Popen('python uploads/file.py', shell=True, stdout=f, stdin=subprocess.PIPE,stderr=subprocess.PIPE ,text=True)
+        s = 'python '+UPLOAD_FOLDER+'/file.py'
+        p = subprocess.Popen(s, shell=True, stdout=f, stdin=subprocess.PIPE,stderr=subprocess.PIPE ,text=True)
         out,err = p.communicate(input_str)
         return err
 
