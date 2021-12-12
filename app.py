@@ -147,9 +147,10 @@ def view_problem_user():
             o.close()
             cor_output.close()
 
-            possible_verdicts = ['Solved','Failed','Compile time error','Runtime error','Time out']
+            possible_verdicts = ['Solved','Hidden Test Case Failed!','Compile time error','Runtime error','Time out']
             verdict = possible_verdicts[(int(ver)+1)%2]
             if verdict == 'Solved':
+                verdict = 'Hidden Test Case Passed!'
                 cur.execute("select * from solved where user_id= '" + str(token[0]) + "' and problem_id = '" + str(p_id) + "'")
                 r = cur.fetchall()
                 print(r)
