@@ -259,13 +259,40 @@ def delete_problem():
 
 # DASHBOARDS
 # @app.route('/dashboard-user.html/', methods=['POST', 'GET'], defaults={'res': None})
-@app.route('/dashboard-user.html/')
+@app.route('/dashboard-user.html/', methods=['GET','POST'])
 def dash_user():
     # print(request.args.get("token"))
     token = decode_token(request.args.get("token"))
     if(token == 'Invalid'):
         return redirect('/signin.html')
     #    return render_template('signin.html')
+    if request.method == 'POST':
+        content = request.get_json()
+        formid = content['formid']
+        if formid == 1:
+            cur = db.cursor(buffered=True)
+            try:
+                cur.execute("select password from solver where password= '" + str(content['prevPassword']) + "' and user_id= '" + str(token[0]) + "'")
+                r = cur.fetchall()
+                if (len(r) == 1):
+                    cur.execute("update solver set password= '" + str(content['newPassword'] + "' where user_id = '" + str(token[0]) + "'" ))
+                    db.commit()
+                    success = 'Yes'
+                else:
+                    success = 'Wrong'
+            except:
+                success = 'No'
+            return jsonify({'success':success})
+        elif formid == 2:
+            cur = db.cursor(buffered=True)
+            try:
+                cur.execute("update solver set username= '" + str(content['username'] + "' where user_id = '" + str(token[0]) + "'" ))
+                db.commit()
+                success = 'Yes'
+            except:
+                success = 'No'
+            return jsonify({'success':success})
+
     formid = request.args.get('formid')
     if formid is None:
         cur = db.cursor(buffered=True)
@@ -436,4 +463,4 @@ def fetchImg(name):
 
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=True)

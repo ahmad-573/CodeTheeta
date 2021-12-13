@@ -399,7 +399,7 @@
                           Previous Password
                         </label>
                         <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
-                          rows="1" id="prevPassword" name="id" placeholder="Enter previous password"></textarea>
+                          rows="1" id="prevPassword" name="prevPassword" placeholder="Enter previous password"></textarea>
                       </div>
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-2">
@@ -409,7 +409,7 @@
                         </label>
                         <textarea
                           class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
-                          rows="1" id="newPassword" name="new" placeholder="Enter new password"></textarea>
+                          rows="1" id="newPassword" name="newPassword" placeholder="Enter new password"></textarea>
                       </div>
                     </div>
                     <div class="flex justify-end pt-2">
@@ -433,7 +433,7 @@
                         ease-linear
                         transition-all
                         duration-150 cursor-pointer w-full mt-3"
-                        onclick="myFunction1(event)">
+                        onclick="myFunction3(event)">
                     </div>
                 </form>
 
@@ -445,7 +445,7 @@
                           New Username
                         </label>
                         <textarea class="w-full px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
-                          rows="1" id="username" name="id" placeholder="Enter new username"></textarea>
+                          rows="1" id="username" name="username" placeholder="Enter new username"></textarea>
                       </div>
                     </div>
                     <div class="flex justify-end pt-2">
@@ -469,7 +469,7 @@
                         ease-linear
                         transition-all
                         duration-150 cursor-pointer w-full mt-3"
-                        onclick="myFunction1(event)">
+                        onclick="myFunction4(event)">
                     </div>
                 </form>
         </div>
@@ -574,6 +574,73 @@
             e.preventDefault()
             window.location.assign('/view_problem_user.html?id=' + String(id)+ '&token=' + window.sessionStorage.token)
         }
+
+        async function myFunction3(e) {
+      e.preventDefault()
+      if (document.getElementById("prevPassword").value === '' || document.getElementById("newPassword").value === '') {
+        alert("Oh bhaiiiii pura toh bharo")
+      }
+      else {
+        let data = {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            formid: 1,
+            prevPassword: document.getElementById("prevPassword").value,
+            newPassword: document.getElementById("newPassword").value
+          })
+        }
+        const reply = await fetch('/dashboard-user.html/?token=' + window.sessionStorage.token, data)
+        if (reply.ok) {
+          const data = await reply.json()
+          if (data['success'] === 'No') {
+            alert('There was some problem in editing in the database')
+          }
+          else if (data['success'] === 'Wrong'){
+              alert('You entered you current password wrong')
+          }
+          else if (data['success'] === 'Yes') {
+            window.location.replace('/dashboard-user.html/?token=' + window.sessionStorage.token)
+            alert('Your password has been changed bhaiiiii')
+          }
+        }
+      }
+    }
+
+    async function myFunction4(e) {
+      e.preventDefault()
+      if (document.getElementById("username").value === ''){
+        alert("Oh bhaiiiii pura toh bharo")
+      }
+      else {
+        let data = {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            formid: 2,
+            username: document.getElementById("username").value
+          })
+        }
+        const reply = await fetch('/dashboard-user.html/?token=' + window.sessionStorage.token, data)
+        if (reply.ok) {
+          const data = await reply.json()
+          if (data['success'] === 'No') {
+            alert('There was some problem in editing in the database')
+          }
+          else if (data['success'] === 'Yes') {
+            window.location.replace('/dashboard-user.html/?token=' + window.sessionStorage.token)
+            alert('Your username has been changed bhaiiiii')
+          }
+        }
+      }
+    }
+    
     </script>
 
 </body>
