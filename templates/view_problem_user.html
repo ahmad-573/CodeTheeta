@@ -102,11 +102,9 @@
                   </h3>
                   <p class="flex mt-1 text-sm text-gray-500 justify-center">
                     {{ problem[1] }} 
-                    
                   </p>
                   <p class="flex mt-1 text-sm text-gray-500 justify-center">
-                    Your max score for this problem is {{score}} 
-                    
+                    Your max score for this problem is {{score}}
                   </p>
                 </div>
                 <div class="border-t border-gray-200">
@@ -170,8 +168,6 @@
                         duration-150 cursor-pointer" onclick="file_func(event,{{problem[0]}})">
                       </form>
                     </div>
-
-                  <!-- </dl> -->
                 </div>
               </div>
             </main>
@@ -202,7 +198,6 @@ integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="ano
       if (document.getElementById("inp").value === '') {
         alert("File to daalo bhaii")
       }
-      
       else {
         const inp = document.getElementById('inp')
         const data = new FormData()
