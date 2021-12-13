@@ -41,23 +41,13 @@
     
     <body class="bg-gray-100 font-family-karla flex">
         <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
+            <div class="p-6">
+                <span class="text-white text-3xl font-semibold uppercase">Solver</span>
+            </div>
             <nav class="text-white text-base font-semibold pt-3">
-                <!-- <a href="/dashboard-user.html?token="+ window.sessionStorage.token class="flex items-center text-white py-4 pl-6">
-                <i class="far fa-question-circle mr-3"></i>
-                Problemset
-                </a>
-                <a href="/view_ranking_user.html?token="+ window.sessionStorage.token class="flex items-center text-white py-4 pl-6 bg-blue-800 w-full">
-                    <i class="far fa-question-circle mr-3"></i>
-                    View Ranking
-                </a> -->
-                    <button class="flex items-center text-white py-4 pl-6" onclick="onRefreshToUser(event)">
-                    <i class="far fa-question-circle mr-3"></i>
-                    Problemset
-                    </button>
-                    <button class="flex bg-blue-800 w-full items-center text-white py-4 pl-6" onclick="onRefreshToRanking(event)">
-                        <i class="far fa-question-circle mr-3"></i>
-                        View Ranking
-                    </button>
+                <button type="button" class="flex items-center w-full text-white py-4 pl-6 hover:bg-blue-500"
+                    onclick="onRefreshToUser(event)"> <i class="fas fa-check-double mr-3"></i>ProblemSet</button>
+                <button type="button" class="flex items-center bg-blue-800 text-white py-4 pl-6 w-full" onclick="onRefreshToRanking(event)"><i class="fas fa-award mr-3"></i>Ranking</button>
             </nav>
         </aside>
         
@@ -65,17 +55,26 @@
             <!-- Desktop Header -->
             <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
                 <div class="w-1/2"></div>
-                <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
-                    <button @click="isOpen = !isOpen"
-                        class="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
-                        <img src="https://www.w3schools.com/images/w3schools_green.jpg">
-                    </button>
-                    <button x-show="isOpen" @click="isOpen = false"
-                        class="h-full w-full fixed inset-0 cursor-default"></button>
-                    <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
-                        <button type="button" class="block px-4 py-2 account-link hover:text-white"
-                            onclick="onSignout(event)">Sign Out</button>
-                    </div>
+                  <div class="relative w-1/2 flex justify-end">
+                      <button type="button" class="bg-blue-500
+                      text-blue-500
+                      bg-transparent
+                      border border-solid border-blue-500
+                      hover:bg-blue-500 hover:text-white
+                      active:bg-blue-600
+                      font-bold
+                      uppercase
+                      text-sm
+                      px-6
+                      py-3
+                      rounded-full
+                      outline-none
+                      focus:outline-none
+                      mr-1
+                      mb-1
+                      ease-linear
+                      transition-all
+                      duration-150" onclick="onSignout(event)">Sign Out</button>
                 </div>
             </header>
         
