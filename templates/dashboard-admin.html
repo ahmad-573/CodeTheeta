@@ -109,11 +109,9 @@
     <div class="w-full overflow-x-hidden border-t flex flex-col">
       <main class="w-full flex-grow p-6">
         <h1 class="text-3xl text-black pb-6">Problemsets</h1>
-        <div
-          class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+        <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
           <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-          <div
-            class="modal-container bg-white w-11/12 h-3/4 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+          <div class="modal-container bg-white w-11/12 h-3/4 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
             <button class="modal-close ml-3 mt-3 fixed block"><i class="far fa-times-circle text-red-800"></i></button>
 
             <form method="POST" class="w-full max-w-lg p-8" style="display: none;" id="createAdmin">
@@ -249,7 +247,6 @@
                   onclick="myFunction1(event)">
               </div>
             </form>
-
 
             <form method="POST" class="w-full max-w-lg p-8" style="display: none;" id="addProblem">
               <h1 class="text-xl text-black pb-6">Add Problem</h1>
@@ -450,11 +447,6 @@
                       <td class="px-6 py-4 whitespace-nowrap">
                         <button type="button" class="text-sm text-blue-500 underline"
                 onclick="onProblem(event, {{ problem[0]}})">{{problem[1]}}</button>
-                        <!-- <a href='/view_problem_admin?id={{problem[0]}}&token=' + window.sessionStorage.token>
-                          <div class="text-sm text-blue-500 underline">
-                            {{ problem[1]}}
-                          </div>
-                        </a> -->
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-500">
@@ -501,11 +493,6 @@
                           text-sm
                           font-medium
                           ">
-                        <!-- <a href="/update/{{problem[0]}}" class="text-indigo-600 hover:text-indigo-900"
-                          >Update</a
-                          > -->
-                        <!-- <span>|</span>  -->
-                        <!-- <a href="/delete_problem?id={{problem[0]}}&token=" + window.sessionStorage.token class="text-red-600 hover:text-indigo-900">Delete</a> -->
                         <button type="button" class="text-red-600 hover:text-indigo-900"
                 onclick="onDelete(event, {{problem[0]}})">Delete</button>
                       </td>
@@ -626,9 +613,7 @@
             difficulty: x
           })
         }
-        // alert(data[o1])
         const reply = await fetch('/dashboard-admin.html/?token=' + window.sessionStorage.token, data)
-        // window.location.replace('/dashboard-admin.html?title=' + document.getElementById('title').value + '&statement=' + document.getElementById('statement').value + '&tc1=' + document.getElementById('tc1').value + '&tc2=' + document.getElementById('tc2').value)
         if (reply.ok) {
           const data = await reply.json()
           if (data['success'] === 'No') {
@@ -667,7 +652,6 @@
           const data = await reply.json()
           if (data['success'] === 'No') {
             alert('There was some problem in editing in the database')
-            // window.location.replace('/dashboard-admin.html')
           }
           else if (data['success'] === 'Yes') {
             window.location.replace('/dashboard-admin.html/?token=' + window.sessionStorage.token)
@@ -695,17 +679,14 @@
             password: document.getElementById("password").value,
           })
         }
-        // alert("yo")
         const reply = await fetch('/dashboard-admin.html/?token=' + window.sessionStorage.token, data)
         if (reply.ok) {
           const data = await reply.json()
           if (data['success'] === 'No') {
             alert('There was some problem in creating new admin')
-            // window.location.replace('/dashboard-admin.html')
           }
           else if (data['success'] === 'Yes') {
             alert('New admin successfully created')
-            // window.location.replace('/dashboard-admin.html')
           }
         }
       }
