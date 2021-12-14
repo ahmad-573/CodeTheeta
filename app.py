@@ -52,7 +52,7 @@ UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 db = mysql.connector.connect(
-    user='project_user', database='ct_db', password='password123')
+    user='project_user', database='ct_db', password='password123',auth_plgin='mysql_native_password')
 
 # USE CASES
 
