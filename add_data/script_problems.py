@@ -29,7 +29,7 @@ def run_script():
         cur.execute("select max(problem_id) from problem_set")
         r = cur.fetchall()[0][0]
         r = int(r)
-        cur.execute("insert into created values(%s,%s)",(r,1))
+        cur.execute("insert into created values(%s,%s)",(r,7))
         db.commit()
 
 
