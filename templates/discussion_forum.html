@@ -91,6 +91,7 @@
                                 sm:rounded-lg
                                 "
                             >
+
                             <table class="w-full" id="problemTable">
                                 <thead class="bg-gray-50">
                                     <tr>
@@ -217,6 +218,32 @@ integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="ano
             }
             }
         }
+    }
+    async function onEmotion(e,i,id){
+        e.preventDefault()
+        let data = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    formid: 1,
+                    emot: i,
+                    id: id
+                    
+                })
+            }
+            const reply = await fetch('/discussion_forum.html/?token=' + window.sessionStorage.token, data)
+            if (reply.ok) {
+            const data = await reply.json()
+            if (data['success'] === 'No') {
+                alert('There was some problem in adding to database')
+            }
+            else if (data['success'] === 'Yes') {
+                window.location.replace('/discussion_forum.html/?token=' + window.sessionStorage.token)
+            }
+            }
     }
 </script>
 
