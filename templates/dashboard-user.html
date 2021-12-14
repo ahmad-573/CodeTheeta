@@ -57,6 +57,7 @@
             <button type="button" class="flex items-center bg-blue-800 w-full text-white py-4 pl-6"
                 onclick="onRefreshToUser(event)"> <i class="fas fa-check-double mr-3"></i>ProblemSet</button>
             <button type="button" class="flex items-center text-white py-4 pl-6 w-full hover:bg-blue-500" onclick="onRefreshToRanking(event)"><i class="fas fa-award mr-3"></i>Ranking</button>
+            <button type="button" class="flex items-center text-white py-4 pl-6 w-full hover:bg-blue-500" onclick="onRefreshToDiscussion(event)"><i class="far fa-comment-dots mr-2"></i></i>Discussion Forum</button>
         </nav>
     </aside>
 
@@ -663,6 +664,10 @@
         function onRefreshToRanking(e) {
             e.preventDefault()
             window.location.assign('/view_ranking_user.html?token=' + window.sessionStorage.token)
+        }
+        function onRefreshToDiscussion(e) {
+            e.preventDefault()
+            window.location.assign('/discussion_forum.html?token=' + window.sessionStorage.token)
         }
         function onProblem(e,id) {
             e.preventDefault()
