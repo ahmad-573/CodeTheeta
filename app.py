@@ -11,6 +11,8 @@ from sys import stderr, stdin, stdout
 from werkzeug.utils import secure_filename
 import os
 import sys
+import time
+import signal
 
 import jwt
 from base64 import b64encode
@@ -115,7 +117,6 @@ def signin():
 @app.route('/view_problem_user.html/', methods=['GET','POST'])
 def view_problem_user():
     token = decode_token(request.args.get("token"))
-    print(token)
     if(token == 'Invalid'):
         return redirect('/signin.html')
     p_id = request.args.get("id")
@@ -153,7 +154,6 @@ def view_problem_user():
                 verdict = 'Hidden Test Case Passed!'
                 cur.execute("select * from solved where user_id= '" + str(token[0]) + "' and problem_id = '" + str(p_id) + "'")
                 r = cur.fetchall()
-                print(r)
                 if len(r) == 0:
                     cur.execute('insert into solved values(%s,%s,%s)', (token[0],p_id,result2[0][2]))
                     db.commit()
@@ -183,8 +183,6 @@ def isMatching(file1,file2):
     
     for line in file2:
         c2 = c2 + line
-    print(c1)
-    print(c2)
     if c1 == c2:
         return True
     else:
@@ -261,7 +259,6 @@ def delete_problem():
 # @app.route('/dashboard-user.html/', methods=['POST', 'GET'], defaults={'res': None})
 @app.route('/dashboard-user.html/', methods=['GET','POST'])
 def dash_user():
-    # print(request.args.get("token"))
     token = decode_token(request.args.get("token"))
     if(token == 'Invalid'):
         return redirect('/signin.html')
@@ -312,7 +309,6 @@ def dash_user():
     elif int(formid) == 0:
         cur = db.cursor(buffered=True)
         s1 = 'select problem_id, title, difficulty, times_solved, statement from problem_set where'
-        print(request.args.get('titlec'))
         if request.args.get('titlec') != '':
             s1 = s1 + " title like '%" + request.args.get('titlec') + "%'"
             s1 = s1 + ' and'
@@ -334,7 +330,6 @@ def dash_user():
             s1 = s1 + ' times_solved' + s2 + request.args.get('value')
         if s1[-3:] == 'and':
             s1 = s1[:-3]
-        print(s1)
         cur.execute(s1)
         result = cur.fetchall()
 
@@ -458,9 +453,14 @@ def run_file():
         input_str = input_str + ' ' + line
 
     with open('output.txt','a') as f:
-        s = 'python '+UPLOAD_FOLDER+'/file.py'
-        p = subprocess.Popen(s, shell=True, stdout=f, stdin=subprocess.PIPE,stderr=subprocess.PIPE ,text=True)
-        out,err = p.communicate(input_str)
+        cmd = 'python '+UPLOAD_FOLDER+'/file.py'
+        max_time = 5
+        p = subprocess.Popen(cmd, shell=True, stdout=f, stdin=subprocess.PIPE,stderr=subprocess.PIPE ,text=True)
+        try:
+            out,err = p.communicate(input_str,timeout=max_time)
+        except subprocess.TimeoutExpired:
+            p.kill()
+            err = 'Timeout'
         return err
 
 # # IMAGE RENDERING
@@ -472,4 +472,14 @@ def fetchImg(name):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
+    # class TestFailed(Exception):
+    #     def __init__(self, m):
+    #         self.message = m
+    #     def __str__(self):
+    #         return self.message
+
+    # try:
+    #     raise TestFailed('Oops')
+    # except TestFailed as x:
+    #     print (x)
