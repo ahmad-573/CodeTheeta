@@ -17,7 +17,7 @@ def get_shuffled_substr(s):
 
 def run_script():
     db = mysql.connector.connect(
-        user='project_user2', database='ct_db', password='password123',auth_plgin='mysql_native_password')
+        user='project_user2', database='ct_db', password='password123',auth_plugin='mysql_native_password')
     og_title = 'Thisisarandomtitlegenerator'
     lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris non imperdiet sem, ac malesuada mi. Mauris sed nunc nisi. Duis vitae semper purus. Aliquam dolor enim, aliquam id urna sed, dignissim tincidunt ipsum. Proin fringilla mauris bibendum augue venenatis laoreet sit amet id nisl. Mauris feugiat nisi tristique ante facilisis, sed auctor nisi pulvinar. Nam in velit porttitor, accumsan felis ut, imperdiet neque. Praesent ac fringilla ex. Fusce volutpat tellus vitae tellus scelerisque faucibus. Vivamus commodo molestie nisl non facilisis. Donec sollicitudin velit felis, non malesuada ligula vestibulum eu.'
     cur = db.cursor(buffered=True)

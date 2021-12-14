@@ -4,7 +4,7 @@ import hashlib
 
 def run_script():
     db = mysql.connector.connect(
-        user='project_user2', database='ct_db', password='password123',auth_plgin='mysql_native_password')
+        user='project_user2', database='ct_db', password='password123',auth_plugin='mysql_native_password')
 
     un = pd.read_csv('add_data/usernames.txt')
     pw = pd.read_csv('add_data/passwords.txt')
