@@ -292,6 +292,15 @@ def dash_user():
             except:
                 success = 'No'
             return jsonify({'success':success})
+        elif formid == 3:
+            cur = db.cursor(buffered=True)
+            try:
+                cur.execute("delete from solver where user_id= '" + str(token[0]) + "'")
+                db.commit()
+                success = 'Yes'
+            except:
+                success = 'No'
+            return jsonify({'success':success})
 
     formid = request.args.get('formid')
     if formid is None:
