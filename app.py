@@ -13,6 +13,7 @@ import os
 import sys
 import time
 import signal
+import hashlib
 
 import jwt
 from base64 import b64encode
