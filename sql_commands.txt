@@ -56,3 +56,39 @@ create table created(
 		on update cascade
 );
 
+create table comments(
+	c_id int not null auto_increment,
+	user_id int not null,
+	content longtext not null,
+	likes int not null default 0,
+	dislikes int not null default 0,
+	primary key(c_id),
+	foreign key(user_id) references solver(user_id)
+		on delete cascade
+		on update cascade
+);
+
+create table liked(
+	c_id int not null,
+	user_id int not null,
+	primary key(c_id,user_id)
+	foreign key(c_id) references comments(c_id)
+		on delete cascade
+		on update cascade,
+	foreign key(user_id) references solver(user_id)
+		on delete cascade
+		on update cascade
+);
+
+create table disliked(
+	c_id int not null,
+	user_id int not null,
+	primary key(c_id,user_id),
+	foreign key(c_id) references comments(c_id)
+		on delete cascade
+		on update cascade,
+	foreign key(user_id) references solver(user_id)
+		on delete cascade
+		on update cascade
+);
+

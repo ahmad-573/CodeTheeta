@@ -174,6 +174,95 @@ def view_problem_user():
         score = res[0][0]
     return render_template('view_problem_user.html', problem=result[0],score=score)
 
+@app.route('/discussion_forum.html/', methods=['GET','POST'])
+def discussion():
+    token = decode_token(request.args.get("token"))
+    if(token == 'Invalid'):
+        return redirect('/signin.html')
+    if request.method == 'POST':
+        content = request.get_json()
+        formid = content['formid']
+        if formid == 0:
+            comment = content['comment']
+            cur = db.cursor(buffered=True)
+            try:
+                cur.execute("insert into comments(user_id,content) values(%s,%s)",(token[0],comment))
+                db.commit()
+                success = 'Yes'
+            except:
+                success = 'No'
+            return jsonify({'success':success})
+        elif formid == 1:
+            emot = content['emot']
+            co_id = content['id']
+            cur = db.cursor(buffered=True)
+            if emot == 0:
+                try:
+                    cur.execute("select * from disliked where user_id= " + str(token[0]) + " and c_id= " + str(co_id))
+                    res = cur.fetchall()
+                    cur.execute("select * from liked where user_id= " + str(token[0]) + " and c_id= " + str(co_id))
+                    res2 = cur.fetchall()
+                    if len(res) == 0 and len(res2) == 0:
+                        cur.execute("insert into disliked values(%s,%s)",(co_id,token[0]))
+                        db.commit()
+                        cur.execute("update comments set dislikes = dislikes + 1 where c_id= " + str(co_id))
+                        db.commit()
+                        success = 'Yes'
+                    elif len(res) == 0 and len(res2) > 0:
+                        cur.execute("insert into disliked values(%s,%s)",(co_id,token[0]))
+                        db.commit()
+                        cur.execute("delete from liked where user_id= " + str(token[0]) + " and c_id= " + str(co_id))
+                        db.commit()
+                        cur.execute("update comments set dislikes = dislikes + 1 where c_id= " + str(co_id))
+                        db.commit()
+                        cur.execute("update comments set likes = likes - 1 where c_id= " + str(co_id))
+                        db.commit()
+                        success = 'Yes'
+                    else:
+                        cur.execute("update comments set dislikes = dislikes - 1 where c_id= " + str(co_id))
+                        db.commit()
+                        cur.execute("delete from disliked where user_id= " + str(token[0]) + " and c_id= " + str(co_id))
+                        db.commit()
+                        success = 'Yes'
+                except:
+                    success = 'No'
+            elif emot == 1:
+                try:
+                    cur.execute("select * from liked where user_id= " + str(token[0]) + " and c_id= " + str(co_id) )
+                    res = cur.fetchall()
+                    cur.execute("select * from disliked where user_id= " + str(token[0]) + " and c_id= " + str(co_id))
+                    res2 = cur.fetchall()
+                    if len(res) == 0 and len(res2) == 0:
+                        cur.execute("insert into liked values(%s,%s)",(co_id,token[0]))
+                        db.commit()
+                        cur.execute("update comments set likes = likes + 1 where c_id= " + str(co_id))
+                        db.commit()
+                        success = 'Yes'
+                    elif len(res) == 0 and len(res2) > 0:
+                        cur.execute("insert into liked values(%s,%s)",(co_id,token[0]))
+                        db.commit()
+                        cur.execute("delete from disliked where user_id= " + str(token[0]) + " and c_id= " + str(co_id))
+                        db.commit()
+                        cur.execute("update comments set likes = likes + 1 where c_id= " + str(co_id))
+                        db.commit()
+                        cur.execute("update comments set dislikes = dislikes - 1 where c_id= " + str(co_id))
+                        db.commit()
+                        success = 'Yes'
+                    else:
+                        cur.execute("update comments set likes = likes - 1 where c_id= " + str(co_id))
+                        db.commit()
+                        cur.execute("delete from liked where user_id= " + str(token[0]) + " and c_id= " + str(co_id))
+                        db.commit()
+                        success = 'Yes'
+                except:
+                    success = 'No'
+            return jsonify({'success':success})
+
+    else:
+        cur = db.cursor(buffered=True)
+        cur.execute("select c_id,content,likes,dislikes,username from solver inner join comments on solver.user_id=comments.user_id")
+        result = cur.fetchall()
+        return render_template('discussion_forum.html',result=result)
 
 def isMatching(file1,file2):
     c1 = ''
