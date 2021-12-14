@@ -567,7 +567,7 @@ def fetchImg(name):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
     # class TestFailed(Exception):
     #     def __init__(self, m):
     #         self.message = m
