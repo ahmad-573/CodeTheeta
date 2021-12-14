@@ -254,6 +254,12 @@ def delete_problem():
     db.commit()
     return redirect('/dashboard-admin.html?token='+request.args.get("token"))
 
+@app.route('/discussion_forum.html/', methods=['GET','POST'])
+def discussion_forum():
+    token = decode_token(request.args.get("token"))
+    if(token == 'Invalid'):
+        return redirect('/signin.html')
+    return render_template('discussion_forum.html')
 
 # DASHBOARDS
 # @app.route('/dashboard-user.html/', methods=['POST', 'GET'], defaults={'res': None})

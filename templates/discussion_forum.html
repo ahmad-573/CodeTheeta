@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion Forum</title>
+    <meta name="description" content="">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+    @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+
+    .font-family-karla {
+        font-family: karla;
+    }
+
+    .bg-sidebar {
+        background: #3d68ff;
+    }
+
+    .cta-btn {
+        color: #3d68ff;
+    }
+
+    .upgrade-btn {
+        background: #1947ee;
+    }
+
+    .upgrade-btn:hover {
+        background: #0038fd;
+    }
+
+    .account-link:hover {
+        background: #3d68ff;
+    }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-family-karla flex">
+    <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
+        <div class="p-6">
+            <span class="text-white text-3xl font-semibold uppercase">Solver</span>
+        </div>
+        <nav class="text-white text-base font-semibold pt-3">
+            <button type="button" class="flex items-center w-full text-white py-4 pl-6 hover:bg-blue-500"
+            onclick="onRefreshToUser(event)"> <i class="fas fa-check-double mr-3"></i>ProblemSet</button>
+            <button type="button" class="flex items-center text-white py-4 pl-6 w-full hover:bg-blue-500" onclick="onRefreshToRanking(event)"><i class="fas fa-award mr-3"></i>Ranking</button>
+            <button type="button" class="flex items-center bg-blue-800 w-full text-white py-4 pl-6 " onclick="onRefreshToDiscussion(event)"><i class="far fa-comment-dots mr-2"></i>Discussion Forum</button>
+        </nav>
+    </aside>
+    
+    <div class="w-full flex flex-col h-screen overflow-y-hidden">
+        <!-- Desktop Header -->
+        <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
+            <div class="w-1/2"></div>
+              <div class="relative w-1/2 flex justify-end">
+                  <button type="button" class="bg-blue-500
+                  text-blue-500
+                  bg-transparent
+                  border border-solid border-blue-500
+                  hover:bg-blue-500 hover:text-white
+                  active:bg-blue-600
+                  font-bold
+                  uppercase
+                  text-sm
+                  px-6
+                  py-3
+                  rounded-full
+                  outline-none
+                  focus:outline-none
+                  mr-1
+                  mb-1
+                  ease-linear
+                  transition-all
+                  duration-150" onclick="onSignout(event)">Sign Out</button>
+            </div>
+        </header>
+    
+        <div class="w-full overflow-x-hidden border-t flex flex-col">
+            <main class="w-full flex-grow p-6">
+                <div class="flex flex-col">
+                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                            <div
+                                class="
+                                shadow
+                                overflow-hidden
+                                border-b border-gray-200
+                                sm:rounded-lg
+                                "
+                            >
+                            <table class="w-full" id="problemTable">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            scope="col"
+                                            class="
+                                            px-1
+                                            py-1
+                                            text-left text-xs
+                                            font-medium
+                                            text-gray-500
+                                            uppercase
+                                            tracking-wider
+                                            "
+                                        >
+                                            <form method="POST" class="flex w-full p-1" id="inputComment">
+                                                <textarea class="w-4/5 px-3 py-2 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="1" id="comment" placeholder="Enter Comment"></textarea>
+                                                <button type="button" class="bg-blue-500
+                                                text-green-500
+                                                bg-transparent
+                                                border border-solid border-green-500
+                                                hover:bg-green-500 hover:text-white
+                                                active:bg-green-600
+                                                font-bold
+                                                uppercase
+                                                text-xs
+                                                px-6
+                                                py-1
+                                                ml-6
+                                                w-1/6
+                                                rounded-full
+                                                outline-none
+                                                focus:outline-none
+                                                ease-linear
+                                                transition-all
+                                                duration-150" onclick="myFunction(event)">Comment</button>
+                                            </form>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-gray-50">
+                                    <tr>
+                                        <td
+                                            class="
+                                            px-1
+                                            py-1
+                                            text-left text-xs
+                                            font-medium
+                                            text-gray-500
+                                            uppercase
+                                            tracking-wider
+                                            "
+                                        >
+                                            <div class="flex w-full p-1">                                                
+                                                <textarea class="w-4/5 px-3 py-2 mr-6 bg-gray-200 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500" rows="2" id="text" disabled></textarea>
+                                                <div class="w-1/6 flex space-x-3 items-center">
+                                                    <button type="button" class="cursor-pointer"><i class="far fa-thumbs-up text-4xl hover:text-blue-500"></i></button>
+                                                    <p class=" text-3xl">10</p>
+                                                    <button type="button" class="cursor-pointer"><i class="far fa-thumbs-down text-4xl hover:text-red-500"></i></button>
+                                                    <p class="text-3xl">10</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </main>
+                </div>
+    </div>
+
+<!-- AlpineJS -->
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+<!-- Font Awesome -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
+integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+<!-- ChartJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+
+<script>
+    function onRefreshToUser(e){
+    e.preventDefault()
+    window.location.assign('/dashboard-user.html?token=' + window.sessionStorage.token)
+    }
+    function onRefreshToRanking(e){
+        e.preventDefault()
+        window.location.assign('/view_ranking_user.html?token=' + window.sessionStorage.token)
+    }
+    function onSignout(e) {
+    e.preventDefault()
+    window.sessionStorage.clear()
+    window.location.replace('/')
+    }
+    async function myFunction(e) {
+        e.preventDefault()
+        if (document.getElementById('comment').value === '')
+        {
+            alert("Oh bhaiiiii pura toh bharo")
+        }
+        else {
+            let data = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    formid: 0,
+                    comment: document.getElementById('comment').value,
+                })
+            }
+            const reply = await fetch('/discussion_forum.html/?token=' + window.sessionStorage.token, data)
+            if (reply.ok) {
+            const data = await reply.json()
+            if (data['success'] === 'No') {
+                alert('There was some problem in adding to database')
+            }
+            else if (data['success'] === 'Yes') {
+                window.location.replace('/discussion_forum.html/?token=' + window.sessionStorage.token)
+            }
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
+    
