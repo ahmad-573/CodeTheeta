@@ -43,7 +43,7 @@ def decode_token(token):
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'project_user'
+app.config['MYSQL_USER'] = 'project_user2'
 app.config['MYSQL_PASSWORD'] = 'password123'
 app.config['MYSQL_DB'] = 'ct_db'
 app.secret_key = key
