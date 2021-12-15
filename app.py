@@ -544,10 +544,10 @@ def run_file():
 
     input_str = ''
     for line in inp:
-        input_str = input_str + ' ' + line
+        input_str = input_str + line
 
     with open('output.txt','a') as f:
-        cmd = 'python '+UPLOAD_FOLDER+'/file.py'
+        cmd = 'python3 '+UPLOAD_FOLDER+'/file.py'
         max_time = 5
         p = subprocess.Popen(cmd, shell=True, stdout=f, stdin=subprocess.PIPE,stderr=subprocess.PIPE ,text=True)
         try:

@@ -1,5 +1,4 @@
-Yes
-No
-Yes
-Yes
-Yes
+yes
+yes
+no
+no
