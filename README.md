@@ -1,6 +1,6 @@
 # CodeTheeta
-## Phase 1 + Phase 2:
-### 10 use cases have been handled:
+## Phase 1 + Phase 2 + Phase 3:
+### 21 use cases have been handled:
   1) Sign up of solver
   2) Sign in of solver
   3) Sign in of admin
@@ -11,3 +11,14 @@
   8) Delete problem by admin
   9) Sort list of problems by times_solved and difficulty
   10) Navigate as guest
+  11) Submit code file
+  12) View Problem
+  13) View Ranking
+  14) Edit Username 
+  15) Edit Password
+  16) Advanced Search on problems
+  17) Add comment in discussion forum
+  18) Like a comment
+  19) Dislike a comment
+  20) Delete account (solver can delete their account)
+  21) Admin create account of another admin
