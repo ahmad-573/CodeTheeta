@@ -1,4 +1,5 @@
 # CodeTheeta
+A Web Application allowing users to polish their programming skills by attempting coding problem-sets. The application runs the user submitted code against the test cases and allot points depending on the accuracy of the solution.
 ## Phase 1 + Phase 2 + Phase 3:
 ### 21 use cases have been handled:
   1) Sign up of solver
